@@ -1,0 +1,1268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Index - Carousel Maker</title>
+<style>
+  :root{
+    --chrome-bg: #1b1c1a;
+    --chrome-panel: #232420;
+    --chrome-border: #34352f;
+    --chrome-text: #e8e6df;
+    --chrome-dim: #93938a;
+    --chrome-accent: #c08a28;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;height:100%;}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+    background:var(--chrome-bg);
+    color:var(--chrome-text);
+    display:flex;
+    height:100vh;
+    overflow:hidden;
+  }
+  #sidebar{
+    width:380px;
+    min-width:380px;
+    background:var(--chrome-panel);
+    border-right:1px solid var(--chrome-border);
+    display:flex;
+    flex-direction:column;
+    overflow:hidden;
+  }
+  #sidebar-scroll{
+    overflow-y:auto;
+    flex:1;
+    padding:20px 18px 90px 18px;
+  }
+  .brand{
+    font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+    font-size:11px;
+    letter-spacing:.14em;
+    color:var(--chrome-dim);
+    text-transform:uppercase;
+    margin-bottom:2px;
+  }
+  h1{
+    font-size:19px;
+    margin:2px 0 20px 0;
+    font-weight:600;
+    letter-spacing:-.01em;
+  }
+  .field-label{
+    font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+    font-size:10.5px;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    color:var(--chrome-dim);
+    display:block;
+    margin-bottom:6px;
+  }
+  .field{margin-bottom:16px;}
+  input[type=text], textarea{
+    width:100%;
+    background:#171815;
+    border:1px solid var(--chrome-border);
+    color:var(--chrome-text);
+    border-radius:6px;
+    padding:9px 10px;
+    font-size:13.5px;
+    font-family:inherit;
+    resize:none;
+    outline:none;
+  }
+  input[type=text]:focus, textarea:focus{border-color:var(--chrome-accent);}
+  textarea.title-field{height:44px;}
+  textarea.body-field{height:58px;}
+  .palette-row{display:flex;gap:8px;flex-wrap:wrap;}
+  .swatch{
+    flex:1;
+    min-width:96px;
+    border-radius:7px;
+    padding:9px 8px;
+    border:1.5px solid var(--chrome-border);
+    cursor:pointer;
+    font-size:11px;
+    font-family:ui-monospace,monospace;
+    text-align:center;
+    letter-spacing:.02em;
+  }
+  .swatch.active{border-color:var(--chrome-accent);}
+  .swatch .dot{
+    width:14px;height:14px;border-radius:50%;
+    margin:0 auto 6px auto;border:1px solid rgba(255,255,255,.15);
+  }
+  .format-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+  .format-btn{
+    border-radius:7px;
+    padding:9px 10px;
+    border:1.5px solid var(--chrome-border);
+    cursor:pointer;
+    text-align:left;
+    background:none;
+    color:var(--chrome-text);
+    font-family:inherit;
+  }
+  .format-btn.active{border-color:var(--chrome-accent);}
+  .format-btn .fname{font-size:12px;font-weight:500;margin-bottom:2px;}
+  .format-btn .fdims{font-size:10.5px;color:var(--chrome-dim);font-family:ui-monospace,monospace;}
+  .format-btn.active .fdims{color:var(--chrome-accent);}
+  .flow-select{
+    width:100%; background:#171815; border:1px solid var(--chrome-border); color:var(--chrome-text);
+    border-radius:6px; padding:9px 10px; font:13px inherit; outline:none;
+  }
+  .prompt-field{height:86px;line-height:1.35;}
+  .generate-btn{width:100%;margin-top:8px;}
+  .ai-note{margin:7px 0 0;color:var(--chrome-dim);font:10.5px ui-monospace,monospace;line-height:1.4;}
+  .style-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+  .style-btn{
+    min-height:62px;padding:9px;border:1.5px solid var(--chrome-border);border-radius:7px;
+    background:#1c1d19;color:var(--chrome-text);cursor:pointer;text-align:left;font:inherit;
+  }
+  .style-btn.active{border-color:var(--chrome-accent);}
+  .style-name{display:block;font-size:11.5px;font-weight:600;margin-bottom:4px;}
+  .style-note{display:block;font:10px ui-monospace,monospace;color:var(--chrome-dim);line-height:1.25;}
+  .brand-kit{display:grid;grid-template-columns:repeat(3, 1fr);gap:8px;}
+  .color-control{min-width:0;color:var(--chrome-dim);font:10px ui-monospace,monospace;}
+  .color-control input{width:100%;height:30px;padding:3px;margin-top:5px;border:1px solid var(--chrome-border);border-radius:5px;background:#171815;cursor:pointer;}
+  .type-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px;}
+  .toggle-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;}
+  .toggle-option{display:flex;align-items:center;gap:6px;color:var(--chrome-dim);font:10.5px ui-monospace,monospace;line-height:1.25;}
+  .toggle-option input{accent-color:var(--chrome-accent);}
+  .image-input{width:100%;margin-top:7px;color:var(--chrome-dim);font:11px ui-monospace,monospace;}
+  .source-list{margin-top:8px;font:10.5px ui-monospace,monospace;line-height:1.45;color:var(--chrome-dim);}
+  .source-list a{color:var(--chrome-accent);text-decoration:none;}
+  hr.divider{border:none;border-top:1px solid var(--chrome-border);margin:18px 0;}
+  .slide-card{
+    background:#1c1d19;
+    border:1px solid var(--chrome-border);
+    border-radius:9px;
+    padding:12px;
+    margin-bottom:10px;
+    cursor:pointer;
+  }
+  .slide-card.selected{border-color:var(--chrome-accent);}
+  .slide-card.dragging{opacity:.45;}
+  .slide-card.drag-over{border-color:var(--chrome-accent);border-style:dashed;}
+  .drag-handle{color:var(--chrome-dim);font:15px ui-monospace,monospace;cursor:grab;padding:0 4px;}
+  .slide-card-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:8px;
+  }
+  .slide-num{
+    font-family:ui-monospace,monospace;
+    font-size:11px;
+    color:var(--chrome-accent);
+    letter-spacing:.05em;
+  }
+  .slide-actions{display:flex;gap:4px;}
+  .icon-btn{
+    background:none;border:1px solid var(--chrome-border);color:var(--chrome-dim);
+    border-radius:5px;width:24px;height:24px;font-size:12px;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;line-height:1;
+  }
+  .icon-btn:hover{color:var(--chrome-text);border-color:var(--chrome-dim);}
+  .cover-toggle{
+    display:flex;align-items:center;gap:6px;margin-top:6px;
+    font-size:11px;color:var(--chrome-dim);font-family:ui-monospace,monospace;
+  }
+  .cover-toggle input{accent-color:var(--chrome-accent);}
+  #add-slide-btn{
+    width:100%;
+    padding:11px;
+    background:none;
+    border:1.5px dashed var(--chrome-border);
+    color:var(--chrome-dim);
+    border-radius:8px;
+    cursor:pointer;
+    font-size:13px;
+    font-family:inherit;
+    margin-top:4px;
+  }
+  #add-slide-btn:hover{border-color:var(--chrome-accent);color:var(--chrome-text);}
+  #main{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    padding:30px;
+    overflow:auto;
+    position:relative;
+  }
+  #canvas-wrap{
+    box-shadow:0 30px 60px -20px rgba(0,0,0,.6);
+    border-radius:3px;
+    overflow:hidden;
+    line-height:0;
+  }
+  #preview{
+    display:block;
+    max-width:100%;
+    max-height:100%;
+  }
+  #chip-row{
+    display:flex;
+    gap:6px;
+    margin-top:20px;
+    flex-wrap:wrap;
+    max-width:560px;
+    justify-content:center;
+  }
+  .chip{
+    width:30px;height:30px;border-radius:50%;
+    border:1px solid var(--chrome-border);
+    background:#171815;color:var(--chrome-dim);
+    font-family:ui-monospace,monospace;font-size:11px;
+    display:flex;align-items:center;justify-content:center;
+    cursor:pointer;
+  }
+  .chip.active{border-color:var(--chrome-accent);color:var(--chrome-accent);background:#22201a;}
+  #export-bar{
+    position:absolute;
+    top:24px;right:30px;
+    display:flex;
+    gap:10px;
+  }
+  .btn{
+    font-family:inherit;
+    font-size:12.5px;
+    padding:9px 14px;
+    border-radius:7px;
+    cursor:pointer;
+    border:1px solid var(--chrome-border);
+    background:#232420;
+    color:var(--chrome-text);
+  }
+  .btn.primary{
+    background:var(--chrome-accent);
+    color:#1b1c1a;
+    border-color:var(--chrome-accent);
+    font-weight:600;
+  }
+  .btn:hover{filter:brightness(1.12);}
+  #hint{
+    font-family:ui-monospace,monospace;
+    font-size:11px;
+    color:var(--chrome-dim);
+    margin-top:14px;
+    text-align:center;
+    max-width:480px;
+  }
+  #modalOverlay{
+    position:fixed; inset:0;
+    background:rgba(0,0,0,.72);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    z-index:50;
+    padding:30px;
+  }
+  #modalOverlay.open{display:flex;}
+  #modalBox{
+    background:var(--chrome-panel);
+    border:1px solid var(--chrome-border);
+    border-radius:12px;
+    max-width:720px;
+    width:100%;
+    max-height:86vh;
+    display:flex;
+    flex-direction:column;
+    overflow:hidden;
+  }
+  #modalHead{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:16px 20px;
+    border-bottom:1px solid var(--chrome-border);
+  }
+  #modalHead h2{font-size:15px;margin:0;font-weight:600;}
+  #modalHead p{font-size:11.5px;color:var(--chrome-dim);margin:4px 0 0 0;font-family:ui-monospace,monospace;}
+  #modalClose{
+    background:none;border:1px solid var(--chrome-border);color:var(--chrome-text);
+    border-radius:6px;width:28px;height:28px;cursor:pointer;font-size:14px;
+  }
+  #modalList{
+    overflow-y:auto;
+    padding:16px 20px;
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+  }
+  .export-row{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    background:#1c1d19;
+    border:1px solid var(--chrome-border);
+    border-radius:9px;
+    padding:10px;
+  }
+  .export-row img{
+    width:76px;height:76px;border-radius:5px;flex-shrink:0;
+  }
+  .export-meta{flex:1;min-width:0;}
+  .export-meta .name{font-size:13px;margin-bottom:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .export-meta .sub{font-size:11px;color:var(--chrome-dim);font-family:ui-monospace,monospace;}
+  .export-link{
+    font-family:ui-monospace,monospace;
+    font-size:11.5px;
+    padding:8px 12px;
+    border-radius:6px;
+    background:var(--chrome-accent);
+    color:#1b1c1a;
+    font-weight:600;
+    text-decoration:none;
+    flex-shrink:0;
+  }
+  .export-link:hover{filter:brightness(1.1);}
+  @media (max-width: 980px){
+    body{flex-direction:column;height:auto;min-height:100vh;overflow:auto;}
+    #sidebar{width:100%;min-width:0;max-height:48vh;border-right:none;border-bottom:1px solid var(--chrome-border);}
+    #main{min-height:52vh;}
+    #export-bar{position:static;align-self:flex-end;margin-bottom:16px;}
+    #preview{max-width:100%;max-height:100%;}
+  }
+</style>
+</head>
+<body>
+<div id="sidebar">
+  <div id="sidebar-scroll">
+    <div class="brand">Carousel Maker</div>
+    <h1>Index</h1>
+    <div class="field">
+      <label class="field-label">Create from a prompt</label>
+      <textarea id="promptInput" class="prompt-field" placeholder="e.g. A 7-slide carousel about avoiding burnout for freelance designers"></textarea>
+      <select id="flowSelect" class="flow-select">
+        <option value="auto">Auto-select the best flow</option>
+        <option value="list">List / X ways</option>
+        <option value="problem">Problem to solution</option>
+        <option value="story">Story / case study</option>
+        <option value="myth">Myth-busting</option>
+        <option value="framework">Framework / tutorial</option>
+      </select>
+      <label class="toggle-option" style="margin-top:9px;"><input type="checkbox" id="brandPromptEnabled"> Let this prompt update brand colors/fonts</label>
+      <label class="toggle-option" style="margin-top:7px;"><input type="checkbox" id="brandOnly"> Brand update only - keep slide copy unchanged</label>
+      <label class="toggle-option" style="margin-top:7px;"><input type="checkbox" id="webResearch"> Research current sources and brand references online</label>
+      <input class="image-input" id="imageInput" type="file" accept="image/png,image/jpeg,image/webp,image/gif" multiple>
+      <p class="ai-note" id="imageStatus">Optional: add up to 3 visual references for Claude to analyze.</p>
+      <button class="btn primary generate-btn" id="generateBtn">Generate editable outline</button>
+      <p class="ai-note" id="aiStatus">Local outline mode. Claude can be connected securely when the API endpoint is ready.</p>
+      <div class="source-list" id="sourceList"></div>
+    </div>
+    <div class="field">
+      <label class="field-label">Series tag (shown on every card)</label>
+      <input type="text" id="seriesTag" value="FOCUS NOTES">
+    </div>
+    <div class="field">
+      <label class="field-label">Handle / footer</label>
+      <input type="text" id="handle" value="@yourhandle">
+    </div>
+    <div class="field">
+      <label class="field-label">Format</label>
+      <div class="format-grid" id="formatGrid"></div>
+    </div>
+    <div class="field">
+      <label class="field-label">Palette</label>
+      <div class="palette-row" id="paletteRow"></div>
+    </div>
+    <div class="field">
+      <label class="field-label">Brand kit</label>
+      <label class="toggle-option" style="margin-bottom:9px;"><input type="checkbox" id="brandEnabled"> Use custom brand colors</label>
+      <div class="brand-kit">
+        <label class="color-control">PAPER<input type="color" id="brandPaper" value="#efe9da"></label>
+        <label class="color-control">INK<input type="color" id="brandInk" value="#212b21"></label>
+        <label class="color-control">ACCENT<input type="color" id="brandAccent" value="#c08a28"></label>
+      </div>
+      <div class="type-row">
+        <select id="headlineFont" class="flow-select" aria-label="Headline font">
+          <option value="editorial">Editorial serif</option>
+          <option value="modern">Modern sans</option>
+          <option value="display">Display serif</option>
+        </select>
+        <select id="bodyFont" class="flow-select" aria-label="Body font">
+          <option value="clean">Clean sans</option>
+          <option value="mono">Monospace</option>
+        </select>
+      </div>
+    </div>
+    <div class="field">
+      <label class="field-label">Visual system</label>
+      <div class="style-grid" id="styleGrid"></div>
+    </div>
+    <div class="field">
+      <label class="field-label">Card details</label>
+      <div class="toggle-grid">
+        <label class="toggle-option"><input type="checkbox" id="showMark"> Top-left mark</label>
+        <label class="toggle-option"><input type="checkbox" id="showSwipe"> Swipe / end label</label>
+        <label class="toggle-option"><input type="checkbox" id="showWatermark"> Large slide number</label>
+        <label class="toggle-option"><input type="checkbox" id="showProgress"> Left progress scale</label>
+        <label class="toggle-option"><input type="checkbox" id="showCounter"> Bottom counter</label>
+      </div>
+    </div>
+    <hr class="divider">
+    <label class="field-label">Slides</label>
+    <div id="slideList"></div>
+    <button id="add-slide-btn">+ Add slide</button>
+  </div>
+</div>
+<div id="main">
+  <div id="export-bar">
+    <button class="btn" id="exportCurrent">Download current PNG</button>
+    <button class="btn primary" id="exportAll">Download all (PNG)</button>
+  </div>
+  <div id="canvas-wrap">
+    <canvas id="preview" width="1080" height="1080"></canvas>
+  </div>
+  <div id="chip-row"></div>
+  <div id="hint">1080×1080 · Instagram square. Click a slide on the left to edit it, click a number below to preview it.</div>
+</div>
+<div id="modalOverlay">
+  <div id="modalBox">
+    <div id="modalHead">
+      <div>
+        <h2>Save your slides</h2>
+        <p>Click "Save PNG" to open the image full-size, then right-click or long-press to save it.</p>
+      </div>
+      <button id="modalClose">×</button>
+    </div>
+    <div id="modalList"></div>
+  </div>
+</div>
+<script>
+const SERIF = 'Georgia, "Iowan Old Style", "Palatino Linotype", serif';
+const SANS = '-apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif';
+const MONO = 'ui-monospace, SFMono-Regular, Menlo, Consolas, monospace';
+const FONT_PRESETS = {
+  editorial: SERIF,
+  modern: 'Arial, Helvetica, sans-serif',
+  display: 'Palatino Linotype, Book Antiqua, Georgia, serif',
+  clean: SANS,
+  mono: MONO
+};
+
+const FORMATS = {
+  ig_square:   { label: 'Instagram - Square',    dims: '1:1',    w: 1080, h: 1080 },
+  ig_portrait: { label: 'Instagram - Portrait',  dims: '4:5',    w: 1080, h: 1350 },
+  ig_story:    { label: 'Story / Reels',         dims: '9:16',   w: 1080, h: 1920 },
+  linkedin:    { label: 'LinkedIn · Landscape',  dims: '1.91:1', w: 1200, h: 628 },
+  pinterest:   { label: 'Pinterest',             dims: '2:3',    w: 1000, h: 1500 },
+  twitter:     { label: 'X / Twitter',           dims: '16:9',   w: 1200, h: 675 }
+};
+
+const PALETTES = {
+  oat:  { name:'Oat & Ochre', paper:'#EFE9DA', ink:'#212B21', accent:'#C08A28' },
+  ink:  { name:'Ink & Amber', paper:'#202B24', ink:'#EEE7D6', accent:'#E3A94A' },
+  bone: { name:'Bone & Sage', paper:'#ECE7DC', ink:'#26241F', accent:'#6F7F5A' }
+};
+
+const STYLES = {
+  editorial: { name:'Editorial Index', note:'Serif, rules, restraint', palette:'oat' },
+  sport: { name:'Sport Pop', note:'Bold type, kinetic color', palette:'ink' },
+  grid: { name:'Modernist Grid', note:'Modules, numbers, structure', palette:'bone' },
+  mono: { name:'Monochrome Campaign', note:'Black, white, one signal', palette:'ink' },
+  collage: { name:'Scrapbook Collage', note:'Tape, frames, playful layers', palette:'oat' }
+};
+
+const FLOWS = {
+  list: ['A useful promise', 'Start with the highest-leverage move', 'Make the next step easier', 'Avoid the common trap', 'Turn it into a repeatable practice', 'Save this for later'],
+  problem: ['The problem worth noticing', 'Why it keeps happening', 'The shift that changes it', 'A practical first move', 'How to keep it going', 'Try this today'],
+  story: ['The moment everything changed', 'Where it started', 'What made it difficult', 'The turning point', 'What worked', 'The lesson to keep'],
+  myth: ['The belief holding people back', 'Why it sounds convincing', 'What is actually true', 'The better approach', 'How to apply it', 'Keep this in mind'],
+  framework: ['The framework at a glance', 'Step one: set the foundation', 'Step two: make it practical', 'Step three: create momentum', 'Step four: review and refine', 'Put it into practice']
+};
+
+const AI_ENDPOINT = window.CAROUSEL_API_URL || '';
+
+let state = {
+  seriesTag: 'FOCUS NOTES',
+  handle: '@yourhandle',
+  palette: 'oat',
+  style: 'editorial',
+  brand: { enabled:false, paper:'#EFE9DA', ink:'#212B21', accent:'#C08A28', headline:'editorial', body:'clean' },
+  details: { mark:false, swipe:false, watermark:false, progress:false, counter:false },
+  format: 'ig_square',
+  current: 0,
+  slides: [
+    { title: '5 Ways to Actually Stick to a Morning Routine', body: '', isCover: true },
+    { title: 'Prep the night before', body: 'Lay out clothes, pack your bag, decide breakfast. Remove every decision from your groggy 6am brain.', isCover: false },
+    { title: 'Anchor it to something you already do', body: 'Attach the new habit to brushing your teeth or making coffee. Existing routines are free scaffolding.', isCover: false },
+    { title: 'Make the first step tiny', body: 'Not "meditate for 20 minutes." Just "sit on the cushion." Momentum starts after you begin.', isCover: false },
+    { title: 'Track streaks, not perfection', body: "One missed day isn't failure. Two in a row is the pattern to interrupt.", isCover: false },
+    { title: 'Follow for more focus tips', body: '', isCover: true }
+  ]
+};
+
+function getSize(){
+  return FORMATS[state.format] || FORMATS.ig_square;
+}
+
+function getActivePalette(settings){
+  return settings.brand?.enabled ? settings.brand : (PALETTES[settings.palette] || PALETTES.oat);
+}
+
+function getFonts(settings){
+  return {
+    headline: FONT_PRESETS[settings.brand?.headline] || SERIF,
+    body: FONT_PRESETS[settings.brand?.body] || SANS,
+    label: MONO
+  };
+}
+
+function drawStyleLayer(ctx, style, pal, W, H, M, U){
+  if (style === 'sport') {
+    ctx.fillStyle = pal.accent;
+    ctx.globalAlpha = 0.92;
+    ctx.fillRect(0, 0, W * 0.16, H);
+    ctx.globalAlpha = 0.12;
+    ctx.fillStyle = pal.ink;
+    ctx.save();
+    ctx.translate(W * 0.72, H * 0.12);
+    ctx.rotate(-0.38);
+    ctx.fillRect(-W * 0.45, 0, W * 0.9, H * 0.12);
+    ctx.restore();
+  }
+  if (style === 'grid') {
+    ctx.strokeStyle = pal.ink;
+    ctx.globalAlpha = 0.16;
+    ctx.lineWidth = 2 * U;
+    for (let x = M; x < W - M; x += (W - M * 2) / 4) {
+      ctx.beginPath(); ctx.moveTo(x, M); ctx.lineTo(x, H - M); ctx.stroke();
+    }
+    ctx.globalAlpha = 0.16;
+    ctx.fillStyle = pal.accent;
+    ctx.fillRect(W - M - W * 0.19, M, W * 0.19, H * 0.24);
+  }
+  if (style === 'mono') {
+    ctx.fillStyle = pal.accent;
+    ctx.fillRect(0, 0, W, Math.max(10 * U, H * 0.018));
+    ctx.fillRect(0, H - Math.max(10 * U, H * 0.018), W, Math.max(10 * U, H * 0.018));
+  }
+  if (style === 'collage') {
+    ctx.fillStyle = pal.accent;
+    ctx.globalAlpha = 0.33;
+    ctx.save();
+    ctx.translate(W * 0.82, H * 0.2);
+    ctx.rotate(0.18);
+    ctx.fillRect(-W * 0.14, -H * 0.035, W * 0.28, H * 0.07);
+    ctx.restore();
+    ctx.save();
+    ctx.translate(W * 0.2, H * 0.83);
+    ctx.rotate(-0.12);
+    ctx.fillRect(-W * 0.12, -H * 0.025, W * 0.24, H * 0.05);
+    ctx.restore();
+  }
+  ctx.globalAlpha = 1;
+}
+
+function wrapLines(ctx, text, maxWidth){
+  const words = String(text || '').split(/\s+/).filter(Boolean);
+  const lines = [];
+  let cur = '';
+  for (const w of words){
+    const test = cur ? cur + ' ' + w : w;
+    if (ctx.measureText(test).width > maxWidth && cur){
+      lines.push(cur);
+      cur = w;
+    } else {
+      cur = test;
+    }
+  }
+  if (cur) lines.push(cur);
+  return lines;
+}
+
+function fitText(ctx, text, family, weight, maxWidth, maxLines, startSize, minSize){
+  let size = startSize;
+  while (size >= minSize){
+    ctx.font = `${weight} ${size}px ${family}`;
+    const lines = wrapLines(ctx, text, maxWidth);
+    if (lines.length <= maxLines) return { size, lines };
+    size -= 2;
+  }
+  ctx.font = `${weight} ${minSize}px ${family}`;
+  let lines = wrapLines(ctx, text, maxWidth);
+  if (lines.length > maxLines){
+    lines = lines.slice(0, maxLines);
+    lines[maxLines - 1] = lines[maxLines - 1].replace(/\s*\S*$/, '') + '…';
+  }
+  return { size: minSize, lines };
+}
+
+function pad2(n){ return String(n).padStart(2, '0'); }
+
+function drawTracked(ctx, text, x, y, tracking){
+  let cx = x;
+  for (const ch of text){
+    ctx.fillText(ch, cx, y);
+    cx += ctx.measureText(ch).width + tracking;
+  }
+}
+
+function drawSlide(ctx, slide, index, total, settings){
+  const pal = getActivePalette(settings);
+  const fonts = getFonts(settings);
+  const size = getSize();
+  const W = size.w;
+  const H = size.h;
+  // Use the short edge as the visual unit so every format keeps the same design language.
+  const U = Math.min(W, H) / 1080;
+  const M = Math.round(84 * U);
+  const small = Math.max(12, Math.round(20 * U));
+  const contentInset = Math.round(66 * U);
+  const footerInset = Math.round(34 * U);
+
+  ctx.clearRect(0, 0, W, H);
+  ctx.fillStyle = pal.paper;
+  ctx.fillRect(0, 0, W, H);
+  drawStyleLayer(ctx, settings.style, pal, W, H, M, U);
+
+  ctx.strokeStyle = pal.ink;
+  ctx.globalAlpha = 0.035;
+  ctx.lineWidth = 1;
+  for (let y = M; y < H - M; y += Math.max(36, Math.round(H / 24))){
+    ctx.beginPath();
+    ctx.moveTo(M, y);
+    ctx.lineTo(W - M, y);
+    ctx.stroke();
+  }
+  ctx.globalAlpha = 1;
+
+  ctx.strokeStyle = pal.ink;
+  ctx.globalAlpha = 0.5;
+  ctx.lineWidth = 1.5;
+  ctx.strokeRect(M, M, W - M * 2, H - M * 2);
+  ctx.globalAlpha = 1;
+
+  if (settings.details.mark) {
+    ctx.beginPath();
+    ctx.arc(M + 30 * U, M + 30 * U, 9 * U, 0, Math.PI * 2);
+    ctx.strokeStyle = pal.ink;
+    ctx.globalAlpha = 0.45;
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+    ctx.globalAlpha = 1;
+  }
+
+  ctx.font = `600 ${small}px ${fonts.label}`;
+  ctx.fillStyle = pal.accent;
+  ctx.textBaseline = 'middle';
+  ctx.save();
+  ctx.translate(M + (settings.details.mark ? 58 : 24) * U, M + 30 * U);
+  const tag = settings.seriesTag.toUpperCase() + (slide.isCover ? '' : '  —  TIP');
+  drawTracked(ctx, tag, 0, 0, 2.4);
+  ctx.restore();
+
+  const contentLeft = M + contentInset;
+  const contentRight = W - M - Math.round(56 * U);
+  const contentWidth = contentRight - contentLeft;
+
+  if (slide.isCover){
+    const maxLines = W > H ? 4 : H > W * 1.3 ? 6 : 5;
+    const titleFit = fitText(ctx, slide.title, fonts.headline, '700', contentWidth, maxLines, Math.max(44 * U, Math.round(Math.min(W, H) * 0.07)), 40 * U);
+    ctx.font = `700 ${titleFit.size}px ${fonts.headline}`;
+    ctx.fillStyle = pal.ink;
+    ctx.textBaseline = 'alphabetic';
+    const lineH = titleFit.size * 1.16;
+    const totalH = lineH * titleFit.lines.length;
+    let ty = H / 2 - totalH / 2 + titleFit.size * 0.8;
+    titleFit.lines.forEach(line => {
+      ctx.fillText(line, contentLeft, ty);
+      ty += lineH;
+    });
+
+    if (slide.body){
+      const bodyFit = fitText(ctx, slide.body, fonts.body, '400', contentWidth, 3, 30 * U, 22 * U);
+      ctx.font = `400 ${bodyFit.size}px ${fonts.body}`;
+      ctx.fillStyle = pal.ink;
+      ctx.globalAlpha = 0.75;
+      let by = ty + 20 * U;
+      bodyFit.lines.forEach(line => {
+        ctx.fillText(line, contentLeft, by);
+        by += bodyFit.size * 1.4;
+      });
+      ctx.globalAlpha = 1;
+    }
+
+    ctx.font = `500 ${small}px ${fonts.label}`;
+    ctx.fillStyle = pal.ink;
+    ctx.globalAlpha = 0.7;
+    ctx.fillText(settings.handle, contentLeft, H - M - footerInset);
+    ctx.globalAlpha = 1;
+
+    if (settings.details.swipe) {
+      ctx.font = `600 ${small}px ${fonts.label}`;
+      ctx.fillStyle = pal.accent;
+      const swipe = index < total - 1 ? 'SWIPE →' : 'END';
+      const w = ctx.measureText(swipe).width;
+      ctx.fillText(swipe, contentRight - w, H - M - footerInset);
+    }
+  } else {
+    if (settings.details.watermark) {
+      ctx.font = `700 ${Math.round(Math.min(W, H) * 0.33)}px ${fonts.headline}`;
+      ctx.fillStyle = pal.ink;
+      ctx.globalAlpha = 0.07;
+      ctx.textBaseline = 'alphabetic';
+      const numStr = pad2(index + 1);
+      const numW = ctx.measureText(numStr).width;
+      ctx.fillText(numStr, W - M - numW - 10 * U, M + Math.round(Math.min(W, H) * 0.21));
+      ctx.globalAlpha = 1;
+    }
+
+    if (settings.details.progress) {
+      const rulerX = M + 30 * U;
+      const rulerTop = M + 90 * U;
+      const rulerBottom = H - M - 90 * U;
+      const span = rulerBottom - rulerTop;
+      for (let i = 0; i < total; i++){
+        const ty = rulerTop + (total === 1 ? 0 : (span * i) / (total - 1));
+        if (i === index){
+          ctx.beginPath();
+          ctx.arc(rulerX, ty, 5 * U, 0, Math.PI * 2);
+          ctx.fillStyle = pal.accent;
+          ctx.fill();
+        } else {
+          ctx.strokeStyle = pal.ink;
+          ctx.globalAlpha = 0.3;
+          ctx.lineWidth = 2 * U;
+          ctx.beginPath();
+          ctx.moveTo(rulerX - 6 * U, ty);
+          ctx.lineTo(rulerX + 6 * U, ty);
+          ctx.stroke();
+          ctx.globalAlpha = 1;
+        }
+      }
+    }
+
+    const titleFit = fitText(ctx, slide.title, fonts.headline, '700', contentWidth, W > H ? 3 : 4, 64 * U, 38 * U);
+    ctx.font = `700 ${titleFit.size}px ${fonts.headline}`;
+    ctx.fillStyle = pal.ink;
+    const lineH = titleFit.size * 1.18;
+    let ty = H / 2 - (lineH * titleFit.lines.length) / 2 - (slide.body ? 30 * U : 0);
+    titleFit.lines.forEach(line => {
+      ctx.fillText(line, contentLeft, ty);
+      ty += lineH;
+    });
+
+    ty += 14 * U;
+    ctx.strokeStyle = pal.accent;
+    ctx.lineWidth = 3 * U;
+    ctx.setLineDash([2, 10]);
+    ctx.beginPath();
+    ctx.moveTo(contentLeft, ty);
+    ctx.lineTo(contentLeft + 120 * U, ty);
+    ctx.stroke();
+    ctx.setLineDash([]);
+    ty += 42 * U;
+
+    if (slide.body){
+      const bodyFit = fitText(ctx, slide.body, fonts.body, '400', contentWidth, 4, 30 * U, 21 * U);
+      ctx.font = `400 ${bodyFit.size}px ${fonts.body}`;
+      ctx.fillStyle = pal.ink;
+      ctx.globalAlpha = 0.78;
+      bodyFit.lines.forEach(line => {
+        ctx.fillText(line, contentLeft, ty);
+        ty += bodyFit.size * 1.46;
+      });
+      ctx.globalAlpha = 1;
+    }
+
+    ctx.font = `500 ${small}px ${fonts.label}`;
+    ctx.fillStyle = pal.ink;
+    ctx.globalAlpha = 0.7;
+    ctx.fillText(settings.handle, contentLeft, H - M - footerInset);
+    ctx.globalAlpha = 1;
+
+    if (settings.details.counter) {
+      ctx.font = `600 ${small}px ${fonts.label}`;
+      ctx.fillStyle = pal.accent;
+      const counter = `${pad2(index + 1)} / ${pad2(total)}`;
+      const cw = ctx.measureText(counter).width;
+      ctx.fillText(counter, contentRight - cw, H - M - footerInset);
+    }
+  }
+}
+
+const previewCanvas = document.getElementById('preview');
+const pctx = previewCanvas.getContext('2d');
+
+function syncCanvasSize(){
+  const size = getSize();
+  previewCanvas.width = size.w;
+  previewCanvas.height = size.h;
+  const main = document.getElementById('main');
+  const sidebarWidth = window.innerWidth > 980 ? 380 : 0;
+  const availableWidth = Math.max(240, Math.min(620, main.clientWidth - 60, window.innerWidth - sidebarWidth - 80));
+  const availableHeight = Math.max(280, Math.min(620, window.innerHeight - 220));
+  const scale = Math.min(availableWidth / size.w, availableHeight / size.h);
+  previewCanvas.style.width = `${Math.round(size.w * scale)}px`;
+  previewCanvas.style.height = `${Math.round(size.h * scale)}px`;
+}
+
+function renderPreview(){
+  syncCanvasSize();
+  const s = state.slides[state.current];
+  drawSlide(pctx, s, state.current, state.slides.length, state);
+  const size = getSize();
+  document.getElementById('hint').textContent = `${size.w}×${size.h} - ${size.label}. Use the left and right arrow keys or swipe the preview to move between slides.`;
+}
+
+function renderSidebar(){
+  const list = document.getElementById('slideList');
+  list.innerHTML = '';
+  state.slides.forEach((s, i) => {
+    const card = document.createElement('div');
+    card.className = 'slide-card' + (i === state.current ? ' selected' : '');
+    card.draggable = true;
+    card.ondragstart = (e) => {
+      state.dragging = i;
+      card.classList.add('dragging');
+      e.dataTransfer.effectAllowed = 'move';
+    };
+    card.ondragend = () => { state.dragging = null; renderSidebar(); };
+    card.ondragover = (e) => { e.preventDefault(); if (state.dragging !== i) card.classList.add('drag-over'); };
+    card.ondragleave = () => card.classList.remove('drag-over');
+    card.ondrop = (e) => {
+      e.preventDefault();
+      const from = state.dragging;
+      card.classList.remove('drag-over');
+      if (Number.isInteger(from) && from !== i) reorderSlide(from, i);
+    };
+    card.onclick = (e) => {
+      if (e.target.tagName !== 'TEXTAREA' && e.target.tagName !== 'INPUT') {
+        state.current = i;
+        renderAll();
+      }
+    };
+
+    const head = document.createElement('div');
+    head.className = 'slide-card-head';
+    const numEl = document.createElement('div');
+    numEl.className = 'slide-num';
+    numEl.textContent = s.isCover ? 'COVER · ' + pad2(i + 1) : 'TIP ' + pad2(i + 1);
+    const left = document.createElement('div');
+    left.style.display = 'flex';
+    left.style.alignItems = 'center';
+    const handle = document.createElement('span');
+    handle.className = 'drag-handle';
+    handle.title = 'Drag to reorder';
+    handle.textContent = '⠿';
+    left.appendChild(handle);
+    left.appendChild(numEl);
+    head.appendChild(left);
+
+    const actions = document.createElement('div');
+    actions.className = 'slide-actions';
+    actions.appendChild(iconBtn('↑', () => moveSlide(i, -1)));
+    actions.appendChild(iconBtn('↓', () => moveSlide(i, 1)));
+    actions.appendChild(iconBtn('⎘', () => duplicateSlide(i)));
+    actions.appendChild(iconBtn('✕', () => deleteSlide(i)));
+    head.appendChild(actions);
+    card.appendChild(head);
+
+    const titleArea = document.createElement('textarea');
+    titleArea.className = 'title-field';
+    titleArea.placeholder = 'Title / headline';
+    titleArea.value = s.title;
+    titleArea.oninput = () => { s.title = titleArea.value; renderPreview(); };
+    card.appendChild(titleArea);
+
+    const bodyArea = document.createElement('textarea');
+    bodyArea.className = 'body-field';
+    bodyArea.placeholder = 'Supporting text (optional)';
+    bodyArea.value = s.body;
+    bodyArea.style.marginTop = '6px';
+    bodyArea.oninput = () => { s.body = bodyArea.value; renderPreview(); };
+    card.appendChild(bodyArea);
+
+    const toggle = document.createElement('label');
+    toggle.className = 'cover-toggle';
+    const cb = document.createElement('input');
+    cb.type = 'checkbox';
+    cb.checked = s.isCover;
+    cb.onchange = () => { s.isCover = cb.checked; renderAll(); };
+    toggle.appendChild(cb);
+    toggle.appendChild(document.createTextNode('Big / cover layout'));
+    card.appendChild(toggle);
+
+    list.appendChild(card);
+  });
+}
+
+function iconBtn(label, fn){
+  const b = document.createElement('button');
+  b.className = 'icon-btn';
+  b.textContent = label;
+  b.onclick = (e) => { e.stopPropagation(); fn(); };
+  return b;
+}
+
+function moveSlide(i, dir){
+  const j = i + dir;
+  if (j < 0 || j >= state.slides.length) return;
+  [state.slides[i], state.slides[j]] = [state.slides[j], state.slides[i]];
+  if (state.current === i) state.current = j;
+  else if (state.current === j) state.current = i;
+  renderAll();
+}
+
+function reorderSlide(from, to){
+  const [moved] = state.slides.splice(from, 1);
+  state.slides.splice(to, 0, moved);
+  if (state.current === from) state.current = to;
+  else if (from < state.current && to >= state.current) state.current--;
+  else if (from > state.current && to <= state.current) state.current++;
+  renderAll();
+}
+
+function duplicateSlide(i){
+  const copy = JSON.parse(JSON.stringify(state.slides[i]));
+  state.slides.splice(i + 1, 0, copy);
+  state.current = i + 1;
+  renderAll();
+}
+
+function deleteSlide(i){
+  if (state.slides.length <= 1) return;
+  state.slides.splice(i, 1);
+  state.current = Math.max(0, Math.min(state.current, state.slides.length - 1));
+  renderAll();
+}
+
+function renderChips(){
+  const row = document.getElementById('chip-row');
+  row.innerHTML = '';
+  state.slides.forEach((s, i) => {
+    const c = document.createElement('div');
+    c.className = 'chip' + (i === state.current ? ' active' : '');
+    c.textContent = pad2(i + 1);
+    c.onclick = () => { state.current = i; renderAll(); };
+    row.appendChild(c);
+  });
+}
+
+function renderPalette(){
+  const row = document.getElementById('paletteRow');
+  row.innerHTML = '';
+  Object.entries(PALETTES).forEach(([key, p]) => {
+    const sw = document.createElement('div');
+    sw.className = 'swatch' + (state.palette === key ? ' active' : '');
+    sw.onclick = () => { state.palette = key; renderAll(); };
+    const dot = document.createElement('div');
+    dot.className = 'dot';
+    dot.style.background = p.paper;
+    dot.style.boxShadow = `inset 0 0 0 3px ${p.accent}`;
+    sw.appendChild(dot);
+    sw.appendChild(document.createTextNode(p.name));
+    row.appendChild(sw);
+  });
+}
+
+function renderStyles(){
+  const grid = document.getElementById('styleGrid');
+  grid.innerHTML = '';
+  Object.entries(STYLES).forEach(([key, style]) => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'style-btn' + (state.style === key ? ' active' : '');
+    btn.innerHTML = `<span class="style-name">${style.name}</span><span class="style-note">${style.note}</span>`;
+    btn.onclick = () => { state.style = key; renderAll(); };
+    grid.appendChild(btn);
+  });
+}
+
+function renderFormats(){
+  const grid = document.getElementById('formatGrid');
+  grid.innerHTML = '';
+  Object.entries(FORMATS).forEach(([key, f]) => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'format-btn' + (state.format === key ? ' active' : '');
+    btn.onclick = () => { state.format = key; renderAll(); };
+    btn.innerHTML = `<div class="fname">${f.label}</div><div class="fdims">${f.dims} - ${f.w}×${f.h}</div>`;
+    grid.appendChild(btn);
+  });
+}
+
+function renderAll(){
+  renderFormats();
+  renderSidebar();
+  renderChips();
+  renderPalette();
+  renderStyles();
+  renderPreview();
+}
+
+function titleCase(value){
+  return String(value || '').replace(/\s+/g, ' ').trim().replace(/\b\w/g, (ch) => ch.toUpperCase());
+}
+
+function chooseFlow(topic){
+  const text = topic.toLowerCase();
+  if (/ways|tips|ideas|steps|habits|mistakes/.test(text)) return 'list';
+  if (/story|case study|journey|learned/.test(text)) return 'story';
+  if (/myth|wrong|believe/.test(text)) return 'myth';
+  if (/how to|framework|process|system/.test(text)) return 'framework';
+  return 'problem';
+}
+
+function createLocalOutline(prompt, requestedFlow){
+  const topic = titleCase(prompt.replace(/^(create|make|write|build)\s+(a\s+)?(\d+[- ]slide\s+)?(carousel\s+)?(about|on|for)?\s*/i, '') || 'Your Next Big Idea');
+  const flow = requestedFlow === 'auto' ? chooseFlow(prompt) : requestedFlow;
+  const steps = FLOWS[flow] || FLOWS.problem;
+  const cover = flow === 'list'
+    ? `6 Ways to ${topic}`
+    : topic;
+  const slides = [
+    { title: cover, body: `A practical ${flow === 'story' ? 'story' : 'guide'} for people who want a clearer next step.`, isCover: true }
+  ];
+  steps.slice(0, 5).forEach((step, index) => {
+    slides.push({
+      title: step,
+      body: index === 0 ? `Make ${topic.toLowerCase()} specific enough to act on today.` : 'Keep this simple, concrete, and easy to apply before moving on.',
+      isCover: false
+    });
+  });
+  slides.push({ title: 'Save this for your next step', body: `Follow for more notes on ${topic.toLowerCase()}.`, isCover: true });
+  return { title: topic, flow, slides };
+}
+
+function applyOutline(outline){
+  if (!outline || !Array.isArray(outline.slides) || !outline.slides.length) throw new Error('The generator returned an invalid outline.');
+  state.seriesTag = outline.seriesTag || state.seriesTag;
+  state.slides = outline.slides.map((slide, index) => ({
+    title: String(slide.title || 'Untitled slide'),
+    body: String(slide.body || ''),
+    isCover: Boolean(slide.isCover || index === 0 || index === outline.slides.length - 1)
+  }));
+  state.current = 0;
+  document.getElementById('seriesTag').value = state.seriesTag;
+  renderAll();
+}
+
+function applyBrandUpdate(brand){
+  if (!brand?.apply) return;
+  state.brand = {
+    ...state.brand,
+    enabled: true,
+    paper: brand.paper || state.brand.paper,
+    ink: brand.ink || state.brand.ink,
+    accent: brand.accent || state.brand.accent,
+    headline: brand.headline || state.brand.headline,
+    body: brand.body || state.brand.body
+  };
+  document.getElementById('brandEnabled').checked = true;
+  document.getElementById('brandPaper').value = state.brand.paper;
+  document.getElementById('brandInk').value = state.brand.ink;
+  document.getElementById('brandAccent').value = state.brand.accent;
+  document.getElementById('headlineFont').value = state.brand.headline;
+  document.getElementById('bodyFont').value = state.brand.body;
+}
+
+function renderSources(sources){
+  const list = document.getElementById('sourceList');
+  list.innerHTML = '';
+  if (!sources?.length) return;
+  const intro = document.createElement('div');
+  intro.textContent = 'Research sources:';
+  list.appendChild(intro);
+  sources.slice(0, 5).forEach((source) => {
+    const link = document.createElement('a');
+    link.href = source.url;
+    link.target = '_blank';
+    link.rel = 'noopener';
+    link.textContent = source.title || source.url;
+    list.appendChild(link);
+    list.appendChild(document.createElement('br'));
+  });
+}
+
+function fileToImage(file){
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      const [header, data] = String(reader.result).split(',');
+      const mediaType = header.match(/^data:(image\/(?:png|jpeg|webp|gif));base64$/i)?.[1];
+      if (!mediaType || !data) return reject(new Error('Unsupported image format.'));
+      resolve({ mediaType, data });
+    };
+    reader.onerror = () => reject(new Error(`Could not read ${file.name}.`));
+    reader.readAsDataURL(file);
+  });
+}
+
+async function getReferenceImages(){
+  const files = Array.from(document.getElementById('imageInput').files || []);
+  if (files.length > 3) throw new Error('Add no more than 3 reference images.');
+  if (files.some((file) => file.size > 4 * 1024 * 1024)) throw new Error('Each reference image must be 4 MB or smaller.');
+  return Promise.all(files.map(fileToImage));
+}
+
+async function generateOutline(){
+  const prompt = document.getElementById('promptInput').value.trim();
+  const flow = document.getElementById('flowSelect').value;
+  const brandOnly = document.getElementById('brandOnly').checked;
+  const allowBrandUpdate = document.getElementById('brandPromptEnabled').checked;
+  const research = document.getElementById('webResearch').checked;
+  const button = document.getElementById('generateBtn');
+  const status = document.getElementById('aiStatus');
+  if (!prompt) {
+    status.textContent = 'Add a topic or brief first, then generate an editable outline.';
+    return;
+  }
+  button.disabled = true;
+  button.textContent = 'Building outline...';
+  try {
+    if (AI_ENDPOINT) {
+      const images = await getReferenceImages();
+      status.textContent = research ? 'Researching, then building your structured outline...' : 'Asking the connected AI service for a structured outline...';
+      const response = await fetch(AI_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          prompt, flow, styles: Object.keys(STYLES), formats: FORMATS, images, research,
+          allowBrandUpdate, brandOnly, brand: state.brand
+        })
+      });
+      if (!response.ok) throw new Error('The AI service could not generate this outline.');
+      const result = await response.json();
+      applyBrandUpdate(result.brand);
+      if (!brandOnly) applyOutline(result);
+      else renderPreview();
+      renderSources(result.sources);
+      status.textContent = brandOnly ? 'Brand update ready. Existing slide copy was preserved.' : 'AI outline ready. Every slide below is still fully editable.';
+    } else {
+      const outline = createLocalOutline(prompt, flow);
+      if (!brandOnly) applyOutline(outline);
+      status.textContent = brandOnly ? 'Brand-only updates need the connected Claude service. Existing copy was preserved.' : `Local ${outline.flow} outline ready. Connect Claude later for topic-specific copy.`;
+    }
+  } catch (error) {
+    status.textContent = brandOnly ? `${error.message} Existing copy was preserved.` : `${error.message} A local editable outline is ready instead.`;
+    if (!brandOnly) applyOutline(createLocalOutline(prompt, flow));
+  } finally {
+    button.disabled = false;
+    button.textContent = 'Generate editable outline';
+  }
+}
+
+document.getElementById('seriesTag').oninput = (e) => { state.seriesTag = e.target.value; renderPreview(); };
+document.getElementById('handle').oninput = (e) => { state.handle = e.target.value; renderPreview(); };
+document.getElementById('generateBtn').onclick = generateOutline;
+document.getElementById('imageInput').onchange = (e) => {
+  const count = e.target.files?.length || 0;
+  document.getElementById('imageStatus').textContent = count ? `${count} reference image${count === 1 ? '' : 's'} selected for Claude to analyze.` : 'Optional: add up to 3 visual references for Claude to analyze.';
+};
+document.getElementById('brandEnabled').onchange = (e) => { state.brand.enabled = e.target.checked; renderPreview(); };
+document.getElementById('brandPaper').oninput = (e) => { state.brand.paper = e.target.value; renderPreview(); };
+document.getElementById('brandInk').oninput = (e) => { state.brand.ink = e.target.value; renderPreview(); };
+document.getElementById('brandAccent').oninput = (e) => { state.brand.accent = e.target.value; renderPreview(); };
+document.getElementById('headlineFont').onchange = (e) => { state.brand.headline = e.target.value; renderPreview(); };
+document.getElementById('bodyFont').onchange = (e) => { state.brand.body = e.target.value; renderPreview(); };
+[
+  ['showMark', 'mark'],
+  ['showSwipe', 'swipe'],
+  ['showWatermark', 'watermark'],
+  ['showProgress', 'progress'],
+  ['showCounter', 'counter']
+].forEach(([id, key]) => {
+  document.getElementById(id).onchange = (e) => { state.details[key] = e.target.checked; renderPreview(); };
+});
+
+function navigateSlide(direction){
+  const next = Math.max(0, Math.min(state.slides.length - 1, state.current + direction));
+  if (next === state.current) return;
+  state.current = next;
+  renderAll();
+}
+
+document.addEventListener('keydown', (e) => {
+  const target = e.target;
+  if (target && ['INPUT', 'TEXTAREA', 'SELECT'].includes(target.tagName)) return;
+  if (e.key === 'ArrowRight') { e.preventDefault(); navigateSlide(1); }
+  if (e.key === 'ArrowLeft') { e.preventDefault(); navigateSlide(-1); }
+});
+
+let touchStartX = null;
+previewCanvas.addEventListener('touchstart', (e) => { touchStartX = e.changedTouches[0]?.clientX ?? null; }, { passive:true });
+previewCanvas.addEventListener('touchend', (e) => {
+  const endX = e.changedTouches[0]?.clientX;
+  if (touchStartX === null || typeof endX !== 'number') return;
+  const delta = endX - touchStartX;
+  if (Math.abs(delta) > 42) navigateSlide(delta < 0 ? 1 : -1);
+  touchStartX = null;
+}, { passive:true });
+document.getElementById('add-slide-btn').onclick = () => {
+  state.slides.push({ title: 'New tip headline', body: '', isCover: false });
+  state.current = state.slides.length - 1;
+  renderAll();
+};
+
+function slug(str){
+  return String(str).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') || 'carousel';
+}
+
+function renderSlideDataURL(index){
+  const size = getSize();
+  const off = document.createElement('canvas');
+  off.width = size.w;
+  off.height = size.h;
+  const octx = off.getContext('2d');
+  drawSlide(octx, state.slides[index], index, state.slides.length, state);
+  return off.toDataURL('image/png');
+}
+
+function openExportModal(indices){
+  const list = document.getElementById('modalList');
+  list.innerHTML = '';
+  indices.forEach(i => {
+    const dataUrl = renderSlideDataURL(i);
+    const s = state.slides[i];
+    const filename = `${slug(state.seriesTag)}-${pad2(i + 1)}.png`;
+    const row = document.createElement('div');
+    row.className = 'export-row';
+
+    const img = document.createElement('img');
+    img.src = dataUrl;
+    row.appendChild(img);
+
+    const meta = document.createElement('div');
+    meta.className = 'export-meta';
+    const name = document.createElement('div');
+    name.className = 'name';
+    name.textContent = (s.isCover ? 'Cover · ' : 'Tip ' + pad2(i + 1) + ' · ') + (s.title || 'Untitled');
+    const sub = document.createElement('div');
+    sub.className = 'sub';
+    sub.textContent = filename;
+    meta.appendChild(name);
+    meta.appendChild(sub);
+    row.appendChild(meta);
+
+    const link = document.createElement('a');
+    link.className = 'export-link';
+    link.href = dataUrl;
+    link.download = filename;
+    link.target = '_blank';
+    link.rel = 'noopener';
+    link.textContent = 'Save PNG';
+    row.appendChild(link);
+
+    list.appendChild(row);
+  });
+  document.getElementById('modalOverlay').classList.add('open');
+}
+
+document.getElementById('modalClose').onclick = () => document.getElementById('modalOverlay').classList.remove('open');
+document.getElementById('modalOverlay').onclick = (e) => {
+  if (e.target.id === 'modalOverlay') e.currentTarget.classList.remove('open');
+};
+document.getElementById('exportCurrent').onclick = () => openExportModal([state.current]);
+document.getElementById('exportAll').onclick = () => openExportModal(state.slides.map((_, i) => i));
+window.addEventListener('resize', renderPreview);
+
+renderAll();
+</script>
+</body>
+</html>
