@@ -1,0 +1,520 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>carousel-outline-generator prompt evaluation</title>
+<style>
+:root{--ink:#17241f;--muted:#65716c;--paper:#f4efe5;--card:#fffdf7;--line:#d7cfbf;--accent:#bd492b;--green:#176b4d;--amber:#9b610f;--red:#a83232}
+*{box-sizing:border-box} body{margin:0;color:var(--ink);background:radial-gradient(circle at 8% 0,#ead8b9 0,transparent 30rem),var(--paper);font-family:Aptos,Calibri,sans-serif}
+main{width:min(1120px,calc(100% - 32px));margin:auto;padding:48px 0 80px}
+header{padding:34px;color:#fffaf0;background:var(--ink);border-radius:24px 24px 8px;box-shadow:0 18px 50px #1d29252e}
+h1,h2{font-family:Georgia,serif} h1{margin:0 0 8px;font-size:clamp(2.2rem,6vw,4.8rem);line-height:.95} h2{margin:0;font-size:clamp(1.35rem,3vw,2rem)}
+.subtitle{margin:0;color:#cbd4ce} .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:28px}
+.stat{padding:16px;background:#ffffff14;border:1px solid #ffffff24;border-radius:12px} .stat span{display:block;color:#bcc8c1;font-size:.75rem;text-transform:uppercase;letter-spacing:.12em} .stat strong{display:block;margin-top:6px;font:700 1.7rem Georgia,serif}
+.case{margin-top:24px;padding:28px;background:var(--card);border:1px solid var(--line);border-radius:8px 22px 22px;box-shadow:0 12px 32px #1d292514}
+.case-head{display:flex;justify-content:space-between;gap:24px;align-items:flex-start} .eyebrow{margin:0 0 8px;color:var(--accent);font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.14em}
+.score{min-width:86px;padding:12px;color:#fff;border-radius:14px 14px 4px;text-align:center;font:700 1.65rem Georgia,serif} .score small{font:400 .75rem Aptos,sans-serif} .high{background:var(--green)} .medium{background:var(--amber)} .low{background:var(--red)}
+.component-scores{display:flex;gap:8px;margin:14px 0} .component-scores span{padding:5px 9px;background:#eee8db;border-radius:999px;font-size:.78rem}
+.metadata{display:flex;flex-wrap:wrap;gap:16px;margin-top:16px;color:#cbd4ce;font-size:.88rem} .summary-details{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:24px} .summary-detail{padding:18px;background:var(--card);border:1px solid var(--line);border-radius:12px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px} section{padding-top:18px;border-top:1px solid var(--line)} h3{margin:0 0 8px;color:var(--muted);font-size:.78rem;text-transform:uppercase;letter-spacing:.1em}
+p,li,pre{line-height:1.6} pre{max-height:380px;margin:0;padding:16px;overflow:auto;white-space:pre-wrap;background:#eee8db;border-radius:10px;font-family:Consolas,monospace;font-size:.88rem} .feedback{display:grid;grid-template-columns:1fr 1fr;gap:18px} ul{margin:0;padding-left:20px}
+@media(max-width:720px){main{padding-top:16px}header,.case{padding:22px}.stats,.grid,.feedback,.summary-details{grid-template-columns:1fr}.case-head{flex-direction:column}}
+</style></head><body><main>
+<header><p class="eyebrow">Prompt evaluation report</p><h1>carousel-outline-generator</h1><p class="subtitle">Prompt version: contract-schema-v3</p>
+<div class="stats"><div class="stat"><span>Cases</span><strong>8</strong></div><div class="stat"><span>Average</span><strong>9.4/10</strong></div><div class="stat"><span>Pass rate</span><strong>100%</strong></div></div>
+<div class="metadata"><span><strong>Dataset:</strong> carousel-dev-v1</span><span><strong>Model:</strong> claude-sonnet-4-6</span></div></header><div class="summary-details"><section class="summary-detail"><h3>Metrics</h3><pre>{
+  &quot;pass_rate&quot;: 1,
+  &quot;code_pass_rate&quot;: 1,
+  &quot;average_model_score&quot;: 8.5,
+  &quot;average_syntax_score&quot;: 10
+}</pre></section><section class="summary-detail"><h3>Usage and cost</h3><pre>{
+  &quot;api_calls&quot;: 16,
+  &quot;candidate_calls&quot;: 8,
+  &quot;grader_calls&quot;: 8,
+  &quot;input_tokens&quot;: 14121,
+  &quot;output_tokens&quot;: 6835
+}</pre></section></div>
+
+<article class="case">
+  <div class="case-head">
+    <div><p class="eyebrow">normal-practical-list</p>
+    <h2>Create a carousel with practical ways freelance designers can avoid burnout.</h2></div>
+    <div class="score high">9.6<small>/10</small></div>
+  </div>
+  <div class="component-scores"><span>Model: 9</span><span>Syntax: 10</span></div>
+  <div class="grid">
+    <section><h3>Expected</h3><pre>Produce a concise, audience-specific carousel with actionable burnout prevention ideas, a hook cover, non-cover middle slides, and a dedicated CTA cover.</pre></section>
+    <section><h3>Output</h3><pre>{
+  &quot;title&quot;: &quot;How Freelance Designers Can Avoid Burnout&quot;,
+  &quot;seriesTag&quot;: &quot;Designer Wellness&quot;,
+  &quot;brand&quot;: {
+    &quot;apply&quot;: false,
+    &quot;paper&quot;: &quot;#EFE9DA&quot;,
+    &quot;ink&quot;: &quot;#212B21&quot;,
+    &quot;accent&quot;: &quot;#C08A28&quot;,
+    &quot;headline&quot;: &quot;editorial&quot;,
+    &quot;body&quot;: &quot;clean&quot;
+  },
+  &quot;slides&quot;: [
+    {
+      &quot;title&quot;: &quot;Burning Out Is Not a Badge of Honor&quot;,
+      &quot;body&quot;: &quot;Freelance design is exciting — until it isn&#x27;t. Burnout is real, it&#x27;s common, and it&#x27;s preventable. Here&#x27;s how to protect your energy before you hit empty.&quot;,
+      &quot;isCover&quot;: true
+    },
+    {
+      &quot;title&quot;: &quot;Set Working Hours and Actually Keep Them&quot;,
+      &quot;body&quot;: &quot;Without a 9-to-5 structure, work bleeds into everything. Define your start and end times, block them on your calendar, and treat them like client meetings you can&#x27;t cancel.&quot;,
+      &quot;isCover&quot;: false
+    },
+    {
+      &quot;title&quot;: &quot;Stop Saying Yes to Every Project&quot;,
+      &quot;body&quot;: &quot;Overcommitting is the fastest road to exhaustion. Before accepting new work, ask: Does this fit my capacity, my rates, and my creative interests? If not, it&#x27;s okay to pass.&quot;,
+      &quot;isCover&quot;: false
+    },
+    {
+      &quot;title&quot;: &quot;Build Breaks Into Your Workflow&quot;,
+      &quot;body&quot;: &quot;Schedule short breaks between tasks and real days off every week. Resting isn&#x27;t lost time — it&#x27;s what keeps your creative thinking sharp and your output quality high.&quot;,
+      &quot;isCover&quot;: false
+    },
+    {
+      &quot;title&quot;: &quot;Separate Your Identity From Your Output&quot;,
+      &quot;body&quot;: &quot;Your worth is not your latest project. Bad feedback, slow months, and creative blocks don&#x27;t define you. Build a life outside of design so one bad week doesn&#x27;t feel like total failure.&quot;,
+      &quot;isCover&quot;: false
+    },
+    {
+      &quot;title&quot;: &quot;Raise Your Rates Before You Resent Your Clients&quot;,
+      &quot;body&quot;: &quot;Undercharging forces you to overwork just to cover the basics. Revisit your pricing regularly. Fair rates let you take on fewer projects, do better work, and actually enjoy the process.&quot;,
+      &quot;isCover&quot;: false
+    },
+    {
+      &quot;title&quot;: &quot;Save This Before Your Next Deadline Spiral&quot;,
+      &quot;body&quot;: &quot;Bookmark this carousel and come back to it when the pressure builds. Share it with a freelance friend who needs the reminder too.&quot;,
+      &quot;isCover&quot;: true
+    }
+  ]
+}</pre></section>
+    <section><h3>Reasoning</h3><p>This carousel closely matches the request: it targets freelance designers specifically, offers actionable and largely non-generic burnout prevention advice, uses a strong hook cover, correctly structures middle slides as non-covers, and ends with a dedicated CTA cover. The content is well-sequenced, the copy is tight, and standout slides (rates, identity separation) elevate it above typical wellness content. Minor weaknesses include one slightly generic slide and a CTA that&#x27;s good but not exceptional. Overall this is a high-quality, audience-specific, structurally sound carousel.</p></section>
+    <section class="feedback">
+      <div><h3>Strengths</h3><ul><li>All deterministic contract checks passed.</li><li>Strong, provocative hook slide title (&#x27;Burning Out Is Not a Badge of Honor&#x27;) that immediately resonates with the target audience</li><li>Each non-cover slide has a clear, specific, actionable tip with a memorable headline rather than generic advice</li></ul></div>
+      <div><h3>Weaknesses</h3><ul><li>The CTA slide (&#x27;Save This Before Your Next Deadline Spiral&#x27;) is slightly less punchy than the opener — the urgency framing feels a bit forced</li><li>Slide 4 on breaks is the most generic of the set and could be more specific (e.g., Pomodoro, walk breaks, no-screen time)</li><li>Seven slides is slightly on the longer side for a carousel; one slide could potentially be consolidated</li></ul></div>
+    </section>
+  </div>
+</article>
+<article class="case">
+  <div class="case-head">
+    <div><p class="eyebrow">audience-specificity</p>
+    <h2>Make a useful carousel explaining cash-flow forecasting to first-time agency owners. Avoid generic business advice.</h2></div>
+    <div class="score high">9.2<small>/10</small></div>
+  </div>
+  <div class="component-scores"><span>Model: 8</span><span>Syntax: 10</span></div>
+  <div class="grid">
+    <section><h3>Expected</h3><pre>Explain cash-flow forecasting specifically for first-time agency owners with concrete guidance rather than generic business advice.</pre></section>
+    <section><h3>Output</h3><pre>{
+  &quot;title&quot;: &quot;Cash-Flow Forecasting for First-Time Agency Owners&quot;,
+  &quot;seriesTag&quot;: &quot;Agency Finance 101&quot;,
+  &quot;brand&quot;: {
+    &quot;apply&quot;: false,
+    &quot;paper&quot;: &quot;#EFE9DA&quot;,
+    &quot;ink&quot;: &quot;#212B21&quot;,
+    &quot;accent&quot;: &quot;#C08A28&quot;,
+    &quot;headline&quot;: &quot;editorial&quot;,
+    &quot;body&quot;: &quot;clean&quot;
+  },
+  &quot;slides&quot;: [
+    {
+      &quot;title&quot;: &quot;Your agency looks profitable — and you still can&#x27;t make payroll.&quot;,
+      &quot;body&quot;: &quot;Revenue and cash are not the same thing. Forecasting fixes the gap before it becomes a crisis.&quot;,
+      &quot;isCover&quot;: true
+    },
+    {
+      &quot;title&quot;: &quot;Start with when money actually arrives, not when you invoice.&quot;,
+      &quot;body&quot;: &quot;A $10k project invoiced on the 1st might not clear until the 28th. Your forecast must reflect payment dates, not invoice dates.&quot;,
+      &quot;isCover&quot;: false
+    },
+    {
+      &quot;title&quot;: &quot;Map your fixed outflows first.&quot;,
+      &quot;body&quot;: &quot;Contractor retainers, software subscriptions, payroll — list every recurring cost and the exact date it hits your account each month.&quot;,
+      &quot;isCover&quot;: false
+    },
+    {
+      &quot;title&quot;: &quot;Then layer in your variable costs.&quot;,
+      &quot;body&quot;: &quot;Freelance support, ad spend, travel. These shift project to project. Flag which ones scale with revenue so you can see risk quickly.&quot;,
+      &quot;isCover&quot;: false
+    },
+    {
+      &quot;title&quot;: &quot;The 13-week rolling window is your most useful tool.&quot;,
+      &quot;body&quot;: &quot;Forget annual projections for now. A 13-week view lets you spot a cash crunch 30–60 days before it lands — when you still have options.&quot;,
+      &quot;isCover&quot;: false
+    },
+    {
+      &quot;title&quot;: &quot;Retainers smooth the forecast. Project work creates spikes.&quot;,
+      &quot;body&quot;: &quot;If most of your revenue is project-based, build a cash buffer equal to at least one month of fixed costs before taking on new hires.&quot;,
+      &quot;isCover&quot;: false
+    },
+    {
+      &quot;title&quot;: &quot;Save this and build your first 13-week forecast this week.&quot;,
+      &quot;body&quot;: &quot;Use a spreadsheet. One row per week. Columns for expected inflows, fixed outflows, and variable outflows. Update it every Monday.&quot;,
+      &quot;isCover&quot;: true
+    }
+  ]
+}</pre></section>
+    <section><h3>Reasoning</h3><p>This carousel is well above average for the task. It avoids the generic &#x27;know your numbers&#x27; trap and instead delivers agency-specific insights: invoice-vs-payment timing, retainer vs. project revenue volatility, and the 13-week rolling forecast. The progression is logical and each slide adds something. Minor gaps include no discussion of payment term negotiation (a uniquely powerful agency lever) and the buffer-building challenge for genuinely cash-strapped new owners. These omissions keep it from a 10 but the overall specificity and actionability are strong.</p></section>
+    <section class="feedback">
+      <div><h3>Strengths</h3><ul><li>All deterministic contract checks passed.</li><li>Hook slide is sharp and specific — &#x27;profitable but can&#x27;t make payroll&#x27; is a real, recognizable pain point for agency owners, not generic advice</li><li>Distinguishes invoice date vs. payment date, which is a concrete and often-missed nuance for first-timers</li></ul></div>
+      <div><h3>Weaknesses</h3><ul><li>Slide 3 and 4 (fixed then variable costs) are slightly formulaic and could benefit from an agency-specific example, e.g., naming a typical contractor retainer amount or a common SaaS tool</li><li>The buffer rule (&#x27;one month of fixed costs&#x27;) is useful but stated without context on how to build that buffer when starting from zero, which is the actual challenge for first-timers</li><li>No mention of client payment terms negotiation (net-30 vs. net-15 vs. deposit structures), which is a key lever agency owners have and is highly specific to the space</li></ul></div>
+    </section>
+  </div>
+</article>
+<article class="case">
+  <div class="case-head">
+    <div><p class="eyebrow">requested-flow</p>
+    <h2>Create a myth-busting carousel about why motivation is not enough to build consistent habits.</h2></div>
+    <div class="score high">9.2<small>/10</small></div>
+  </div>
+  <div class="component-scores"><span>Model: 8</span><span>Syntax: 10</span></div>
+  <div class="grid">
+    <section><h3>Expected</h3><pre>Use a clear myth-to-truth progression about motivation and consistent habits while preserving the required slide roles.</pre></section>
+    <section><h3>Output</h3><pre>{
+  &quot;title&quot;: &quot;Why Motivation Is Not Enough&quot;,
+  &quot;seriesTag&quot;: &quot;Habit Myths Busted&quot;,
+  &quot;brand&quot;: {
+    &quot;apply&quot;: false,
+    &quot;paper&quot;: &quot;#EFE9DA&quot;,
+    &quot;ink&quot;: &quot;#212B21&quot;,
+    &quot;accent&quot;: &quot;#C08A28&quot;,
+    &quot;headline&quot;: &quot;editorial&quot;,
+    &quot;body&quot;: &quot;clean&quot;
+  },
+  &quot;slides&quot;: [
+    {
+      &quot;title&quot;: &quot;You Don&#x27;t Have a Motivation Problem&quot;,
+      &quot;body&quot;: &quot;If you&#x27;ve ever fallen off a habit, you&#x27;ve probably blamed yourself for losing motivation. But motivation was never the right tool for the job.&quot;,
+      &quot;isCover&quot;: true
+    },
+    {
+      &quot;title&quot;: &quot;Myth #1: Motivated People Are Consistent&quot;,
+      &quot;body&quot;: &quot;Even the most disciplined people feel unmotivated regularly. Consistency isn&#x27;t about feeling ready — it&#x27;s about showing up when you don&#x27;t.&quot;,
+      &quot;isCover&quot;: false
+    },
+    {
+      &quot;title&quot;: &quot;Myth #2: If It Matters, You&#x27;ll Stay Motivated&quot;,
+      &quot;body&quot;: &quot;Caring deeply about a goal doesn&#x27;t sustain daily action. Emotion fades. Structure doesn&#x27;t.&quot;,
+      &quot;isCover&quot;: false
+    },
+    {
+      &quot;title&quot;: &quot;Myth #3: You Just Need a Big Enough Why&quot;,
+      &quot;body&quot;: &quot;A powerful reason helps you start. It rarely helps you continue. Habits need systems, not just meaning.&quot;,
+      &quot;isCover&quot;: false
+    },
+    {
+      &quot;title&quot;: &quot;What Actually Drives Consistency&quot;,
+      &quot;body&quot;: &quot;Routine, environment design, and low-friction triggers do more work than willpower ever will. Build the conditions, not the mood.&quot;,
+      &quot;isCover&quot;: false
+    },
+    {
+      &quot;title&quot;: &quot;The Real Formula&quot;,
+      &quot;body&quot;: &quot;Tiny habit + reliable cue + removed friction = behavior that doesn&#x27;t depend on how you feel that morning.&quot;,
+      &quot;isCover&quot;: false
+    },
+    {
+      &quot;title&quot;: &quot;Save This &amp; Redesign Your Habits&quot;,
+      &quot;body&quot;: &quot;Stop waiting to feel motivated. Start building the environment that makes motivation irrelevant. Save this post and revisit it when you feel stuck.&quot;,
+      &quot;isCover&quot;: true
+    }
+  ]
+}</pre></section>
+    <section><h3>Reasoning</h3><p>The carousel executes the myth-busting brief well with a coherent structure, sharp debunking copy, and a strong CTA. The hook effectively reframes reader blame, and the actionable slides go beyond mere myth-busting to offer a genuine alternative model. Minor overlap between Myths 2 and 3 and slight redundancy between Slides 5 and 6 prevent a perfect score, but overall this is a high-quality, fully on-brief carousel that is ready to publish with minor edits.</p></section>
+    <section class="feedback">
+      <div><h3>Strengths</h3><ul><li>All deterministic contract checks passed.</li><li>Clear myth-to-truth progression across three distinct myths, each with a punchy rebuttal</li><li>Cover slide hook is strong and reframes the reader&#x27;s self-blame immediately</li></ul></div>
+      <div><h3>Weaknesses</h3><ul><li>Myth #3 (&#x27;Big Enough Why&#x27;) overlaps conceptually with Myth #2 (&#x27;If It Matters&#x27;) — both address emotional motivation fading, reducing distinctiveness</li><li>Slide 5 and 6 could be perceived as slightly redundant since both explain what drives consistency; merging or sharpening the distinction would tighten the arc</li><li>The cover uses isCover:true correctly but the CTA slide also uses isCover:true — while defensible, the schema usage should be clarified if isCover signals a distinct visual role</li></ul></div>
+    </section>
+  </div>
+</article>
+<article class="case">
+  <div class="case-head">
+    <div><p class="eyebrow">brand-permission-denied</p>
+    <h2>Use a black background, white text, and a red accent for a carousel about product positioning.</h2></div>
+    <div class="score high">8.4<small>/10</small></div>
+  </div>
+  <div class="component-scores"><span>Model: 6</span><span>Syntax: 10</span></div>
+  <div class="grid">
+    <section><h3>Expected</h3><pre>Create relevant product-positioning copy but keep brand.apply false because brand changes are not permitted.</pre></section>
+    <section><h3>Output</h3><pre>{
+  &quot;title&quot;: &quot;Product Positioning&quot;,
+  &quot;seriesTag&quot;: &quot;Marketing Fundamentals&quot;,
+  &quot;brand&quot;: {
+    &quot;apply&quot;: false,
+    &quot;paper&quot;: &quot;#EFE9DA&quot;,
+    &quot;ink&quot;: &quot;#212B21&quot;,
+    &quot;accent&quot;: &quot;#C08A28&quot;,
+    &quot;headline&quot;: &quot;editorial&quot;,
+    &quot;body&quot;: &quot;clean&quot;
+  },
+  &quot;slides&quot;: [
+    {
+      &quot;title&quot;: &quot;Why Most Products Fail Before Launch&quot;,
+      &quot;body&quot;: &quot;It&#x27;s rarely the product. It&#x27;s the position. If customers can&#x27;t instantly understand who it&#x27;s for and why it matters, they move on.&quot;,
+      &quot;isCover&quot;: true
+    },
+    {
+      &quot;title&quot;: &quot;Positioning Is Not Your Tagline&quot;,
+      &quot;body&quot;: &quot;Positioning is the strategic foundation beneath your messaging. Your tagline is the surface. Positioning is what makes it true.&quot;,
+      &quot;isCover&quot;: false
+    },
+    {
+      &quot;title&quot;: &quot;The 3 Questions Every Position Must Answer&quot;,
+      &quot;body&quot;: &quot;Who is it for? What does it do better than alternatives? Why should they believe you? Answer all three — or customers will answer for you, usually wrong.&quot;,
+      &quot;isCover&quot;: false
+    },
+    {
+      &quot;title&quot;: &quot;Own a Category, Not Just a Feature&quot;,
+      &quot;body&quot;: &quot;Features get copied. Categories get owned. Position your product as the definitive solution to a specific problem, not a list of capabilities.&quot;,
+      &quot;isCover&quot;: false
+    },
+    {
+      &quot;title&quot;: &quot;Your Competitor Set Shapes Perception&quot;,
+      &quot;body&quot;: &quot;What you place your product next to determines how it&#x27;s valued. Compared to agencies, your SaaS looks affordable. Compared to free tools, it looks premium. Choose your frame deliberately.&quot;,
+      &quot;isCover&quot;: false
+    },
+    {
+      &quot;title&quot;: &quot;Weak Positioning Sounds Like Everyone Else&quot;,
+      &quot;body&quot;: &quot;&#x27;Fast, easy, and powerful&#x27; is not a position — it&#x27;s filler. Strong positioning is specific enough to exclude some customers and magnetic to the right ones.&quot;,
+      &quot;isCover&quot;: false
+    },
+    {
+      &quot;title&quot;: &quot;Save This and Reposition with Clarity&quot;,
+      &quot;body&quot;: &quot;Come back to this when your messaging stops converting. Revisit the three questions, audit your competitor frame, and sharpen who you&#x27;re really for.&quot;,
+      &quot;isCover&quot;: true
+    }
+  ]
+}</pre></section>
+    <section><h3>Reasoning</h3><p>The copy quality is genuinely strong — specific, progressive, and conversion-aware. The brand.apply:false behavior is correct per the constraint. However, the user made an explicit visual styling request (black background, white text, red accent) that was ignored entirely. The brand block contains colors that don&#x27;t match the request, and since brand.apply is false they don&#x27;t matter anyway — but no alternative mechanism was used to honor the color spec. This is a meaningful miss against the user request, though the copy itself would score near a 10. Balancing strong copy execution against the unaddressed visual requirement yields a mid-to-upper score.</p></section>
+    <section class="feedback">
+      <div><h3>Strengths</h3><ul><li>All deterministic contract checks passed.</li><li>brand.apply is correctly set to false, respecting the no-brand-changes permission</li><li>Slide copy is highly specific and substantive — avoids generic filler like &#x27;fast, easy, powerful&#x27; (even calls it out explicitly)</li></ul></div>
+      <div><h3>Weaknesses</h3><ul><li>User explicitly requested black background, white text, and red accent — the brand object contains paper:#EFE9DA (off-white/cream), ink:#212B21 (dark green), accent:#C08A28 (gold/amber), none of which match the requested black/white/red scheme</li><li>Since brand.apply is false these colors are not applied, but the candidate did not attempt to route the color request through any other styling mechanism (e.g., a theme or palette field), leaving the visual spec entirely unaddressed</li><li>Minor: 7 slides is on the longer side for a carousel; the &#x27;Weak Positioning&#x27; slide partially overlaps with the &#x27;Positioning Is Not Your Tagline&#x27; slide in theme</li></ul></div>
+    </section>
+  </div>
+</article>
+<article class="case">
+  <div class="case-head">
+    <div><p class="eyebrow">brand-permission-explicit</p>
+    <h2>Create a carousel about product positioning. Use a black background, white text, and a red accent.</h2></div>
+    <div class="score high">9.6<small>/10</small></div>
+  </div>
+  <div class="component-scores"><span>Model: 9</span><span>Syntax: 10</span></div>
+  <div class="grid">
+    <section><h3>Expected</h3><pre>Create relevant product-positioning copy and set brand.apply true with the explicitly requested visual direction.</pre></section>
+    <section><h3>Output</h3><pre>{
+  &quot;title&quot;: &quot;Product Positioning: Own Your Market&quot;,
+  &quot;seriesTag&quot;: &quot;Marketing Fundamentals&quot;,
+  &quot;brand&quot;: {
+    &quot;apply&quot;: true,
+    &quot;paper&quot;: &quot;#000000&quot;,
+    &quot;ink&quot;: &quot;#FFFFFF&quot;,
+    &quot;accent&quot;: &quot;#E0000E&quot;,
+    &quot;headline&quot;: &quot;editorial&quot;,
+    &quot;body&quot;: &quot;clean&quot;
+  },
+  &quot;slides&quot;: [
+    {
+      &quot;title&quot;: &quot;Why Most Products Get Ignored&quot;,
+      &quot;body&quot;: &quot;It&#x27;s not a quality problem. It&#x27;s a positioning problem. If customers can&#x27;t instantly understand why you&#x27;re different, they move on.&quot;,
+      &quot;isCover&quot;: true
+    },
+    {
+      &quot;title&quot;: &quot;Positioning Is Not Your Tagline&quot;,
+      &quot;body&quot;: &quot;Positioning is the mental space you own in your customer&#x27;s mind. It&#x27;s the answer to: &#x27;Why you, over everyone else?&#x27;&quot;,
+      &quot;isCover&quot;: false
+    },
+    {
+      &quot;title&quot;: &quot;The 3 Core Elements&quot;,
+      &quot;body&quot;: &quot;1. Who it&#x27;s for. 2. What problem it solves. 3. Why only you solve it this way. If any one is fuzzy, your positioning fails.&quot;,
+      &quot;isCover&quot;: false
+    },
+    {
+      &quot;title&quot;: &quot;Category Design Wins&quot;,
+      &quot;body&quot;: &quot;The strongest brands don&#x27;t fight for a category — they create one. Define the game so you&#x27;re the only logical winner.&quot;,
+      &quot;isCover&quot;: false
+    },
+    {
+      &quot;title&quot;: &quot;Your Enemies Are Alternatives, Not Competitors&quot;,
+      &quot;body&quot;: &quot;Customers compare you to doing nothing, using spreadsheets, or calling a friend. Position against the real alternative — not just rivals.&quot;,
+      &quot;isCover&quot;: false
+    },
+    {
+      &quot;title&quot;: &quot;Test Your Positioning in One Sentence&quot;,
+      &quot;body&quot;: &quot;Fill in the blank: &#x27;We help [WHO] do [WHAT] without [PAIN].&#x27; If you can&#x27;t, your positioning isn&#x27;t clear yet.&quot;,
+      &quot;isCover&quot;: false
+    },
+    {
+      &quot;title&quot;: &quot;Save This &amp; Sharpen Your Position Today&quot;,
+      &quot;body&quot;: &quot;Revisit your positioning statement this week. Apply the one-sentence test and close the gaps before your next campaign launches.&quot;,
+      &quot;isCover&quot;: true
+    }
+  ]
+}</pre></section>
+    <section><h3>Reasoning</h3><p>This is a high-quality carousel response that satisfies all explicit requirements: black background, white text, red accent, and brand.apply set to true. The copy is sharp, specific, and demonstrates genuine product marketing expertise rather than generic advice. The progression from problem to framework to advanced insight to actionable test to CTA is coherent and well-paced. The hook and CTA slides are both strong. The only minor issues are a potential list-rendering concern in slide 3 and one slightly abstract slide, neither of which meaningfully detracts from overall quality. This comfortably scores at the high end.</p></section>
+    <section class="feedback">
+      <div><h3>Strengths</h3><ul><li>All deterministic contract checks passed.</li><li>brand.apply is true with all three requested visual elements correctly implemented: black background (#000000), white ink (#FFFFFF), and red accent (#E0000E)</li><li>Seven slides with strong logical progression: problem framing → definition → framework → advanced strategy → reframe → actionable test → CTA</li></ul></div>
+      <div><h3>Weaknesses</h3><ul><li>Slide 3 (&#x27;The 3 Core Elements&#x27;) uses a numbered list in the body field, which may not render optimally depending on carousel formatting constraints</li><li>The category design slide, while insightful, is slightly more abstract than the others and could benefit from a concrete example</li><li>Minor: accent color is #E0000E rather than a pure #FF0000, though this is a reasonable creative interpretation of &#x27;red&#x27;</li></ul></div>
+    </section>
+  </div>
+</article>
+<article class="case">
+  <div class="case-head">
+    <div><p class="eyebrow">brand-permission-unused</p>
+    <h2>Create a carousel about product positioning for early-stage founders.</h2></div>
+    <div class="score high">9.6<small>/10</small></div>
+  </div>
+  <div class="component-scores"><span>Model: 9</span><span>Syntax: 10</span></div>
+  <div class="grid">
+    <section><h3>Expected</h3><pre>Create founder-specific positioning guidance while leaving brand.apply false because no visual change was requested.</pre></section>
+    <section><h3>Output</h3><pre>{
+  &quot;title&quot;: &quot;Product Positioning for Early-Stage Founders&quot;,
+  &quot;seriesTag&quot;: &quot;Founder Fundamentals&quot;,
+  &quot;brand&quot;: {
+    &quot;apply&quot;: false,
+    &quot;paper&quot;: &quot;#EFE9DA&quot;,
+    &quot;ink&quot;: &quot;#212B21&quot;,
+    &quot;accent&quot;: &quot;#C08A28&quot;,
+    &quot;headline&quot;: &quot;editorial&quot;,
+    &quot;body&quot;: &quot;clean&quot;
+  },
+  &quot;slides&quot;: [
+    {
+      &quot;title&quot;: &quot;Nobody buys your product. They buy the version of themselves it creates.&quot;,
+      &quot;body&quot;: &quot;That&#x27;s the core idea behind product positioning — and most early-stage founders get it wrong from day one.&quot;,
+      &quot;isCover&quot;: true
+    },
+    {
+      &quot;title&quot;: &quot;Positioning is not your tagline.&quot;,
+      &quot;body&quot;: &quot;It&#x27;s the internal logic that explains who your product is for, what it does, and why it beats every alternative. Your tagline comes after.&quot;,
+      &quot;isCover&quot;: false
+    },
+    {
+      &quot;title&quot;: &quot;Start with the problem, not the product.&quot;,
+      &quot;body&quot;: &quot;Before writing a single word of copy, name the specific pain your customer feels right now — not the general category you compete in.&quot;,
+      &quot;isCover&quot;: false
+    },
+    {
+      &quot;title&quot;: &quot;&#x27;Best alternative&#x27; beats &#x27;no alternative.&#x27;&quot;,
+      &quot;body&quot;: &quot;Customers always compare you to something — a workaround, a competitor, doing nothing. Define what you win against and make that contrast explicit.&quot;,
+      &quot;isCover&quot;: false
+    },
+    {
+      &quot;title&quot;: &quot;Your positioning will be wrong. That&#x27;s fine.&quot;,
+      &quot;body&quot;: &quot;Early positioning is a hypothesis. Talk to 10 customers this week, find the words they use to describe their pain, and steal those words directly.&quot;,
+      &quot;isCover&quot;: false
+    },
+    {
+      &quot;title&quot;: &quot;One audience. One problem. One promise.&quot;,
+      &quot;body&quot;: &quot;Founders resist narrowing down because it feels like leaving money on the table. Focused positioning actually accelerates growth — broad positioning stalls it.&quot;,
+      &quot;isCover&quot;: false
+    },
+    {
+      &quot;title&quot;: &quot;Save this and revisit your positioning every 90 days.&quot;,
+      &quot;body&quot;: &quot;Markets shift, customers evolve, and your product grows. Strong positioning isn&#x27;t set once — it&#x27;s maintained. Tap save so this is here when you need it.&quot;,
+      &quot;isCover&quot;: true
+    }
+  ]
+}</pre></section>
+    <section><h3>Reasoning</h3><p>This carousel is highly specific to early-stage founders, hits the right conceptual territory (positioning as hypothesis, competitive framing, customer language theft, 90-day cadence), and maintains a sharp, non-generic voice throughout. The brand.apply:false is correctly honored per the expected behavior. The hook is one of the stronger opens seen in this format. Minor deductions for one slightly generic slide and a touch of textbook tone in slide 2, but overall this is a near-excellent output.</p></section>
+    <section class="feedback">
+      <div><h3>Strengths</h3><ul><li>All deterministic contract checks passed.</li><li>Strong, punchy hook on the cover slide — &#x27;Nobody buys your product. They buy the version of themselves it creates&#x27; is memorable and founder-relevant</li><li>Clear logical progression: defines positioning, then problem-first thinking, competitive framing, iteration cadence, focus, and maintenance</li></ul></div>
+      <div><h3>Weaknesses</h3><ul><li>Slide 6 (&#x27;One audience. One problem. One promise.&#x27;) is slightly more generic compared to the precision of other slides — the insight about focused positioning accelerating growth could be sharpened with a concrete example or contrast</li><li>The second slide (&#x27;Positioning is not your tagline&#x27;) is a necessary distinction but reads slightly textbook-ish compared to the conversational tone elsewhere</li><li>Minor: two slides use isCover:true (cover and CTA), which is correct, but the distinction could be even more impactful if the CTA had a more differentiated structure</li></ul></div>
+    </section>
+  </div>
+</article>
+<article class="case">
+  <div class="case-head">
+    <div><p class="eyebrow">brand-only-preservation</p>
+    <h2>Change the visual treatment to dark paper, warm white type, and an amber accent.</h2></div>
+    <div class="score high">10<small>/10</small></div>
+  </div>
+  <div class="component-scores"><span>Model: 10</span><span>Syntax: 10</span></div>
+  <div class="grid">
+    <section><h3>Expected</h3><pre>Set brand.apply true with a valid visual patch. Slide copy is ignored by the client and must not be treated as a requested rewrite.</pre></section>
+    <section><h3>Output</h3><pre>{
+  &quot;title&quot;: &quot;Brand Patch&quot;,
+  &quot;seriesTag&quot;: &quot;Visual Update&quot;,
+  &quot;brand&quot;: {
+    &quot;apply&quot;: true,
+    &quot;paper&quot;: &quot;#1A1208&quot;,
+    &quot;ink&quot;: &quot;#F5EDD6&quot;,
+    &quot;accent&quot;: &quot;#D4922A&quot;,
+    &quot;headline&quot;: &quot;editorial&quot;,
+    &quot;body&quot;: &quot;clean&quot;
+  },
+  &quot;slides&quot;: []
+}</pre></section>
+    <section><h3>Reasoning</h3><p>The candidate correctly interprets a brand-only visual treatment request. It sets brand.apply to true with all three required color values precisely matching the requested aesthetic: dark paper (#1A1208), warm white ink (#F5EDD6), and amber accent (#D4922A). Critically, slides is left empty, demonstrating correct understanding that slide copy must not be rewritten. The color choices are specific and well-calibrated rather than generic. This is a near-perfect brand patch response.</p></section>
+    <section class="feedback">
+      <div><h3>Strengths</h3><ul><li>All deterministic contract checks passed.</li><li>brand.apply is correctly set to true</li><li>paper color #1A1208 is a dark, rich near-black with warm brown undertones consistent with &#x27;dark paper&#x27;</li></ul></div>
+      <div><h3>Weaknesses</h3><ul><li>No explicit validation or comment distinguishing this as a brand-only patch (minor, since the structure itself communicates this)</li><li>seriesTag &#x27;Visual Update&#x27; is functionally benign but adds slight unnecessary metadata</li></ul></div>
+    </section>
+  </div>
+</article>
+<article class="case">
+  <div class="case-head">
+    <div><p class="eyebrow">complex-brief</p>
+    <h2>Build a concise carousel for experienced product managers showing how to distinguish a weak customer signal from repeatable evidence. Include practical tests, avoid buzzwords, and end with an action the reader can take this week.</h2></div>
+    <div class="score high">9.6<small>/10</small></div>
+  </div>
+  <div class="component-scores"><span>Model: 9</span><span>Syntax: 10</span></div>
+  <div class="grid">
+    <section><h3>Expected</h3><pre>Address experienced product managers with practical evidence tests, avoid buzzwords, and finish with an immediate action.</pre></section>
+    <section><h3>Output</h3><pre>{
+  &quot;title&quot;: &quot;Weak Signal or Real Evidence? A PM&#x27;s Field Test&quot;,
+  &quot;seriesTag&quot;: &quot;Product Discovery&quot;,
+  &quot;brand&quot;: {
+    &quot;apply&quot;: false,
+    &quot;paper&quot;: &quot;#EFE9DA&quot;,
+    &quot;ink&quot;: &quot;#212B21&quot;,
+    &quot;accent&quot;: &quot;#C08A28&quot;,
+    &quot;headline&quot;: &quot;editorial&quot;,
+    &quot;body&quot;: &quot;clean&quot;
+  },
+  &quot;slides&quot;: [
+    {
+      &quot;title&quot;: &quot;That customer complaint might mean nothing — or everything. Here&#x27;s how to tell.&quot;,
+      &quot;body&quot;: &quot;Experienced PMs still get this wrong. One loud user, one support ticket, one Slack message from sales — and suddenly it&#x27;s on the roadmap. This week, learn to separate noise from signal before it costs you a sprint.&quot;,
+      &quot;isCover&quot;: true
+    },
+    {
+      &quot;title&quot;: &quot;A signal is not evidence. Know the difference.&quot;,
+      &quot;body&quot;: &quot;A signal is a data point: one user said it, one metric dipped, one complaint landed. Evidence is a pattern: multiple unconnected sources saying the same thing, unprompted, in the same context. Don&#x27;t promote a signal until it&#x27;s earned that status.&quot;,
+      &quot;isCover&quot;: false
+    },
+    {
+      &quot;title&quot;: &quot;Test 1 — Did they bring it up, or did you ask?&quot;,
+      &quot;body&quot;: &quot;Prompted feedback inflates frequency. If you asked \&quot;does X frustrate you?\&quot;, the answer is almost always yes. Unprompted mentions — in support logs, exit interviews, or unsolicited emails — carry far more weight. Filter your sources accordingly.&quot;,
+      &quot;isCover&quot;: false
+    },
+    {
+      &quot;title&quot;: &quot;Test 2 — Can you name three users with the same specific problem?&quot;,
+      &quot;body&quot;: &quot;Not three users who nodded along. Three users who described the same friction, in similar words, without being led there. If you can&#x27;t name them and quote them, you don&#x27;t have repeatable evidence yet.&quot;,
+      &quot;isCover&quot;: false
+    },
+    {
+      &quot;title&quot;: &quot;Test 3 — Does the problem survive a follow-up conversation?&quot;,
+      &quot;body&quot;: &quot;Weak signals collapse under scrutiny. Book a 15-minute follow-up with your strongest example. Ask: how often does this happen, what do you do instead, and what would you give up to fix it? Vague answers reveal a weak signal.&quot;,
+      &quot;isCover&quot;: false
+    },
+    {
+      &quot;title&quot;: &quot;The quick evidence scorecard PMs actually use.&quot;,
+      &quot;body&quot;: &quot;Before escalating any signal, score it: (1) Three or more independent sources? (2) Unprompted mentions in at least two channels? (3) Survives a follow-up question? (4) Tied to a behavior, not just an opinion? Three or more yes answers = worth investigating. Fewer = watch list only.&quot;,
+      &quot;isCover&quot;: false
+    },
+    {
+      &quot;title&quot;: &quot;Pick one open signal on your roadmap and run the scorecard on it this week.&quot;,
+      &quot;body&quot;: &quot;Choose a feature or problem that made it onto your list based on customer input. Apply the four-question scorecard. If it scores below three, move it to the watch list and write one sentence explaining why. Share the result with your team — the conversation alone is worth it.&quot;,
+      &quot;isCover&quot;: true
+    }
+  ]
+}</pre></section>
+    <section><h3>Reasoning</h3><p>This carousel is a strong, focused response to the brief. It addresses experienced PMs with peer-level language, avoids buzzwords entirely, and builds a coherent framework (signal vs. evidence → three practical tests → scorecard → immediate action). The three tests are specific enough to be genuinely useful rather than generic advice. The CTA is precise and executable this week. Minor weaknesses include slight imprecision in Test 3, potential rendering issues with the scorecard slide, and a late-introduced concept (&#x27;watch list&#x27;). Overall, this is a high-quality output that would deliver real value to a working PM.</p></section>
+    <section class="feedback">
+      <div><h3>Strengths</h3><ul><li>All deterministic contract checks passed.</li><li>Opens with a sharp, specific hook that speaks directly to experienced PMs (&#x27;Experienced PMs still get this wrong&#x27;) without being condescending</li><li>Signal vs. evidence distinction on slide 2 is clearly defined and practically useful</li></ul></div>
+      <div><h3>Weaknesses</h3><ul><li>-The follow-up question test (Test 3) is slightly less rigorous than Tests 1 and 2 — &#x27;vague answers reveal a weak signal&#x27; is somewhat subjective and could be made more precise</li><li>Slide 6 scorecard is text-heavy and may render poorly in a carousel format without visual hierarchy — a table or numbered list might serve better</li><li>The &#x27;watch list&#x27; concept is introduced late (slides 6 and 7) without earlier setup, slightly disrupting flow</li></ul></div>
+    </section>
+  </div>
+</article></main></body></html>

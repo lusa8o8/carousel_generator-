@@ -1,0 +1,699 @@
+{
+  "agent": "carousel-outline-generator",
+  "prompt_version": "contract-schema-v3",
+  "prompt_change": "Adds schema-level isCover role guidance to v2 while code graders enforce counts and lengths.",
+  "dataset_version": "carousel-heldout-v1",
+  "run": "2",
+  "model": "claude-sonnet-4-6",
+  "case_count": 4,
+  "average_score": 9.4,
+  "metrics": {
+    "pass_rate": 1,
+    "code_pass_rate": 1,
+    "average_model_score": 8.5,
+    "average_syntax_score": 10
+  },
+  "usage": {
+    "api_calls": 8,
+    "candidate_calls": 4,
+    "grader_calls": 4,
+    "input_tokens": 6960,
+    "output_tokens": 3230
+  },
+  "results": [
+    {
+      "test_case": {
+        "id": "manager-one-on-ones",
+        "category": "heldout-audience",
+        "input": "Create a carousel for new managers on running useful one-on-ones without turning them into status meetings.",
+        "expected_behavior": "Give new managers specific one-on-one practices, distinguish the meeting from status reporting, and preserve required slide roles.",
+        "expect": {
+          "brandApply": false,
+          "topicTerms": [
+            "manager",
+            "one-on-one",
+            "status"
+          ]
+        }
+      },
+      "output": "{\n  \"title\": \"Run One-on-Ones That Actually Matter\",\n  \"seriesTag\": \"Management 101\",\n  \"brand\": {\n    \"apply\": false,\n    \"paper\": \"#EFE9DA\",\n    \"ink\": \"#212B21\",\n    \"accent\": \"#C08A28\",\n    \"headline\": \"editorial\",\n    \"body\": \"clean\"\n  },\n  \"slides\": [\n    {\n      \"title\": \"Your 1-on-1s Are Probably Status Meetings in Disguise\",\n      \"body\": \"If your team member is mostly giving you project updates, something has gone wrong. Here's how to fix it.\",\n      \"isCover\": true\n    },\n    {\n      \"title\": \"The Purpose Is the Relationship, Not the Report\",\n      \"body\": \"One-on-ones exist so your direct report feels heard, supported, and unblocked — not so you can track what they finished last week.\",\n      \"isCover\": false\n    },\n    {\n      \"title\": \"Stop Asking 'What Did You Work On?'\",\n      \"body\": \"That question belongs in a standup. Instead ask: 'What's been hardest this week?' or 'What do you need from me right now?'\",\n      \"isCover\": false\n    },\n    {\n      \"title\": \"Let Them Set the Agenda\",\n      \"body\": \"Ask your report to send two or three topics before the meeting. It signals that the time belongs to them — and you show up prepared to help.\",\n      \"isCover\": false\n    },\n    {\n      \"title\": \"Your Job Is to Listen, Then Remove Obstacles\",\n      \"body\": \"Resist the urge to fill silence or jump to solutions. Ask a follow-up question first. The real issue is rarely the first thing they mention.\",\n      \"isCover\": false\n    },\n    {\n      \"title\": \"Keep a Shared Running Doc\",\n      \"body\": \"One living document with both your names on it. Topics, decisions, and commitments go there so nothing falls through the cracks between meetings.\",\n      \"isCover\": false\n    },\n    {\n      \"title\": \"Save This and Run a Better 1-on-1 This Week\",\n      \"body\": \"Pick one question from slide 3, let your report set the agenda, and listen before you advise. That single shift changes everything.\",\n      \"isCover\": true\n    }\n  ]\n}",
+      "raw_output": {
+        "title": "Run One-on-Ones That Actually Matter",
+        "seriesTag": "Management 101",
+        "brand": {
+          "apply": false,
+          "paper": "#EFE9DA",
+          "ink": "#212B21",
+          "accent": "#C08A28",
+          "headline": "editorial",
+          "body": "clean"
+        },
+        "slides": [
+          {
+            "title": "Your 1-on-1s Are Probably Status Meetings in Disguise",
+            "body": "If your team member is mostly giving you project updates, something has gone wrong. Here's how to fix it.",
+            "isCover": true
+          },
+          {
+            "title": "The Purpose Is the Relationship, Not the Report",
+            "body": "One-on-ones exist so your direct report feels heard, supported, and unblocked — not so you can track what they finished last week.",
+            "isCover": false
+          },
+          {
+            "title": "Stop Asking 'What Did You Work On?'",
+            "body": "That question belongs in a standup. Instead ask: 'What's been hardest this week?' or 'What do you need from me right now?'",
+            "isCover": false
+          },
+          {
+            "title": "Let Them Set the Agenda",
+            "body": "Ask your report to send two or three topics before the meeting. It signals that the time belongs to them — and you show up prepared to help.",
+            "isCover": false
+          },
+          {
+            "title": "Your Job Is to Listen, Then Remove Obstacles",
+            "body": "Resist the urge to fill silence or jump to solutions. Ask a follow-up question first. The real issue is rarely the first thing they mention.",
+            "isCover": false
+          },
+          {
+            "title": "Keep a Shared Running Doc",
+            "body": "One living document with both your names on it. Topics, decisions, and commitments go there so nothing falls through the cracks between meetings.",
+            "isCover": false
+          },
+          {
+            "title": "Save This and Run a Better 1-on-1 This Week",
+            "body": "Pick one question from slide 3, let your report set the agenda, and listen before you advise. That single shift changes everything.",
+            "isCover": true
+          }
+        ]
+      },
+      "score": 9.6,
+      "model_score": 9,
+      "syntax_score": 10,
+      "code_pass": true,
+      "code_checks": [
+        {
+          "name": "result is an object",
+          "pass": true
+        },
+        {
+          "name": "required top-level fields",
+          "pass": true,
+          "detail": "title, seriesTag, brand, slides"
+        },
+        {
+          "name": "title is non-empty",
+          "pass": true
+        },
+        {
+          "name": "series tag is non-empty",
+          "pass": true
+        },
+        {
+          "name": "slides is an array",
+          "pass": true
+        },
+        {
+          "name": "brand object is valid",
+          "pass": true
+        },
+        {
+          "name": "slide objects are valid",
+          "pass": true
+        },
+        {
+          "name": "brand permission respected",
+          "pass": true,
+          "detail": "expected brand.apply=false, received false"
+        },
+        {
+          "name": "slide count is 5 to 8",
+          "pass": true,
+          "detail": "7 slides"
+        },
+        {
+          "name": "first slide is a cover",
+          "pass": true
+        },
+        {
+          "name": "final slide is a cover",
+          "pass": true
+        },
+        {
+          "name": "middle slides are not covers",
+          "pass": true
+        },
+        {
+          "name": "final slide has a call to action",
+          "pass": true,
+          "detail": "Save This and Run a Better 1-on-1 This Week Pick one question from slide 3, let your report set the agenda, and listen before you advise. That single shift changes everything."
+        },
+        {
+          "name": "copy does not mention AI",
+          "pass": true
+        },
+        {
+          "name": "titles are concise",
+          "pass": true
+        },
+        {
+          "name": "body copy is concise",
+          "pass": true
+        },
+        {
+          "name": "output stays on topic",
+          "pass": true,
+          "detail": "2/3 terms matched: one-on-one, status"
+        }
+      ],
+      "strengths": [
+        "All deterministic contract checks passed.",
+        "Clear hook slide that immediately identifies the core problem (status meetings in disguise) in relatable terms",
+        "Strong distinction between status reporting and genuine one-on-ones is maintained throughout the carousel"
+      ],
+      "weaknesses": [
+        "The shared running doc slide (slide 6) is useful but slightly more operational/logistical compared to the relational depth of earlier slides — minor tonal dip",
+        "Could have addressed cadence or length of 1-on-1s, which is a common new manager confusion",
+        "'The real issue is rarely the first thing they mention' is a solid insight but could be supported with a brief example or follow-up question suggestion to make it more immediately actionable"
+      ],
+      "reasoning": "The carousel is well-structured, specific, and directly addresses the brief: new managers, one-on-ones, avoiding status meeting pitfalls. It opens with a strong diagnostic hook, maintains a clear throughline distinguishing relationship-focused meetings from reporting, provides specific question replacements, and closes with a concrete CTA referencing earlier slide content. Required slide roles (cover and CTA) are properly marked. Minor deductions for a slight dip in depth on the running doc slide and missing cadence/length guidance, but overall this is a high-quality, actionable piece.",
+      "usage": {
+        "candidate": {
+          "input_tokens": 860,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 0
+          },
+          "output_tokens": 445,
+          "service_tier": "standard",
+          "inference_geo": "global"
+        },
+        "grader": {
+          "input_tokens": 933,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 0
+          },
+          "output_tokens": 407,
+          "service_tier": "standard",
+          "inference_geo": "global"
+        }
+      }
+    },
+    {
+      "test_case": {
+        "id": "explicit-heldout-brand",
+        "category": "heldout-brand-explicit",
+        "input": "Make a carousel about onboarding a first operations hire. Use navy paper, cream typography, and a lime accent.",
+        "allowBrandUpdate": true,
+        "expected_behavior": "Create operations-hiring guidance and apply the explicitly requested navy, cream, and lime visual treatment.",
+        "expect": {
+          "brandApply": true,
+          "topicTerms": [
+            "onboarding",
+            "operations",
+            "hire"
+          ]
+        }
+      },
+      "output": "{\n  \"title\": \"Onboarding Your First Operations Hire\",\n  \"seriesTag\": \"Ops Playbook\",\n  \"brand\": {\n    \"apply\": true,\n    \"paper\": \"#0A1628\",\n    \"ink\": \"#F5F0E8\",\n    \"accent\": \"#C8F400\",\n    \"headline\": \"editorial\",\n    \"body\": \"clean\"\n  },\n  \"slides\": [\n    {\n      \"title\": \"Your First Ops Hire Will Make or Break Your Scaling\",\n      \"body\": \"Hiring for operations is the highest-leverage move an early team can make — if you onboard them right. Here's how.\",\n      \"isCover\": true\n    },\n    {\n      \"title\": \"Hire for Systems Thinking, Not Just Experience\",\n      \"body\": \"Your first ops hire needs to build the plane while flying it. Look for people who instinctively document, automate, and simplify — not just execute.\",\n      \"isCover\": false\n    },\n    {\n      \"title\": \"Give Them a 30-Day Listening Tour\",\n      \"body\": \"Before they fix anything, they should map everything. Have them shadow every team, audit every workflow, and hold their recommendations until week five.\",\n      \"isCover\": false\n    },\n    {\n      \"title\": \"Define Their North Star Metric on Day One\",\n      \"body\": \"Ops without a clear success metric drifts into busywork. Agree upfront: are they reducing cost, increasing throughput, or cutting time-to-close? One thing first.\",\n      \"isCover\": false\n    },\n    {\n      \"title\": \"Grant Access Before You Need To\",\n      \"body\": \"Slow access requests kill momentum. Pre-provision tools, accounts, and documentation on day one. Trust them with the keys — that's why you hired them.\",\n      \"isCover\": false\n    },\n    {\n      \"title\": \"Schedule a Weekly Ops Review From Week Two\",\n      \"body\": \"A standing 30-minute sync keeps priorities aligned and surfaces blockers early. This ritual compounds — the best ops leaders will eventually own this meeting.\",\n      \"isCover\": false\n    },\n    {\n      \"title\": \"Save This Before Your Next Ops Hire\",\n      \"body\": \"Screenshot this carousel and share it with your founding team. A strong onboarding sets your ops hire — and your whole company — up to scale.\",\n      \"isCover\": true\n    }\n  ]\n}",
+      "raw_output": {
+        "title": "Onboarding Your First Operations Hire",
+        "seriesTag": "Ops Playbook",
+        "brand": {
+          "apply": true,
+          "paper": "#0A1628",
+          "ink": "#F5F0E8",
+          "accent": "#C8F400",
+          "headline": "editorial",
+          "body": "clean"
+        },
+        "slides": [
+          {
+            "title": "Your First Ops Hire Will Make or Break Your Scaling",
+            "body": "Hiring for operations is the highest-leverage move an early team can make — if you onboard them right. Here's how.",
+            "isCover": true
+          },
+          {
+            "title": "Hire for Systems Thinking, Not Just Experience",
+            "body": "Your first ops hire needs to build the plane while flying it. Look for people who instinctively document, automate, and simplify — not just execute.",
+            "isCover": false
+          },
+          {
+            "title": "Give Them a 30-Day Listening Tour",
+            "body": "Before they fix anything, they should map everything. Have them shadow every team, audit every workflow, and hold their recommendations until week five.",
+            "isCover": false
+          },
+          {
+            "title": "Define Their North Star Metric on Day One",
+            "body": "Ops without a clear success metric drifts into busywork. Agree upfront: are they reducing cost, increasing throughput, or cutting time-to-close? One thing first.",
+            "isCover": false
+          },
+          {
+            "title": "Grant Access Before You Need To",
+            "body": "Slow access requests kill momentum. Pre-provision tools, accounts, and documentation on day one. Trust them with the keys — that's why you hired them.",
+            "isCover": false
+          },
+          {
+            "title": "Schedule a Weekly Ops Review From Week Two",
+            "body": "A standing 30-minute sync keeps priorities aligned and surfaces blockers early. This ritual compounds — the best ops leaders will eventually own this meeting.",
+            "isCover": false
+          },
+          {
+            "title": "Save This Before Your Next Ops Hire",
+            "body": "Screenshot this carousel and share it with your founding team. A strong onboarding sets your ops hire — and your whole company — up to scale.",
+            "isCover": true
+          }
+        ]
+      },
+      "score": 9.2,
+      "model_score": 8,
+      "syntax_score": 10,
+      "code_pass": true,
+      "code_checks": [
+        {
+          "name": "result is an object",
+          "pass": true
+        },
+        {
+          "name": "required top-level fields",
+          "pass": true,
+          "detail": "title, seriesTag, brand, slides"
+        },
+        {
+          "name": "title is non-empty",
+          "pass": true
+        },
+        {
+          "name": "series tag is non-empty",
+          "pass": true
+        },
+        {
+          "name": "slides is an array",
+          "pass": true
+        },
+        {
+          "name": "brand object is valid",
+          "pass": true
+        },
+        {
+          "name": "slide objects are valid",
+          "pass": true
+        },
+        {
+          "name": "brand permission respected",
+          "pass": true,
+          "detail": "expected brand.apply=true, received true"
+        },
+        {
+          "name": "slide count is 5 to 8",
+          "pass": true,
+          "detail": "7 slides"
+        },
+        {
+          "name": "first slide is a cover",
+          "pass": true
+        },
+        {
+          "name": "final slide is a cover",
+          "pass": true
+        },
+        {
+          "name": "middle slides are not covers",
+          "pass": true
+        },
+        {
+          "name": "final slide has a call to action",
+          "pass": true,
+          "detail": "Save This Before Your Next Ops Hire Screenshot this carousel and share it with your founding team. A strong onboarding sets your ops hire — and your whole company — up to scale."
+        },
+        {
+          "name": "copy does not mention AI",
+          "pass": true
+        },
+        {
+          "name": "titles are concise",
+          "pass": true
+        },
+        {
+          "name": "body copy is concise",
+          "pass": true
+        },
+        {
+          "name": "output stays on topic",
+          "pass": true,
+          "detail": "3/3 terms matched: onboarding, operations, hire"
+        }
+      ],
+      "strengths": [
+        "All deterministic contract checks passed.",
+        "Navy paper (#0A1628), cream ink (#F5F0E8), and lime accent (#C8F400) all precisely match the requested color scheme",
+        "Series tag 'Ops Playbook' adds professional context and branding cohesion"
+      ],
+      "weaknesses": [
+        "The 30-day listening tour advice in slide 3 slightly conflicts with the day-one north star metric advice in slide 4 — these could create confusion about sequencing",
+        "Slide 6 mentions 'week two' for a standing sync, but the listening tour runs through week five per slide 3 — minor internal inconsistency",
+        "Could benefit from one slide addressing common failure modes or red flags to watch for, adding more depth to the playbook framing"
+      ],
+      "reasoning": "This carousel excels across nearly all dimensions: brand fidelity is exact, the content is specific and actionable, slide progression is logical, and both the hook and CTA are strong. The only meaningful weakness is a minor internal timeline inconsistency between the listening tour timeline and the north star/weekly sync recommendations, which could confuse practitioners trying to apply the advice literally. Everything else — voice, specificity, structure, and visual design — is well-executed and directly responsive to the request.",
+      "usage": {
+        "candidate": {
+          "input_tokens": 863,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 0
+          },
+          "output_tokens": 453,
+          "service_tier": "standard",
+          "inference_geo": "global"
+        },
+        "grader": {
+          "input_tokens": 939,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 0
+          },
+          "output_tokens": 383,
+          "service_tier": "standard",
+          "inference_geo": "global"
+        }
+      }
+    },
+    {
+      "test_case": {
+        "id": "deep-work-myth",
+        "category": "heldout-myth",
+        "input": "Build a myth-busting carousel for knowledge workers about the belief that deep work requires an uninterrupted four-hour block.",
+        "flow": "myth",
+        "expected_behavior": "Use a myth-to-truth progression with practical alternatives for knowledge workers and a dedicated final CTA.",
+        "expect": {
+          "brandApply": false,
+          "topicTerms": [
+            "deep work",
+            "four-hour",
+            "knowledge"
+          ]
+        }
+      },
+      "output": "{\n  \"title\": \"Deep Work Doesn't Need 4 Hours\",\n  \"seriesTag\": \"Myth Busted\",\n  \"brand\": {\n    \"apply\": false,\n    \"paper\": \"#EFE9DA\",\n    \"ink\": \"#212B21\",\n    \"accent\": \"#C08A28\",\n    \"headline\": \"editorial\",\n    \"body\": \"clean\"\n  },\n  \"slides\": [\n    {\n      \"title\": \"You Don't Need a 4-Hour Block to Do Deep Work\",\n      \"body\": \"Most knowledge workers believe deep focus is impossible without a half-day of silence. That belief is quietly destroying your productivity. Let's break it down.\",\n      \"isCover\": true\n    },\n    {\n      \"title\": \"The Myth: Deep Work = Long, Uninterrupted Time\",\n      \"body\": \"The idea that deep work requires 4+ hour blocks comes from a misreading of Cal Newport's research. It describes an ideal — not a requirement.\",\n      \"isCover\": false\n    },\n    {\n      \"title\": \"The Reality: Your Brain Can't Sustain 4 Hours Anyway\",\n      \"body\": \"Cognitive performance peaks at 90–120 minutes, then drops sharply. Pushing through doesn't create depth — it creates exhaustion and diminishing returns.\",\n      \"isCover\": false\n    },\n    {\n      \"title\": \"Even 45 Minutes Done Right Counts as Deep Work\",\n      \"body\": \"Deep work is defined by intensity and intentionality, not duration. A focused 45-minute session with a clear goal outperforms a distracted 3-hour stretch every time.\",\n      \"isCover\": false\n    },\n    {\n      \"title\": \"The Real Enemy Isn't a Short Schedule — It's Context Switching\",\n      \"body\": \"What kills deep work is toggling between tasks, not the clock. Protect a single-threaded focus window, however long you have, and you're doing it right.\",\n      \"isCover\": false\n    },\n    {\n      \"title\": \"High Performers Use Shorter, Stacked Sessions\",\n      \"body\": \"Many elite researchers and writers work in 60–90 minute focused sprints with deliberate breaks in between. Frequency builds the skill. Duration is just the container.\",\n      \"isCover\": false\n    },\n    {\n      \"title\": \"Start Your Next Deep Work Session Today — Not When Your Calendar Clears\",\n      \"body\": \"Block 60 minutes. Close the tabs. Pick one output. That's it. Save this post so you remember: depth is a practice, not a perfect schedule.\",\n      \"isCover\": true\n    }\n  ]\n}",
+      "raw_output": {
+        "title": "Deep Work Doesn't Need 4 Hours",
+        "seriesTag": "Myth Busted",
+        "brand": {
+          "apply": false,
+          "paper": "#EFE9DA",
+          "ink": "#212B21",
+          "accent": "#C08A28",
+          "headline": "editorial",
+          "body": "clean"
+        },
+        "slides": [
+          {
+            "title": "You Don't Need a 4-Hour Block to Do Deep Work",
+            "body": "Most knowledge workers believe deep focus is impossible without a half-day of silence. That belief is quietly destroying your productivity. Let's break it down.",
+            "isCover": true
+          },
+          {
+            "title": "The Myth: Deep Work = Long, Uninterrupted Time",
+            "body": "The idea that deep work requires 4+ hour blocks comes from a misreading of Cal Newport's research. It describes an ideal — not a requirement.",
+            "isCover": false
+          },
+          {
+            "title": "The Reality: Your Brain Can't Sustain 4 Hours Anyway",
+            "body": "Cognitive performance peaks at 90–120 minutes, then drops sharply. Pushing through doesn't create depth — it creates exhaustion and diminishing returns.",
+            "isCover": false
+          },
+          {
+            "title": "Even 45 Minutes Done Right Counts as Deep Work",
+            "body": "Deep work is defined by intensity and intentionality, not duration. A focused 45-minute session with a clear goal outperforms a distracted 3-hour stretch every time.",
+            "isCover": false
+          },
+          {
+            "title": "The Real Enemy Isn't a Short Schedule — It's Context Switching",
+            "body": "What kills deep work is toggling between tasks, not the clock. Protect a single-threaded focus window, however long you have, and you're doing it right.",
+            "isCover": false
+          },
+          {
+            "title": "High Performers Use Shorter, Stacked Sessions",
+            "body": "Many elite researchers and writers work in 60–90 minute focused sprints with deliberate breaks in between. Frequency builds the skill. Duration is just the container.",
+            "isCover": false
+          },
+          {
+            "title": "Start Your Next Deep Work Session Today — Not When Your Calendar Clears",
+            "body": "Block 60 minutes. Close the tabs. Pick one output. That's it. Save this post so you remember: depth is a practice, not a perfect schedule.",
+            "isCover": true
+          }
+        ]
+      },
+      "score": 9.6,
+      "model_score": 9,
+      "syntax_score": 10,
+      "code_pass": true,
+      "code_checks": [
+        {
+          "name": "result is an object",
+          "pass": true
+        },
+        {
+          "name": "required top-level fields",
+          "pass": true,
+          "detail": "title, seriesTag, brand, slides"
+        },
+        {
+          "name": "title is non-empty",
+          "pass": true
+        },
+        {
+          "name": "series tag is non-empty",
+          "pass": true
+        },
+        {
+          "name": "slides is an array",
+          "pass": true
+        },
+        {
+          "name": "brand object is valid",
+          "pass": true
+        },
+        {
+          "name": "slide objects are valid",
+          "pass": true
+        },
+        {
+          "name": "brand permission respected",
+          "pass": true,
+          "detail": "expected brand.apply=false, received false"
+        },
+        {
+          "name": "slide count is 5 to 8",
+          "pass": true,
+          "detail": "7 slides"
+        },
+        {
+          "name": "first slide is a cover",
+          "pass": true
+        },
+        {
+          "name": "final slide is a cover",
+          "pass": true
+        },
+        {
+          "name": "middle slides are not covers",
+          "pass": true
+        },
+        {
+          "name": "final slide has a call to action",
+          "pass": true,
+          "detail": "Start Your Next Deep Work Session Today — Not When Your Calendar Clears Block 60 minutes. Close the tabs. Pick one output. That's it. Save this post so you remember: depth is a practice, not a perfect schedule."
+        },
+        {
+          "name": "copy does not mention AI",
+          "pass": true
+        },
+        {
+          "name": "titles are concise",
+          "pass": true
+        },
+        {
+          "name": "body copy is concise",
+          "pass": true
+        },
+        {
+          "name": "output stays on topic",
+          "pass": true,
+          "detail": "2/3 terms matched: deep work, knowledge"
+        }
+      ],
+      "strengths": [
+        "All deterministic contract checks passed.",
+        "Clear myth-to-truth progression across all seven slides, directly matching the expected behavior",
+        "Slide 2 correctly names the myth with specificity (Cal Newport misreading), adding credibility"
+      ],
+      "weaknesses": [
+        "Slide 3 could name a source for the 90–120 minute cognitive performance claim (e.g., ultradian rhythms) to strengthen credibility",
+        "The transition from Slide 5 to Slide 6 is slightly abrupt — a bridging phrase would smooth the logical flow",
+        "'Stacked Sessions' in Slide 6 is introduced without brief explanation of what stacking means in practice"
+      ],
+      "reasoning": "This carousel closely follows the requested myth-to-truth progression with practical alternatives tailored to knowledge workers and ends with a dedicated, actionable CTA. Each slide advances the argument logically: myth stated, cognitive reality established, duration redefined, true enemy identified, expert behavior cited, and a clear call to action delivered. The copy is specific, avoids generic platitudes, and gives knowledge workers concrete reframes and actions. Small weaknesses are missing source citations and one abrupt transition, but these are minor. Overall this is a high-quality, fully compliant carousel output.",
+      "usage": {
+        "candidate": {
+          "input_tokens": 866,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 0
+          },
+          "output_tokens": 501,
+          "service_tier": "standard",
+          "inference_geo": "global"
+        },
+        "grader": {
+          "input_tokens": 992,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 0
+          },
+          "output_tokens": 505,
+          "service_tier": "standard",
+          "inference_geo": "global"
+        }
+      }
+    },
+    {
+      "test_case": {
+        "id": "heldout-brand-only",
+        "category": "heldout-brand-only",
+        "input": "Update only the visual identity to sage paper, charcoal type, and a coral accent.",
+        "allowBrandUpdate": true,
+        "brandOnly": true,
+        "expected_behavior": "Return a valid brand patch with brand.apply true without treating carousel copy as part of the request.",
+        "expect": {
+          "brandApply": true,
+          "skipContentChecks": true
+        }
+      },
+      "output": "{\n  \"title\": \"Visual Identity Update\",\n  \"seriesTag\": \"Brand Refresh\",\n  \"brand\": {\n    \"apply\": true,\n    \"paper\": \"#B2C4A8\",\n    \"ink\": \"#36454F\",\n    \"accent\": \"#FF6B6B\",\n    \"headline\": \"editorial\",\n    \"body\": \"clean\"\n  },\n  \"slides\": [\n    {\n      \"title\": \"Hook Slide\",\n      \"body\": \"Your existing hook slide content goes here.\",\n      \"isCover\": true\n    },\n    {\n      \"title\": \"Middle Slide 1\",\n      \"body\": \"Your existing middle slide content goes here.\",\n      \"isCover\": false\n    },\n    {\n      \"title\": \"Middle Slide 2\",\n      \"body\": \"Your existing middle slide content goes here.\",\n      \"isCover\": false\n    },\n    {\n      \"title\": \"Call to Action\",\n      \"body\": \"Your existing call-to-action content goes here.\",\n      \"isCover\": true\n    }\n  ]\n}",
+      "raw_output": {
+        "title": "Visual Identity Update",
+        "seriesTag": "Brand Refresh",
+        "brand": {
+          "apply": true,
+          "paper": "#B2C4A8",
+          "ink": "#36454F",
+          "accent": "#FF6B6B",
+          "headline": "editorial",
+          "body": "clean"
+        },
+        "slides": [
+          {
+            "title": "Hook Slide",
+            "body": "Your existing hook slide content goes here.",
+            "isCover": true
+          },
+          {
+            "title": "Middle Slide 1",
+            "body": "Your existing middle slide content goes here.",
+            "isCover": false
+          },
+          {
+            "title": "Middle Slide 2",
+            "body": "Your existing middle slide content goes here.",
+            "isCover": false
+          },
+          {
+            "title": "Call to Action",
+            "body": "Your existing call-to-action content goes here.",
+            "isCover": true
+          }
+        ]
+      },
+      "score": 9.2,
+      "model_score": 8,
+      "syntax_score": 10,
+      "code_pass": true,
+      "code_checks": [
+        {
+          "name": "result is an object",
+          "pass": true
+        },
+        {
+          "name": "required top-level fields",
+          "pass": true,
+          "detail": "title, seriesTag, brand, slides"
+        },
+        {
+          "name": "title is non-empty",
+          "pass": true
+        },
+        {
+          "name": "series tag is non-empty",
+          "pass": true
+        },
+        {
+          "name": "slides is an array",
+          "pass": true
+        },
+        {
+          "name": "brand object is valid",
+          "pass": true
+        },
+        {
+          "name": "slide objects are valid",
+          "pass": true
+        },
+        {
+          "name": "brand permission respected",
+          "pass": true,
+          "detail": "expected brand.apply=true, received true"
+        }
+      ],
+      "strengths": [
+        "All deterministic contract checks passed.",
+        "brand.apply is correctly set to true",
+        "paper color #B2C4A8 is a reasonable sage green approximation"
+      ],
+      "weaknesses": [
+        "sage paper color #B2C4A8 leans more green than the warmer sage-gray typically implied by 'sage paper'; a slightly more neutral sage like #C1C9B0 or #D4DBCA might be more accurate",
+        "coral accent #FF6B6B is slightly more of a hot pink-coral; a truer coral might be closer to #FF6F61 or #E8735A",
+        "slide body text is entirely generic placeholder content rather than meaningful structural examples, though for a brand-only patch this is largely acceptable"
+      ],
+      "reasoning": "The candidate correctly interprets this as a brand-only visual identity update. It sets brand.apply to true, maps the three color tokens (sage paper, charcoal ink, coral accent) to plausible hex values, and does not treat the carousel slide copy as real content or instructions. The color choices are directionally correct though not perfectly precise. The brand patch structure is coherent and usable. Minor deductions for color imprecision and the fully generic slide placeholders, though those are secondary concerns for a brand patch task.",
+      "usage": {
+        "candidate": {
+          "input_tokens": 858,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 0
+          },
+          "output_tokens": 167,
+          "service_tier": "standard",
+          "inference_geo": "global"
+        },
+        "grader": {
+          "input_tokens": 649,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 0
+          },
+          "output_tokens": 369,
+          "service_tier": "standard",
+          "inference_geo": "global"
+        }
+      }
+    }
+  ]
+}

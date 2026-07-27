@@ -1,0 +1,58 @@
+﻿{
+  "agent": "carousel-outline-generator",
+  "baseline_version": "baseline-v1",
+  "candidate_version": "explicit-structure-v2",
+  "baseline_average": 6.0,
+  "candidate_average": 8.75,
+  "average_delta": 2.75,
+  "cases": [
+    {
+      "case": "audience-specificity",
+      "baseline": 6.0,
+      "candidate": 9.2,
+      "delta": 3.2
+    },
+    {
+      "case": "brand-only-preservation",
+      "baseline": 6.0,
+      "candidate": 6.0,
+      "delta": 0.0
+    },
+    {
+      "case": "brand-permission-denied",
+      "baseline": 6.0,
+      "candidate": 8.4,
+      "delta": 2.4
+    },
+    {
+      "case": "brand-permission-explicit",
+      "baseline": 6.0,
+      "candidate": 9.6,
+      "delta": 3.6
+    },
+    {
+      "case": "brand-permission-unused",
+      "baseline": 6.0,
+      "candidate": 8.0,
+      "delta": 2.0
+    },
+    {
+      "case": "complex-brief",
+      "baseline": 6.0,
+      "candidate": 9.6,
+      "delta": 3.6
+    },
+    {
+      "case": "normal-practical-list",
+      "baseline": 6.0,
+      "candidate": 9.6,
+      "delta": 3.6
+    },
+    {
+      "case": "requested-flow",
+      "baseline": 6.0,
+      "candidate": 9.6,
+      "delta": 3.6
+    }
+  ]
+}

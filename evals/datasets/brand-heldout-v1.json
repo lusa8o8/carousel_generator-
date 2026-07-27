@@ -1,0 +1,48 @@
+[
+  {
+    "id": "heldout-prompt-named",
+    "category": "prompt-exact-heldout",
+    "sourceType": "prompt",
+    "prompt": "Use navy paper, cream ink, and a lime accent with a modern sans headline and monospace body.",
+    "expected": { "paper": "#0A1628", "ink": "#F5F0E8", "accent": "#B7E21A", "headline": "modern", "body": "mono" },
+    "tolerance": 0,
+    "runs": 3
+  },
+  {
+    "id": "heldout-prompt-partial",
+    "category": "prompt-partial-heldout",
+    "sourceType": "prompt",
+    "prompt": "Change only the ink to charcoal.",
+    "expected": { "paper": "#EFE9DA", "ink": "#2B2B2B", "accent": "#C08A28", "headline": "editorial", "body": "clean" },
+    "tolerance": 0,
+    "runs": 3
+  },
+  {
+    "id": "heldout-image-plum",
+    "category": "vision-heldout",
+    "sourceType": "image",
+    "fixture": "brand-plum-rose.png",
+    "prompt": "The large blush field is paper, the dark plum block is ink, and the rose block is the accent. Use an editorial headline and clean body.",
+    "expected": { "paper": "#F2E9E4", "ink": "#2D232E", "accent": "#D7263D", "headline": "editorial", "body": "clean" },
+    "tolerance": 0,
+    "runs": 3
+  },
+  {
+    "id": "heldout-url-dark",
+    "category": "website-heldout",
+    "sourceType": "url",
+    "fixtureSite": "brand-site-dark",
+    "expected": { "paper": "#101820", "ink": "#F2F4F3", "accent": "#00A7C4", "headline": "modern", "body": "mono" },
+    "tolerance": 0,
+    "runs": 3
+  },
+  {
+    "id": "heldout-url-hsl-tokens",
+    "category": "website-heldout",
+    "sourceType": "url",
+    "fixtureSite": "brand-site-hsl",
+    "expected": { "paper": "#FFFFFF", "ink": "#020817", "accent": "#AB45DE", "headline": "modern", "body": "clean" },
+    "tolerance": 0,
+    "runs": 3
+  }
+]

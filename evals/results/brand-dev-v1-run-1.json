@@ -1,0 +1,2557 @@
+{
+  "agent": "brand-profile-extractor",
+  "extractorVersion": "brand-extractor-v2",
+  "datasetVersion": "brand-dev-v1",
+  "startedAt": "2026-07-24T23:51:23.193Z",
+  "completedAt": "2026-07-24T23:52:04.367Z",
+  "caseCount": 7,
+  "runCount": 21,
+  "passRate": 1,
+  "averageScore": 1,
+  "stabilityRate": 1,
+  "usage": {
+    "apiCalls": 6,
+    "inputTokens": 7800,
+    "outputTokens": 1631
+  },
+  "results": [
+    {
+      "testCase": {
+        "id": "prompt-named-roles",
+        "category": "prompt-exact",
+        "sourceType": "prompt",
+        "prompt": "Use a black background, white text, and a red accent with a modern sans headline.",
+        "expected": {
+          "paper": "#000000",
+          "ink": "#FFFFFF",
+          "accent": "#E53935",
+          "headline": "modern",
+          "body": "clean"
+        },
+        "tolerance": 0,
+        "runs": 3
+      },
+      "pass": true,
+      "averageScore": 1,
+      "stability": {
+        "pass": true,
+        "uniqueProfiles": 1
+      },
+      "grades": [
+        {
+          "pass": true,
+          "score": 1,
+          "checks": [
+            {
+              "name": "profile returned",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "valid colors",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "valid typography",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "source type preserved",
+              "pass": true,
+              "detail": "prompt"
+            },
+            {
+              "name": "readable paper and ink",
+              "pass": true,
+              "detail": "21.00:1"
+            },
+            {
+              "name": "evidence retained",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "paper within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 0"
+            },
+            {
+              "name": "ink within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 0"
+            },
+            {
+              "name": "accent within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 0"
+            },
+            {
+              "name": "headline preset",
+              "pass": true,
+              "detail": "modern"
+            },
+            {
+              "name": "body preset",
+              "pass": true,
+              "detail": "clean"
+            }
+          ]
+        },
+        {
+          "pass": true,
+          "score": 1,
+          "checks": [
+            {
+              "name": "profile returned",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "valid colors",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "valid typography",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "source type preserved",
+              "pass": true,
+              "detail": "prompt"
+            },
+            {
+              "name": "readable paper and ink",
+              "pass": true,
+              "detail": "21.00:1"
+            },
+            {
+              "name": "evidence retained",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "paper within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 0"
+            },
+            {
+              "name": "ink within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 0"
+            },
+            {
+              "name": "accent within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 0"
+            },
+            {
+              "name": "headline preset",
+              "pass": true,
+              "detail": "modern"
+            },
+            {
+              "name": "body preset",
+              "pass": true,
+              "detail": "clean"
+            }
+          ]
+        },
+        {
+          "pass": true,
+          "score": 1,
+          "checks": [
+            {
+              "name": "profile returned",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "valid colors",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "valid typography",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "source type preserved",
+              "pass": true,
+              "detail": "prompt"
+            },
+            {
+              "name": "readable paper and ink",
+              "pass": true,
+              "detail": "21.00:1"
+            },
+            {
+              "name": "evidence retained",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "paper within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 0"
+            },
+            {
+              "name": "ink within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 0"
+            },
+            {
+              "name": "accent within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 0"
+            },
+            {
+              "name": "headline preset",
+              "pass": true,
+              "detail": "modern"
+            },
+            {
+              "name": "body preset",
+              "pass": true,
+              "detail": "clean"
+            }
+          ]
+        }
+      ],
+      "outputs": [
+        {
+          "profile": {
+            "version": 1,
+            "paper": "#000000",
+            "ink": "#FFFFFF",
+            "accent": "#E53935",
+            "headline": "modern",
+            "body": "clean",
+            "sourceType": "prompt",
+            "evidence": [
+              {
+                "kind": "prompt",
+                "source": "Use a black background",
+                "value": "paper=#000000"
+              },
+              {
+                "kind": "prompt",
+                "source": "white text",
+                "value": "ink=#FFFFFF"
+              },
+              {
+                "kind": "prompt",
+                "source": "a red accent with a modern sans headline.",
+                "value": "accent=#E53935"
+              }
+            ],
+            "warnings": [],
+            "confidence": 1,
+            "extractorVersion": "brand-extractor-v2",
+            "fingerprint": "0fd27912722eacc69db3513f628490576d4748d1c26488ad310e878a0063675b"
+          },
+          "method": "deterministic-prompt",
+          "cachedAt": "2026-07-24T23:51:23.224Z",
+          "cached": false
+        },
+        {
+          "profile": {
+            "version": 1,
+            "paper": "#000000",
+            "ink": "#FFFFFF",
+            "accent": "#E53935",
+            "headline": "modern",
+            "body": "clean",
+            "sourceType": "prompt",
+            "evidence": [
+              {
+                "kind": "prompt",
+                "source": "Use a black background",
+                "value": "paper=#000000"
+              },
+              {
+                "kind": "prompt",
+                "source": "white text",
+                "value": "ink=#FFFFFF"
+              },
+              {
+                "kind": "prompt",
+                "source": "a red accent with a modern sans headline.",
+                "value": "accent=#E53935"
+              }
+            ],
+            "warnings": [],
+            "confidence": 1,
+            "extractorVersion": "brand-extractor-v2",
+            "fingerprint": "0fd27912722eacc69db3513f628490576d4748d1c26488ad310e878a0063675b"
+          },
+          "method": "deterministic-prompt",
+          "cachedAt": "2026-07-24T23:51:23.240Z",
+          "cached": false
+        },
+        {
+          "profile": {
+            "version": 1,
+            "paper": "#000000",
+            "ink": "#FFFFFF",
+            "accent": "#E53935",
+            "headline": "modern",
+            "body": "clean",
+            "sourceType": "prompt",
+            "evidence": [
+              {
+                "kind": "prompt",
+                "source": "Use a black background",
+                "value": "paper=#000000"
+              },
+              {
+                "kind": "prompt",
+                "source": "white text",
+                "value": "ink=#FFFFFF"
+              },
+              {
+                "kind": "prompt",
+                "source": "a red accent with a modern sans headline.",
+                "value": "accent=#E53935"
+              }
+            ],
+            "warnings": [],
+            "confidence": 1,
+            "extractorVersion": "brand-extractor-v2",
+            "fingerprint": "0fd27912722eacc69db3513f628490576d4748d1c26488ad310e878a0063675b"
+          },
+          "method": "deterministic-prompt",
+          "cachedAt": "2026-07-24T23:51:23.244Z",
+          "cached": false
+        }
+      ]
+    },
+    {
+      "testCase": {
+        "id": "prompt-hex-roles",
+        "category": "prompt-exact",
+        "sourceType": "prompt",
+        "prompt": "Paper #F8F4EA, ink #182018, accent #EF5B3F, with an editorial serif headline and monospace body.",
+        "expected": {
+          "paper": "#F8F4EA",
+          "ink": "#182018",
+          "accent": "#EF5B3F",
+          "headline": "editorial",
+          "body": "mono"
+        },
+        "tolerance": 0,
+        "runs": 3
+      },
+      "pass": true,
+      "averageScore": 1,
+      "stability": {
+        "pass": true,
+        "uniqueProfiles": 1
+      },
+      "grades": [
+        {
+          "pass": true,
+          "score": 1,
+          "checks": [
+            {
+              "name": "profile returned",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "valid colors",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "valid typography",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "source type preserved",
+              "pass": true,
+              "detail": "prompt"
+            },
+            {
+              "name": "readable paper and ink",
+              "pass": true,
+              "detail": "15.19:1"
+            },
+            {
+              "name": "evidence retained",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "paper within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 0"
+            },
+            {
+              "name": "ink within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 0"
+            },
+            {
+              "name": "accent within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 0"
+            },
+            {
+              "name": "headline preset",
+              "pass": true,
+              "detail": "editorial"
+            },
+            {
+              "name": "body preset",
+              "pass": true,
+              "detail": "mono"
+            }
+          ]
+        },
+        {
+          "pass": true,
+          "score": 1,
+          "checks": [
+            {
+              "name": "profile returned",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "valid colors",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "valid typography",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "source type preserved",
+              "pass": true,
+              "detail": "prompt"
+            },
+            {
+              "name": "readable paper and ink",
+              "pass": true,
+              "detail": "15.19:1"
+            },
+            {
+              "name": "evidence retained",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "paper within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 0"
+            },
+            {
+              "name": "ink within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 0"
+            },
+            {
+              "name": "accent within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 0"
+            },
+            {
+              "name": "headline preset",
+              "pass": true,
+              "detail": "editorial"
+            },
+            {
+              "name": "body preset",
+              "pass": true,
+              "detail": "mono"
+            }
+          ]
+        },
+        {
+          "pass": true,
+          "score": 1,
+          "checks": [
+            {
+              "name": "profile returned",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "valid colors",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "valid typography",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "source type preserved",
+              "pass": true,
+              "detail": "prompt"
+            },
+            {
+              "name": "readable paper and ink",
+              "pass": true,
+              "detail": "15.19:1"
+            },
+            {
+              "name": "evidence retained",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "paper within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 0"
+            },
+            {
+              "name": "ink within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 0"
+            },
+            {
+              "name": "accent within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 0"
+            },
+            {
+              "name": "headline preset",
+              "pass": true,
+              "detail": "editorial"
+            },
+            {
+              "name": "body preset",
+              "pass": true,
+              "detail": "mono"
+            }
+          ]
+        }
+      ],
+      "outputs": [
+        {
+          "profile": {
+            "version": 1,
+            "paper": "#F8F4EA",
+            "ink": "#182018",
+            "accent": "#EF5B3F",
+            "headline": "editorial",
+            "body": "mono",
+            "sourceType": "prompt",
+            "evidence": [
+              {
+                "kind": "prompt",
+                "source": "Paper #F8F4EA",
+                "value": "paper=#F8F4EA"
+              },
+              {
+                "kind": "prompt",
+                "source": "ink #182018",
+                "value": "ink=#182018"
+              },
+              {
+                "kind": "prompt",
+                "source": "accent #EF5B3F",
+                "value": "accent=#EF5B3F"
+              }
+            ],
+            "warnings": [],
+            "confidence": 1,
+            "extractorVersion": "brand-extractor-v2",
+            "fingerprint": "6341a7a0b96aff2273da46489e68573063c21b6e2b712abe6b85863dc7a6ce61"
+          },
+          "method": "deterministic-prompt",
+          "cachedAt": "2026-07-24T23:51:23.256Z",
+          "cached": false
+        },
+        {
+          "profile": {
+            "version": 1,
+            "paper": "#F8F4EA",
+            "ink": "#182018",
+            "accent": "#EF5B3F",
+            "headline": "editorial",
+            "body": "mono",
+            "sourceType": "prompt",
+            "evidence": [
+              {
+                "kind": "prompt",
+                "source": "Paper #F8F4EA",
+                "value": "paper=#F8F4EA"
+              },
+              {
+                "kind": "prompt",
+                "source": "ink #182018",
+                "value": "ink=#182018"
+              },
+              {
+                "kind": "prompt",
+                "source": "accent #EF5B3F",
+                "value": "accent=#EF5B3F"
+              }
+            ],
+            "warnings": [],
+            "confidence": 1,
+            "extractorVersion": "brand-extractor-v2",
+            "fingerprint": "6341a7a0b96aff2273da46489e68573063c21b6e2b712abe6b85863dc7a6ce61"
+          },
+          "method": "deterministic-prompt",
+          "cachedAt": "2026-07-24T23:51:23.261Z",
+          "cached": false
+        },
+        {
+          "profile": {
+            "version": 1,
+            "paper": "#F8F4EA",
+            "ink": "#182018",
+            "accent": "#EF5B3F",
+            "headline": "editorial",
+            "body": "mono",
+            "sourceType": "prompt",
+            "evidence": [
+              {
+                "kind": "prompt",
+                "source": "Paper #F8F4EA",
+                "value": "paper=#F8F4EA"
+              },
+              {
+                "kind": "prompt",
+                "source": "ink #182018",
+                "value": "ink=#182018"
+              },
+              {
+                "kind": "prompt",
+                "source": "accent #EF5B3F",
+                "value": "accent=#EF5B3F"
+              }
+            ],
+            "warnings": [],
+            "confidence": 1,
+            "extractorVersion": "brand-extractor-v2",
+            "fingerprint": "6341a7a0b96aff2273da46489e68573063c21b6e2b712abe6b85863dc7a6ce61"
+          },
+          "method": "deterministic-prompt",
+          "cachedAt": "2026-07-24T23:51:23.273Z",
+          "cached": false
+        }
+      ]
+    },
+    {
+      "testCase": {
+        "id": "prompt-partial-preservation",
+        "category": "prompt-partial",
+        "sourceType": "prompt",
+        "prompt": "Change only the accent to #00AA88.",
+        "expected": {
+          "paper": "#EFE9DA",
+          "ink": "#212B21",
+          "accent": "#00AA88",
+          "headline": "editorial",
+          "body": "clean"
+        },
+        "tolerance": 0,
+        "runs": 3
+      },
+      "pass": true,
+      "averageScore": 1,
+      "stability": {
+        "pass": true,
+        "uniqueProfiles": 1
+      },
+      "grades": [
+        {
+          "pass": true,
+          "score": 1,
+          "checks": [
+            {
+              "name": "profile returned",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "valid colors",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "valid typography",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "source type preserved",
+              "pass": true,
+              "detail": "prompt"
+            },
+            {
+              "name": "readable paper and ink",
+              "pass": true,
+              "detail": "12.11:1"
+            },
+            {
+              "name": "evidence retained",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "paper within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 0"
+            },
+            {
+              "name": "ink within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 0"
+            },
+            {
+              "name": "accent within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 0"
+            },
+            {
+              "name": "headline preset",
+              "pass": true,
+              "detail": "editorial"
+            },
+            {
+              "name": "body preset",
+              "pass": true,
+              "detail": "clean"
+            }
+          ]
+        },
+        {
+          "pass": true,
+          "score": 1,
+          "checks": [
+            {
+              "name": "profile returned",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "valid colors",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "valid typography",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "source type preserved",
+              "pass": true,
+              "detail": "prompt"
+            },
+            {
+              "name": "readable paper and ink",
+              "pass": true,
+              "detail": "12.11:1"
+            },
+            {
+              "name": "evidence retained",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "paper within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 0"
+            },
+            {
+              "name": "ink within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 0"
+            },
+            {
+              "name": "accent within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 0"
+            },
+            {
+              "name": "headline preset",
+              "pass": true,
+              "detail": "editorial"
+            },
+            {
+              "name": "body preset",
+              "pass": true,
+              "detail": "clean"
+            }
+          ]
+        },
+        {
+          "pass": true,
+          "score": 1,
+          "checks": [
+            {
+              "name": "profile returned",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "valid colors",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "valid typography",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "source type preserved",
+              "pass": true,
+              "detail": "prompt"
+            },
+            {
+              "name": "readable paper and ink",
+              "pass": true,
+              "detail": "12.11:1"
+            },
+            {
+              "name": "evidence retained",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "paper within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 0"
+            },
+            {
+              "name": "ink within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 0"
+            },
+            {
+              "name": "accent within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 0"
+            },
+            {
+              "name": "headline preset",
+              "pass": true,
+              "detail": "editorial"
+            },
+            {
+              "name": "body preset",
+              "pass": true,
+              "detail": "clean"
+            }
+          ]
+        }
+      ],
+      "outputs": [
+        {
+          "profile": {
+            "version": 1,
+            "paper": "#EFE9DA",
+            "ink": "#212B21",
+            "accent": "#00AA88",
+            "headline": "editorial",
+            "body": "clean",
+            "sourceType": "prompt",
+            "evidence": [
+              {
+                "kind": "prompt",
+                "source": "Change only the accent to #00AA88.",
+                "value": "accent=#00AA88"
+              }
+            ],
+            "warnings": [],
+            "confidence": 1,
+            "extractorVersion": "brand-extractor-v2",
+            "fingerprint": "4866458ab69c6e7bee00d55dc7519f4a19669ac81a4e695cc5e0ad4ce60a4446"
+          },
+          "method": "deterministic-prompt",
+          "cachedAt": "2026-07-24T23:51:23.285Z",
+          "cached": false
+        },
+        {
+          "profile": {
+            "version": 1,
+            "paper": "#EFE9DA",
+            "ink": "#212B21",
+            "accent": "#00AA88",
+            "headline": "editorial",
+            "body": "clean",
+            "sourceType": "prompt",
+            "evidence": [
+              {
+                "kind": "prompt",
+                "source": "Change only the accent to #00AA88.",
+                "value": "accent=#00AA88"
+              }
+            ],
+            "warnings": [],
+            "confidence": 1,
+            "extractorVersion": "brand-extractor-v2",
+            "fingerprint": "4866458ab69c6e7bee00d55dc7519f4a19669ac81a4e695cc5e0ad4ce60a4446"
+          },
+          "method": "deterministic-prompt",
+          "cachedAt": "2026-07-24T23:51:23.290Z",
+          "cached": false
+        },
+        {
+          "profile": {
+            "version": 1,
+            "paper": "#EFE9DA",
+            "ink": "#212B21",
+            "accent": "#00AA88",
+            "headline": "editorial",
+            "body": "clean",
+            "sourceType": "prompt",
+            "evidence": [
+              {
+                "kind": "prompt",
+                "source": "Change only the accent to #00AA88.",
+                "value": "accent=#00AA88"
+              }
+            ],
+            "warnings": [],
+            "confidence": 1,
+            "extractorVersion": "brand-extractor-v2",
+            "fingerprint": "4866458ab69c6e7bee00d55dc7519f4a19669ac81a4e695cc5e0ad4ce60a4446"
+          },
+          "method": "deterministic-prompt",
+          "cachedAt": "2026-07-24T23:51:23.299Z",
+          "cached": false
+        }
+      ]
+    },
+    {
+      "testCase": {
+        "id": "prompt-semantic",
+        "category": "prompt-semantic",
+        "sourceType": "prompt",
+        "prompt": "A restrained luxury finance identity: near-black paper, warm ivory type, muted gold accent, editorial headline, clean body.",
+        "expected": {
+          "paper": "#15130F",
+          "ink": "#F4EFE3",
+          "accent": "#B89445",
+          "headline": "editorial",
+          "body": "clean"
+        },
+        "tolerance": 70,
+        "runs": 3
+      },
+      "pass": true,
+      "averageScore": 1,
+      "stability": {
+        "pass": true,
+        "uniqueProfiles": 1
+      },
+      "grades": [
+        {
+          "pass": true,
+          "score": 1,
+          "checks": [
+            {
+              "name": "profile returned",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "valid colors",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "valid typography",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "source type preserved",
+              "pass": true,
+              "detail": "prompt"
+            },
+            {
+              "name": "readable paper and ink",
+              "pass": true,
+              "detail": "16.17:1"
+            },
+            {
+              "name": "evidence retained",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "paper within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 70"
+            },
+            {
+              "name": "ink within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 70"
+            },
+            {
+              "name": "accent within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 70"
+            },
+            {
+              "name": "headline preset",
+              "pass": true,
+              "detail": "editorial"
+            },
+            {
+              "name": "body preset",
+              "pass": true,
+              "detail": "clean"
+            }
+          ]
+        },
+        {
+          "pass": true,
+          "score": 1,
+          "checks": [
+            {
+              "name": "profile returned",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "valid colors",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "valid typography",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "source type preserved",
+              "pass": true,
+              "detail": "prompt"
+            },
+            {
+              "name": "readable paper and ink",
+              "pass": true,
+              "detail": "16.17:1"
+            },
+            {
+              "name": "evidence retained",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "paper within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 70"
+            },
+            {
+              "name": "ink within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 70"
+            },
+            {
+              "name": "accent within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 70"
+            },
+            {
+              "name": "headline preset",
+              "pass": true,
+              "detail": "editorial"
+            },
+            {
+              "name": "body preset",
+              "pass": true,
+              "detail": "clean"
+            }
+          ]
+        },
+        {
+          "pass": true,
+          "score": 1,
+          "checks": [
+            {
+              "name": "profile returned",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "valid colors",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "valid typography",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "source type preserved",
+              "pass": true,
+              "detail": "prompt"
+            },
+            {
+              "name": "readable paper and ink",
+              "pass": true,
+              "detail": "16.17:1"
+            },
+            {
+              "name": "evidence retained",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "paper within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 70"
+            },
+            {
+              "name": "ink within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 70"
+            },
+            {
+              "name": "accent within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 70"
+            },
+            {
+              "name": "headline preset",
+              "pass": true,
+              "detail": "editorial"
+            },
+            {
+              "name": "body preset",
+              "pass": true,
+              "detail": "clean"
+            }
+          ]
+        }
+      ],
+      "outputs": [
+        {
+          "profile": {
+            "version": 1,
+            "paper": "#15130F",
+            "ink": "#F4EFE3",
+            "accent": "#B89445",
+            "headline": "editorial",
+            "body": "clean",
+            "sourceType": "prompt",
+            "evidence": [
+              {
+                "kind": "prompt",
+                "source": "A restrained luxury finance identity: near-black paper",
+                "value": "paper=#15130F"
+              },
+              {
+                "kind": "prompt",
+                "source": "warm ivory type",
+                "value": "ink=#F4EFE3"
+              },
+              {
+                "kind": "prompt",
+                "source": "muted gold accent",
+                "value": "accent=#B89445"
+              }
+            ],
+            "warnings": [],
+            "confidence": 1,
+            "extractorVersion": "brand-extractor-v2",
+            "fingerprint": "eafbbb0033dea0183908511b8c7b542f5e47417d850cdcfedde4f0a37eb59afd"
+          },
+          "method": "deterministic-prompt",
+          "cachedAt": "2026-07-24T23:51:23.305Z",
+          "cached": false
+        },
+        {
+          "profile": {
+            "version": 1,
+            "paper": "#15130F",
+            "ink": "#F4EFE3",
+            "accent": "#B89445",
+            "headline": "editorial",
+            "body": "clean",
+            "sourceType": "prompt",
+            "evidence": [
+              {
+                "kind": "prompt",
+                "source": "A restrained luxury finance identity: near-black paper",
+                "value": "paper=#15130F"
+              },
+              {
+                "kind": "prompt",
+                "source": "warm ivory type",
+                "value": "ink=#F4EFE3"
+              },
+              {
+                "kind": "prompt",
+                "source": "muted gold accent",
+                "value": "accent=#B89445"
+              }
+            ],
+            "warnings": [],
+            "confidence": 1,
+            "extractorVersion": "brand-extractor-v2",
+            "fingerprint": "eafbbb0033dea0183908511b8c7b542f5e47417d850cdcfedde4f0a37eb59afd"
+          },
+          "method": "deterministic-prompt",
+          "cachedAt": "2026-07-24T23:51:23.309Z",
+          "cached": false
+        },
+        {
+          "profile": {
+            "version": 1,
+            "paper": "#15130F",
+            "ink": "#F4EFE3",
+            "accent": "#B89445",
+            "headline": "editorial",
+            "body": "clean",
+            "sourceType": "prompt",
+            "evidence": [
+              {
+                "kind": "prompt",
+                "source": "A restrained luxury finance identity: near-black paper",
+                "value": "paper=#15130F"
+              },
+              {
+                "kind": "prompt",
+                "source": "warm ivory type",
+                "value": "ink=#F4EFE3"
+              },
+              {
+                "kind": "prompt",
+                "source": "muted gold accent",
+                "value": "accent=#B89445"
+              }
+            ],
+            "warnings": [],
+            "confidence": 1,
+            "extractorVersion": "brand-extractor-v2",
+            "fingerprint": "eafbbb0033dea0183908511b8c7b542f5e47417d850cdcfedde4f0a37eb59afd"
+          },
+          "method": "deterministic-prompt",
+          "cachedAt": "2026-07-24T23:51:23.312Z",
+          "cached": false
+        }
+      ]
+    },
+    {
+      "testCase": {
+        "id": "image-light-coral",
+        "category": "vision",
+        "sourceType": "image",
+        "fixture": "brand-light-coral.png",
+        "prompt": "The large field is paper, the dark block represents ink, and the small coral block is the accent. Use a modern sans headline and clean body.",
+        "expected": {
+          "paper": "#FAFAF5",
+          "ink": "#151515",
+          "accent": "#FF5533",
+          "headline": "modern",
+          "body": "clean"
+        },
+        "tolerance": 45,
+        "runs": 3
+      },
+      "pass": true,
+      "averageScore": 1,
+      "stability": {
+        "pass": true,
+        "uniqueProfiles": 1
+      },
+      "grades": [
+        {
+          "pass": true,
+          "score": 1,
+          "checks": [
+            {
+              "name": "profile returned",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "valid colors",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "valid typography",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "source type preserved",
+              "pass": true,
+              "detail": "image"
+            },
+            {
+              "name": "readable paper and ink",
+              "pass": true,
+              "detail": "17.44:1"
+            },
+            {
+              "name": "evidence retained",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "paper within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 45"
+            },
+            {
+              "name": "ink within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 45"
+            },
+            {
+              "name": "accent within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 45"
+            },
+            {
+              "name": "headline preset",
+              "pass": true,
+              "detail": "modern"
+            },
+            {
+              "name": "body preset",
+              "pass": true,
+              "detail": "clean"
+            }
+          ]
+        },
+        {
+          "pass": true,
+          "score": 1,
+          "checks": [
+            {
+              "name": "profile returned",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "valid colors",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "valid typography",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "source type preserved",
+              "pass": true,
+              "detail": "image"
+            },
+            {
+              "name": "readable paper and ink",
+              "pass": true,
+              "detail": "17.44:1"
+            },
+            {
+              "name": "evidence retained",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "paper within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 45"
+            },
+            {
+              "name": "ink within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 45"
+            },
+            {
+              "name": "accent within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 45"
+            },
+            {
+              "name": "headline preset",
+              "pass": true,
+              "detail": "modern"
+            },
+            {
+              "name": "body preset",
+              "pass": true,
+              "detail": "clean"
+            }
+          ]
+        },
+        {
+          "pass": true,
+          "score": 1,
+          "checks": [
+            {
+              "name": "profile returned",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "valid colors",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "valid typography",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "source type preserved",
+              "pass": true,
+              "detail": "image"
+            },
+            {
+              "name": "readable paper and ink",
+              "pass": true,
+              "detail": "17.44:1"
+            },
+            {
+              "name": "evidence retained",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "paper within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 45"
+            },
+            {
+              "name": "ink within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 45"
+            },
+            {
+              "name": "accent within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 45"
+            },
+            {
+              "name": "headline preset",
+              "pass": true,
+              "detail": "modern"
+            },
+            {
+              "name": "body preset",
+              "pass": true,
+              "detail": "clean"
+            }
+          ]
+        }
+      ],
+      "outputs": [
+        {
+          "profile": {
+            "version": 1,
+            "paper": "#FAFAF5",
+            "ink": "#151515",
+            "accent": "#FF5533",
+            "headline": "modern",
+            "body": "clean",
+            "sourceType": "image",
+            "evidence": [
+              {
+                "kind": "sampled-color",
+                "source": "image-large-field",
+                "value": "#FAFAF5 assigned as paper (dominant background region)"
+              },
+              {
+                "kind": "sampled-color",
+                "source": "image-dark-block",
+                "value": "#151515 assigned as ink (dark rectangular block)"
+              },
+              {
+                "kind": "sampled-color",
+                "source": "image-small-coral-block",
+                "value": "#FF5533 assigned as accent (small coral/orange-red square)"
+              },
+              {
+                "kind": "image-guidance",
+                "source": "prompt",
+                "value": "modern sans headline and clean body specified explicitly"
+              },
+              {
+                "kind": "sampled-palette",
+                "source": "image-1",
+                "value": "#FAFAF5 (71.3%)"
+              },
+              {
+                "kind": "sampled-palette",
+                "source": "image-1",
+                "value": "#151515 (25.6%)"
+              },
+              {
+                "kind": "sampled-palette",
+                "source": "image-1",
+                "value": "#FF5533 (3.1%)"
+              }
+            ],
+            "warnings": [
+              "Colors chosen exclusively from deterministically sampled palette as instructed; no interpolation performed",
+              "Current brand accent #C08A28 replaced by sampled #FF5533 per image evidence",
+              "Current brand paper #EFE9DA replaced by sampled #FAFAF5 per image evidence",
+              "Typography mapping to modern/clean is based on image guidance, not pixel-level font identification"
+            ],
+            "confidence": 0.95,
+            "extractorVersion": "brand-extractor-v2",
+            "fingerprint": "84c6139330d8acab1a2a921b41ca8369602bd07d98e05d40c12f06b985e93d0d"
+          },
+          "method": "claude-image",
+          "cachedAt": "2026-07-24T23:51:29.795Z",
+          "cached": false,
+          "usage": {
+            "input_tokens": 1298,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 0
+            },
+            "output_tokens": 257,
+            "service_tier": "standard",
+            "inference_geo": "global"
+          }
+        },
+        {
+          "profile": {
+            "version": 1,
+            "paper": "#FAFAF5",
+            "ink": "#151515",
+            "accent": "#FF5533",
+            "headline": "modern",
+            "body": "clean",
+            "sourceType": "image",
+            "evidence": [
+              {
+                "kind": "sampled-color",
+                "source": "image-large-field",
+                "value": "#FAFAF5 assigned as paper (dominant background region)"
+              },
+              {
+                "kind": "sampled-color",
+                "source": "image-dark-block",
+                "value": "#151515 assigned as ink (dark rectangular block)"
+              },
+              {
+                "kind": "sampled-color",
+                "source": "image-small-coral-block",
+                "value": "#FF5533 assigned as accent (small coral/orange-red square)"
+              },
+              {
+                "kind": "image-guidance",
+                "source": "prompt",
+                "value": "Use modern sans headline and clean body as instructed"
+              },
+              {
+                "kind": "contrast-check",
+                "source": "paper-ink-pair",
+                "value": "#FAFAF5 on #151515 provides high contrast, readable"
+              },
+              {
+                "kind": "sampled-palette",
+                "source": "image-1",
+                "value": "#FAFAF5 (71.3%)"
+              },
+              {
+                "kind": "sampled-palette",
+                "source": "image-1",
+                "value": "#151515 (25.6%)"
+              },
+              {
+                "kind": "sampled-palette",
+                "source": "image-1",
+                "value": "#FF5533 (3.1%)"
+              }
+            ],
+            "warnings": [
+              "Current brand accent #C08A28 replaced with sampled #FF5533 per deterministic palette constraint",
+              "Current brand paper #EFE9DA replaced with sampled #FAFAF5; hue is similar warm off-white but not identical",
+              "Headline mapped to modern per image guidance override of current brand editorial setting",
+              "Font identification from pixels is not possible; modern enum chosen per explicit instruction"
+            ],
+            "confidence": 0.95,
+            "extractorVersion": "brand-extractor-v2",
+            "fingerprint": "84c6139330d8acab1a2a921b41ca8369602bd07d98e05d40c12f06b985e93d0d"
+          },
+          "method": "claude-image",
+          "cachedAt": "2026-07-24T23:51:36.467Z",
+          "cached": false,
+          "usage": {
+            "input_tokens": 1298,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 0
+            },
+            "output_tokens": 297,
+            "service_tier": "standard",
+            "inference_geo": "global"
+          }
+        },
+        {
+          "profile": {
+            "version": 1,
+            "paper": "#FAFAF5",
+            "ink": "#151515",
+            "accent": "#FF5533",
+            "headline": "modern",
+            "body": "clean",
+            "sourceType": "image",
+            "evidence": [
+              {
+                "kind": "sampled-color",
+                "source": "image-large-field",
+                "value": "#FAFAF5 assigned as paper (dominant background region)"
+              },
+              {
+                "kind": "sampled-color",
+                "source": "image-dark-block",
+                "value": "#151515 assigned as ink (dark rectangular block)"
+              },
+              {
+                "kind": "sampled-color",
+                "source": "image-small-coral-block",
+                "value": "#FF5533 assigned as accent (small coral/orange-red square)"
+              },
+              {
+                "kind": "image-guidance",
+                "source": "prompt",
+                "value": "modern sans headline and clean body specified explicitly"
+              },
+              {
+                "kind": "sampled-palette",
+                "source": "image-1",
+                "value": "#FAFAF5 (71.3%)"
+              },
+              {
+                "kind": "sampled-palette",
+                "source": "image-1",
+                "value": "#151515 (25.6%)"
+              },
+              {
+                "kind": "sampled-palette",
+                "source": "image-1",
+                "value": "#FF5533 (3.1%)"
+              }
+            ],
+            "warnings": [
+              "Current brand accent #C08A28 replaced with sampled #FF5533 per image evidence",
+              "Current brand paper #EFE9DA replaced with sampled #FAFAF5 per deterministic palette constraint",
+              "Current brand ink #212B21 replaced with sampled #151515 per deterministic palette constraint",
+              "Headline changed from editorial to modern per explicit image guidance"
+            ],
+            "confidence": 0.95,
+            "extractorVersion": "brand-extractor-v2",
+            "fingerprint": "84c6139330d8acab1a2a921b41ca8369602bd07d98e05d40c12f06b985e93d0d"
+          },
+          "method": "claude-image",
+          "cachedAt": "2026-07-24T23:51:41.993Z",
+          "cached": false,
+          "usage": {
+            "input_tokens": 1298,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 0
+            },
+            "output_tokens": 256,
+            "service_tier": "standard",
+            "inference_geo": "global"
+          }
+        }
+      ]
+    },
+    {
+      "testCase": {
+        "id": "image-dark-lime",
+        "category": "vision",
+        "sourceType": "image",
+        "fixture": "brand-dark-lime.png",
+        "prompt": "The large dark field is paper, the cream block represents ink, and the small lime block is the accent. Use a modern sans headline and clean body.",
+        "expected": {
+          "paper": "#121820",
+          "ink": "#F4F0E6",
+          "accent": "#B8E51A",
+          "headline": "modern",
+          "body": "clean"
+        },
+        "tolerance": 45,
+        "runs": 3
+      },
+      "pass": true,
+      "averageScore": 1,
+      "stability": {
+        "pass": true,
+        "uniqueProfiles": 1
+      },
+      "grades": [
+        {
+          "pass": true,
+          "score": 1,
+          "checks": [
+            {
+              "name": "profile returned",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "valid colors",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "valid typography",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "source type preserved",
+              "pass": true,
+              "detail": "image"
+            },
+            {
+              "name": "readable paper and ink",
+              "pass": true,
+              "detail": "15.68:1"
+            },
+            {
+              "name": "evidence retained",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "paper within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 45"
+            },
+            {
+              "name": "ink within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 45"
+            },
+            {
+              "name": "accent within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 45"
+            },
+            {
+              "name": "headline preset",
+              "pass": true,
+              "detail": "modern"
+            },
+            {
+              "name": "body preset",
+              "pass": true,
+              "detail": "clean"
+            }
+          ]
+        },
+        {
+          "pass": true,
+          "score": 1,
+          "checks": [
+            {
+              "name": "profile returned",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "valid colors",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "valid typography",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "source type preserved",
+              "pass": true,
+              "detail": "image"
+            },
+            {
+              "name": "readable paper and ink",
+              "pass": true,
+              "detail": "15.68:1"
+            },
+            {
+              "name": "evidence retained",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "paper within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 45"
+            },
+            {
+              "name": "ink within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 45"
+            },
+            {
+              "name": "accent within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 45"
+            },
+            {
+              "name": "headline preset",
+              "pass": true,
+              "detail": "modern"
+            },
+            {
+              "name": "body preset",
+              "pass": true,
+              "detail": "clean"
+            }
+          ]
+        },
+        {
+          "pass": true,
+          "score": 1,
+          "checks": [
+            {
+              "name": "profile returned",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "valid colors",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "valid typography",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "source type preserved",
+              "pass": true,
+              "detail": "image"
+            },
+            {
+              "name": "readable paper and ink",
+              "pass": true,
+              "detail": "15.68:1"
+            },
+            {
+              "name": "evidence retained",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "paper within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 45"
+            },
+            {
+              "name": "ink within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 45"
+            },
+            {
+              "name": "accent within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 45"
+            },
+            {
+              "name": "headline preset",
+              "pass": true,
+              "detail": "modern"
+            },
+            {
+              "name": "body preset",
+              "pass": true,
+              "detail": "clean"
+            }
+          ]
+        }
+      ],
+      "outputs": [
+        {
+          "profile": {
+            "version": 1,
+            "paper": "#121820",
+            "ink": "#F4F0E6",
+            "accent": "#B8E51A",
+            "headline": "modern",
+            "body": "clean",
+            "sourceType": "image",
+            "evidence": [
+              {
+                "kind": "palette_sample",
+                "source": "image_dominant",
+                "value": "#121820 covers ~71% of image area — large dark field identified as paper"
+              },
+              {
+                "kind": "palette_sample",
+                "source": "image_secondary",
+                "value": "#F4F0E6 covers ~26% of image area — cream block identified as ink"
+              },
+              {
+                "kind": "palette_sample",
+                "source": "image_tertiary",
+                "value": "#B8E51A covers ~3% of image area — lime block identified as accent"
+              },
+              {
+                "kind": "image_guidance",
+                "source": "prompt",
+                "value": "Large dark field is paper, cream block is ink, lime block is accent; use modern sans headline and clean body"
+              },
+              {
+                "kind": "sampled-palette",
+                "source": "image-1",
+                "value": "#121820 (71.3%)"
+              },
+              {
+                "kind": "sampled-palette",
+                "source": "image-1",
+                "value": "#F4F0E6 (25.6%)"
+              },
+              {
+                "kind": "sampled-palette",
+                "source": "image-1",
+                "value": "#B8E51A (3.1%)"
+              }
+            ],
+            "warnings": [
+              "Paper and ink roles are inverted from current brand (which uses cream as paper and dark as ink) — following explicit image guidance",
+              "Accent #B8E51A is a vivid lime-green, high contrast against dark paper — deliberate brand choice per guidance",
+              "Font mapping to modern/clean based on guidance only; no typographic specimens visible in image"
+            ],
+            "confidence": 0.97,
+            "extractorVersion": "brand-extractor-v2",
+            "fingerprint": "9a72e507f2039a8329c1c69f4340b3f13c4dae804006a97ac08fa3f4229c5339"
+          },
+          "method": "claude-image",
+          "cachedAt": "2026-07-24T23:51:48.196Z",
+          "cached": false,
+          "usage": {
+            "input_tokens": 1302,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 0
+            },
+            "output_tokens": 271,
+            "service_tier": "standard",
+            "inference_geo": "global"
+          }
+        },
+        {
+          "profile": {
+            "version": 1,
+            "paper": "#121820",
+            "ink": "#F4F0E6",
+            "accent": "#B8E51A",
+            "headline": "modern",
+            "body": "clean",
+            "sourceType": "image",
+            "evidence": [
+              {
+                "kind": "palette_sample",
+                "source": "image_dominant",
+                "value": "#121820 covers ~71% of image area — large dark field identified as paper"
+              },
+              {
+                "kind": "palette_sample",
+                "source": "image_secondary",
+                "value": "#F4F0E6 covers ~26% of image area — cream block identified as ink"
+              },
+              {
+                "kind": "palette_sample",
+                "source": "image_tertiary",
+                "value": "#B8E51A covers ~3% of image area — lime block identified as accent"
+              },
+              {
+                "kind": "image_guidance",
+                "source": "prompt",
+                "value": "Large dark field is paper, cream block is ink, lime block is accent; use modern sans headline and clean body"
+              },
+              {
+                "kind": "sampled-palette",
+                "source": "image-1",
+                "value": "#121820 (71.3%)"
+              },
+              {
+                "kind": "sampled-palette",
+                "source": "image-1",
+                "value": "#F4F0E6 (25.6%)"
+              },
+              {
+                "kind": "sampled-palette",
+                "source": "image-1",
+                "value": "#B8E51A (3.1%)"
+              }
+            ],
+            "warnings": [
+              "Paper and ink roles are inverted from current brand config — dark background with light text as directed by image guidance",
+              "Accent #B8E51A is a vivid lime-green, high contrast against dark paper",
+              "Font mapping to modern is inferred from image guidance, not from visible typography in image",
+              "All three hex values taken exactly from deterministic palette samples as instructed"
+            ],
+            "confidence": 0.97,
+            "extractorVersion": "brand-extractor-v2",
+            "fingerprint": "9a72e507f2039a8329c1c69f4340b3f13c4dae804006a97ac08fa3f4229c5339"
+          },
+          "method": "claude-image",
+          "cachedAt": "2026-07-24T23:51:57.980Z",
+          "cached": false,
+          "usage": {
+            "input_tokens": 1302,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 0
+            },
+            "output_tokens": 274,
+            "service_tier": "standard",
+            "inference_geo": "global"
+          }
+        },
+        {
+          "profile": {
+            "version": 1,
+            "paper": "#121820",
+            "ink": "#F4F0E6",
+            "accent": "#B8E51A",
+            "headline": "modern",
+            "body": "clean",
+            "sourceType": "image",
+            "evidence": [
+              {
+                "kind": "palette_sample",
+                "source": "image_dominant",
+                "value": "#121820 covers ~71% of image area — large dark field identified as paper"
+              },
+              {
+                "kind": "palette_sample",
+                "source": "image_secondary",
+                "value": "#F4F0E6 covers ~26% of image area — cream block identified as ink"
+              },
+              {
+                "kind": "palette_sample",
+                "source": "image_tertiary",
+                "value": "#B8E51A covers ~3% of image area — lime block identified as accent"
+              },
+              {
+                "kind": "image_guidance",
+                "source": "prompt",
+                "value": "Large dark field is paper, cream block is ink, lime block is accent; use modern sans headline and clean body"
+              },
+              {
+                "kind": "sampled-palette",
+                "source": "image-1",
+                "value": "#121820 (71.3%)"
+              },
+              {
+                "kind": "sampled-palette",
+                "source": "image-1",
+                "value": "#F4F0E6 (25.6%)"
+              },
+              {
+                "kind": "sampled-palette",
+                "source": "image-1",
+                "value": "#B8E51A (3.1%)"
+              }
+            ],
+            "warnings": [
+              "Paper and ink roles are inverted from current brand config — dark background with light text as directed by image guidance",
+              "Accent #B8E51A is high-chroma lime; ensure sufficient contrast when used on dark paper",
+              "Font mapping to modern is inferred from image guidance, not pixel-level font identification",
+              "Sampled hex values used exactly as provided; no interpolation performed"
+            ],
+            "confidence": 0.97,
+            "extractorVersion": "brand-extractor-v2",
+            "fingerprint": "9a72e507f2039a8329c1c69f4340b3f13c4dae804006a97ac08fa3f4229c5339"
+          },
+          "method": "claude-image",
+          "cachedAt": "2026-07-24T23:52:04.276Z",
+          "cached": false,
+          "usage": {
+            "input_tokens": 1302,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 0
+            },
+            "output_tokens": 276,
+            "service_tier": "standard",
+            "inference_geo": "global"
+          }
+        }
+      ]
+    },
+    {
+      "testCase": {
+        "id": "url-css-contract",
+        "category": "website",
+        "sourceType": "url",
+        "fixtureSite": "brand-site",
+        "expected": {
+          "paper": "#F7F5EE",
+          "ink": "#171A18",
+          "accent": "#E84F3D",
+          "headline": "modern",
+          "body": "clean"
+        },
+        "tolerance": 0,
+        "runs": 3
+      },
+      "pass": true,
+      "averageScore": 1,
+      "stability": {
+        "pass": true,
+        "uniqueProfiles": 1
+      },
+      "grades": [
+        {
+          "pass": true,
+          "score": 1,
+          "checks": [
+            {
+              "name": "profile returned",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "valid colors",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "valid typography",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "source type preserved",
+              "pass": true,
+              "detail": "url"
+            },
+            {
+              "name": "readable paper and ink",
+              "pass": true,
+              "detail": "16.08:1"
+            },
+            {
+              "name": "evidence retained",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "paper within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 0"
+            },
+            {
+              "name": "ink within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 0"
+            },
+            {
+              "name": "accent within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 0"
+            },
+            {
+              "name": "headline preset",
+              "pass": true,
+              "detail": "modern"
+            },
+            {
+              "name": "body preset",
+              "pass": true,
+              "detail": "clean"
+            }
+          ]
+        },
+        {
+          "pass": true,
+          "score": 1,
+          "checks": [
+            {
+              "name": "profile returned",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "valid colors",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "valid typography",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "source type preserved",
+              "pass": true,
+              "detail": "url"
+            },
+            {
+              "name": "readable paper and ink",
+              "pass": true,
+              "detail": "16.08:1"
+            },
+            {
+              "name": "evidence retained",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "paper within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 0"
+            },
+            {
+              "name": "ink within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 0"
+            },
+            {
+              "name": "accent within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 0"
+            },
+            {
+              "name": "headline preset",
+              "pass": true,
+              "detail": "modern"
+            },
+            {
+              "name": "body preset",
+              "pass": true,
+              "detail": "clean"
+            }
+          ]
+        },
+        {
+          "pass": true,
+          "score": 1,
+          "checks": [
+            {
+              "name": "profile returned",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "valid colors",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "valid typography",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "source type preserved",
+              "pass": true,
+              "detail": "url"
+            },
+            {
+              "name": "readable paper and ink",
+              "pass": true,
+              "detail": "16.08:1"
+            },
+            {
+              "name": "evidence retained",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "paper within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 0"
+            },
+            {
+              "name": "ink within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 0"
+            },
+            {
+              "name": "accent within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 0"
+            },
+            {
+              "name": "headline preset",
+              "pass": true,
+              "detail": "modern"
+            },
+            {
+              "name": "body preset",
+              "pass": true,
+              "detail": "clean"
+            }
+          ]
+        }
+      ],
+      "outputs": [
+        {
+          "profile": {
+            "version": 1,
+            "paper": "#F7F5EE",
+            "ink": "#171A18",
+            "accent": "#E84F3D",
+            "headline": "modern",
+            "body": "clean",
+            "sourceType": "url",
+            "evidence": [
+              {
+                "kind": "theme-color",
+                "source": "http://127.0.0.1:50243/brand-site/",
+                "value": "#E84F3D"
+              },
+              {
+                "kind": "stylesheet",
+                "source": "http://127.0.0.1:50243/brand.css",
+                "value": "http://127.0.0.1:50243/brand.css"
+              },
+              {
+                "kind": "css-variable-root",
+                "source": "http://127.0.0.1:50243/brand.css",
+                "value": "--brand-paper=#F7F5EE"
+              },
+              {
+                "kind": "css-variable-root",
+                "source": "http://127.0.0.1:50243/brand.css",
+                "value": "--brand-ink=#171A18"
+              },
+              {
+                "kind": "css-variable-root",
+                "source": "http://127.0.0.1:50243/brand.css",
+                "value": "--brand-accent=#E84F3D"
+              },
+              {
+                "kind": "css-variable",
+                "source": "http://127.0.0.1:50243/brand.css",
+                "value": "--brand-paper=#F7F5EE"
+              },
+              {
+                "kind": "css-variable",
+                "source": "http://127.0.0.1:50243/brand.css",
+                "value": "--brand-ink=#171A18"
+              },
+              {
+                "kind": "css-variable",
+                "source": "http://127.0.0.1:50243/brand.css",
+                "value": "--brand-accent=#E84F3D"
+              },
+              {
+                "kind": "page-background",
+                "source": "http://127.0.0.1:50243/brand.css",
+                "value": "#F7F5EE"
+              },
+              {
+                "kind": "page-text",
+                "source": "http://127.0.0.1:50243/brand.css",
+                "value": "#171A18"
+              },
+              {
+                "kind": "font-family",
+                "source": "http://127.0.0.1:50243/brand.css",
+                "value": "Inter, Arial, sans-serif"
+              }
+            ],
+            "warnings": [],
+            "confidence": 0.88,
+            "extractorVersion": "brand-extractor-v2",
+            "fingerprint": "f8324e4317f958967bd2ef12097cbba34a6a6cc76d497f454438a146437680b8"
+          },
+          "method": "deterministic-web-evidence",
+          "cachedAt": "2026-07-24T23:52:04.328Z",
+          "cached": false,
+          "crawl": {
+            "url": "http://127.0.0.1:50243/brand-site/",
+            "stylesheets": 1,
+            "evidence": 11
+          }
+        },
+        {
+          "profile": {
+            "version": 1,
+            "paper": "#F7F5EE",
+            "ink": "#171A18",
+            "accent": "#E84F3D",
+            "headline": "modern",
+            "body": "clean",
+            "sourceType": "url",
+            "evidence": [
+              {
+                "kind": "theme-color",
+                "source": "http://127.0.0.1:50243/brand-site/",
+                "value": "#E84F3D"
+              },
+              {
+                "kind": "stylesheet",
+                "source": "http://127.0.0.1:50243/brand.css",
+                "value": "http://127.0.0.1:50243/brand.css"
+              },
+              {
+                "kind": "css-variable-root",
+                "source": "http://127.0.0.1:50243/brand.css",
+                "value": "--brand-paper=#F7F5EE"
+              },
+              {
+                "kind": "css-variable-root",
+                "source": "http://127.0.0.1:50243/brand.css",
+                "value": "--brand-ink=#171A18"
+              },
+              {
+                "kind": "css-variable-root",
+                "source": "http://127.0.0.1:50243/brand.css",
+                "value": "--brand-accent=#E84F3D"
+              },
+              {
+                "kind": "css-variable",
+                "source": "http://127.0.0.1:50243/brand.css",
+                "value": "--brand-paper=#F7F5EE"
+              },
+              {
+                "kind": "css-variable",
+                "source": "http://127.0.0.1:50243/brand.css",
+                "value": "--brand-ink=#171A18"
+              },
+              {
+                "kind": "css-variable",
+                "source": "http://127.0.0.1:50243/brand.css",
+                "value": "--brand-accent=#E84F3D"
+              },
+              {
+                "kind": "page-background",
+                "source": "http://127.0.0.1:50243/brand.css",
+                "value": "#F7F5EE"
+              },
+              {
+                "kind": "page-text",
+                "source": "http://127.0.0.1:50243/brand.css",
+                "value": "#171A18"
+              },
+              {
+                "kind": "font-family",
+                "source": "http://127.0.0.1:50243/brand.css",
+                "value": "Inter, Arial, sans-serif"
+              }
+            ],
+            "warnings": [],
+            "confidence": 0.88,
+            "extractorVersion": "brand-extractor-v2",
+            "fingerprint": "f8324e4317f958967bd2ef12097cbba34a6a6cc76d497f454438a146437680b8"
+          },
+          "method": "deterministic-web-evidence",
+          "cachedAt": "2026-07-24T23:52:04.343Z",
+          "cached": false,
+          "crawl": {
+            "url": "http://127.0.0.1:50243/brand-site/",
+            "stylesheets": 1,
+            "evidence": 11
+          }
+        },
+        {
+          "profile": {
+            "version": 1,
+            "paper": "#F7F5EE",
+            "ink": "#171A18",
+            "accent": "#E84F3D",
+            "headline": "modern",
+            "body": "clean",
+            "sourceType": "url",
+            "evidence": [
+              {
+                "kind": "theme-color",
+                "source": "http://127.0.0.1:50243/brand-site/",
+                "value": "#E84F3D"
+              },
+              {
+                "kind": "stylesheet",
+                "source": "http://127.0.0.1:50243/brand.css",
+                "value": "http://127.0.0.1:50243/brand.css"
+              },
+              {
+                "kind": "css-variable-root",
+                "source": "http://127.0.0.1:50243/brand.css",
+                "value": "--brand-paper=#F7F5EE"
+              },
+              {
+                "kind": "css-variable-root",
+                "source": "http://127.0.0.1:50243/brand.css",
+                "value": "--brand-ink=#171A18"
+              },
+              {
+                "kind": "css-variable-root",
+                "source": "http://127.0.0.1:50243/brand.css",
+                "value": "--brand-accent=#E84F3D"
+              },
+              {
+                "kind": "css-variable",
+                "source": "http://127.0.0.1:50243/brand.css",
+                "value": "--brand-paper=#F7F5EE"
+              },
+              {
+                "kind": "css-variable",
+                "source": "http://127.0.0.1:50243/brand.css",
+                "value": "--brand-ink=#171A18"
+              },
+              {
+                "kind": "css-variable",
+                "source": "http://127.0.0.1:50243/brand.css",
+                "value": "--brand-accent=#E84F3D"
+              },
+              {
+                "kind": "page-background",
+                "source": "http://127.0.0.1:50243/brand.css",
+                "value": "#F7F5EE"
+              },
+              {
+                "kind": "page-text",
+                "source": "http://127.0.0.1:50243/brand.css",
+                "value": "#171A18"
+              },
+              {
+                "kind": "font-family",
+                "source": "http://127.0.0.1:50243/brand.css",
+                "value": "Inter, Arial, sans-serif"
+              }
+            ],
+            "warnings": [],
+            "confidence": 0.88,
+            "extractorVersion": "brand-extractor-v2",
+            "fingerprint": "f8324e4317f958967bd2ef12097cbba34a6a6cc76d497f454438a146437680b8"
+          },
+          "method": "deterministic-web-evidence",
+          "cachedAt": "2026-07-24T23:52:04.361Z",
+          "cached": false,
+          "crawl": {
+            "url": "http://127.0.0.1:50243/brand-site/",
+            "stylesheets": 1,
+            "evidence": 11
+          }
+        }
+      ]
+    }
+  ]
+}

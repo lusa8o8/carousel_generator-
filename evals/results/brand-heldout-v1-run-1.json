@@ -1,0 +1,1986 @@
+{
+  "agent": "brand-profile-extractor",
+  "extractorVersion": "brand-extractor-v2",
+  "datasetVersion": "brand-heldout-v1",
+  "startedAt": "2026-07-24T23:52:04.604Z",
+  "completedAt": "2026-07-24T23:52:21.674Z",
+  "caseCount": 5,
+  "runCount": 15,
+  "passRate": 1,
+  "averageScore": 1,
+  "stabilityRate": 1,
+  "usage": {
+    "apiCalls": 3,
+    "inputTokens": 3912,
+    "outputTokens": 742
+  },
+  "results": [
+    {
+      "testCase": {
+        "id": "heldout-prompt-named",
+        "category": "prompt-exact-heldout",
+        "sourceType": "prompt",
+        "prompt": "Use navy paper, cream ink, and a lime accent with a modern sans headline and monospace body.",
+        "expected": {
+          "paper": "#0A1628",
+          "ink": "#F5F0E8",
+          "accent": "#B7E21A",
+          "headline": "modern",
+          "body": "mono"
+        },
+        "tolerance": 0,
+        "runs": 3
+      },
+      "pass": true,
+      "averageScore": 1,
+      "stability": {
+        "pass": true,
+        "uniqueProfiles": 1
+      },
+      "grades": [
+        {
+          "pass": true,
+          "score": 1,
+          "checks": [
+            {
+              "name": "profile returned",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "valid colors",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "valid typography",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "source type preserved",
+              "pass": true,
+              "detail": "prompt"
+            },
+            {
+              "name": "readable paper and ink",
+              "pass": true,
+              "detail": "15.98:1"
+            },
+            {
+              "name": "evidence retained",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "paper within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 0"
+            },
+            {
+              "name": "ink within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 0"
+            },
+            {
+              "name": "accent within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 0"
+            },
+            {
+              "name": "headline preset",
+              "pass": true,
+              "detail": "modern"
+            },
+            {
+              "name": "body preset",
+              "pass": true,
+              "detail": "mono"
+            }
+          ]
+        },
+        {
+          "pass": true,
+          "score": 1,
+          "checks": [
+            {
+              "name": "profile returned",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "valid colors",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "valid typography",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "source type preserved",
+              "pass": true,
+              "detail": "prompt"
+            },
+            {
+              "name": "readable paper and ink",
+              "pass": true,
+              "detail": "15.98:1"
+            },
+            {
+              "name": "evidence retained",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "paper within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 0"
+            },
+            {
+              "name": "ink within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 0"
+            },
+            {
+              "name": "accent within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 0"
+            },
+            {
+              "name": "headline preset",
+              "pass": true,
+              "detail": "modern"
+            },
+            {
+              "name": "body preset",
+              "pass": true,
+              "detail": "mono"
+            }
+          ]
+        },
+        {
+          "pass": true,
+          "score": 1,
+          "checks": [
+            {
+              "name": "profile returned",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "valid colors",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "valid typography",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "source type preserved",
+              "pass": true,
+              "detail": "prompt"
+            },
+            {
+              "name": "readable paper and ink",
+              "pass": true,
+              "detail": "15.98:1"
+            },
+            {
+              "name": "evidence retained",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "paper within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 0"
+            },
+            {
+              "name": "ink within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 0"
+            },
+            {
+              "name": "accent within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 0"
+            },
+            {
+              "name": "headline preset",
+              "pass": true,
+              "detail": "modern"
+            },
+            {
+              "name": "body preset",
+              "pass": true,
+              "detail": "mono"
+            }
+          ]
+        }
+      ],
+      "outputs": [
+        {
+          "profile": {
+            "version": 1,
+            "paper": "#0A1628",
+            "ink": "#F5F0E8",
+            "accent": "#B7E21A",
+            "headline": "modern",
+            "body": "mono",
+            "sourceType": "prompt",
+            "evidence": [
+              {
+                "kind": "prompt",
+                "source": "Use navy paper",
+                "value": "paper=#0A1628"
+              },
+              {
+                "kind": "prompt",
+                "source": "cream ink",
+                "value": "ink=#F5F0E8"
+              },
+              {
+                "kind": "prompt",
+                "source": "a lime accent with a modern sans headline",
+                "value": "accent=#B7E21A"
+              }
+            ],
+            "warnings": [],
+            "confidence": 1,
+            "extractorVersion": "brand-extractor-v2",
+            "fingerprint": "17b47dc30362db8545ddb90849cbaa9e886273b95acacaf034356871e54c2387"
+          },
+          "method": "deterministic-prompt",
+          "cachedAt": "2026-07-24T23:52:04.708Z",
+          "cached": false
+        },
+        {
+          "profile": {
+            "version": 1,
+            "paper": "#0A1628",
+            "ink": "#F5F0E8",
+            "accent": "#B7E21A",
+            "headline": "modern",
+            "body": "mono",
+            "sourceType": "prompt",
+            "evidence": [
+              {
+                "kind": "prompt",
+                "source": "Use navy paper",
+                "value": "paper=#0A1628"
+              },
+              {
+                "kind": "prompt",
+                "source": "cream ink",
+                "value": "ink=#F5F0E8"
+              },
+              {
+                "kind": "prompt",
+                "source": "a lime accent with a modern sans headline",
+                "value": "accent=#B7E21A"
+              }
+            ],
+            "warnings": [],
+            "confidence": 1,
+            "extractorVersion": "brand-extractor-v2",
+            "fingerprint": "17b47dc30362db8545ddb90849cbaa9e886273b95acacaf034356871e54c2387"
+          },
+          "method": "deterministic-prompt",
+          "cachedAt": "2026-07-24T23:52:04.747Z",
+          "cached": false
+        },
+        {
+          "profile": {
+            "version": 1,
+            "paper": "#0A1628",
+            "ink": "#F5F0E8",
+            "accent": "#B7E21A",
+            "headline": "modern",
+            "body": "mono",
+            "sourceType": "prompt",
+            "evidence": [
+              {
+                "kind": "prompt",
+                "source": "Use navy paper",
+                "value": "paper=#0A1628"
+              },
+              {
+                "kind": "prompt",
+                "source": "cream ink",
+                "value": "ink=#F5F0E8"
+              },
+              {
+                "kind": "prompt",
+                "source": "a lime accent with a modern sans headline",
+                "value": "accent=#B7E21A"
+              }
+            ],
+            "warnings": [],
+            "confidence": 1,
+            "extractorVersion": "brand-extractor-v2",
+            "fingerprint": "17b47dc30362db8545ddb90849cbaa9e886273b95acacaf034356871e54c2387"
+          },
+          "method": "deterministic-prompt",
+          "cachedAt": "2026-07-24T23:52:04.753Z",
+          "cached": false
+        }
+      ]
+    },
+    {
+      "testCase": {
+        "id": "heldout-prompt-partial",
+        "category": "prompt-partial-heldout",
+        "sourceType": "prompt",
+        "prompt": "Change only the ink to charcoal.",
+        "expected": {
+          "paper": "#EFE9DA",
+          "ink": "#2B2B2B",
+          "accent": "#C08A28",
+          "headline": "editorial",
+          "body": "clean"
+        },
+        "tolerance": 0,
+        "runs": 3
+      },
+      "pass": true,
+      "averageScore": 1,
+      "stability": {
+        "pass": true,
+        "uniqueProfiles": 1
+      },
+      "grades": [
+        {
+          "pass": true,
+          "score": 1,
+          "checks": [
+            {
+              "name": "profile returned",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "valid colors",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "valid typography",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "source type preserved",
+              "pass": true,
+              "detail": "prompt"
+            },
+            {
+              "name": "readable paper and ink",
+              "pass": true,
+              "detail": "11.69:1"
+            },
+            {
+              "name": "evidence retained",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "paper within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 0"
+            },
+            {
+              "name": "ink within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 0"
+            },
+            {
+              "name": "accent within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 0"
+            },
+            {
+              "name": "headline preset",
+              "pass": true,
+              "detail": "editorial"
+            },
+            {
+              "name": "body preset",
+              "pass": true,
+              "detail": "clean"
+            }
+          ]
+        },
+        {
+          "pass": true,
+          "score": 1,
+          "checks": [
+            {
+              "name": "profile returned",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "valid colors",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "valid typography",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "source type preserved",
+              "pass": true,
+              "detail": "prompt"
+            },
+            {
+              "name": "readable paper and ink",
+              "pass": true,
+              "detail": "11.69:1"
+            },
+            {
+              "name": "evidence retained",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "paper within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 0"
+            },
+            {
+              "name": "ink within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 0"
+            },
+            {
+              "name": "accent within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 0"
+            },
+            {
+              "name": "headline preset",
+              "pass": true,
+              "detail": "editorial"
+            },
+            {
+              "name": "body preset",
+              "pass": true,
+              "detail": "clean"
+            }
+          ]
+        },
+        {
+          "pass": true,
+          "score": 1,
+          "checks": [
+            {
+              "name": "profile returned",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "valid colors",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "valid typography",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "source type preserved",
+              "pass": true,
+              "detail": "prompt"
+            },
+            {
+              "name": "readable paper and ink",
+              "pass": true,
+              "detail": "11.69:1"
+            },
+            {
+              "name": "evidence retained",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "paper within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 0"
+            },
+            {
+              "name": "ink within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 0"
+            },
+            {
+              "name": "accent within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 0"
+            },
+            {
+              "name": "headline preset",
+              "pass": true,
+              "detail": "editorial"
+            },
+            {
+              "name": "body preset",
+              "pass": true,
+              "detail": "clean"
+            }
+          ]
+        }
+      ],
+      "outputs": [
+        {
+          "profile": {
+            "version": 1,
+            "paper": "#EFE9DA",
+            "ink": "#2B2B2B",
+            "accent": "#C08A28",
+            "headline": "editorial",
+            "body": "clean",
+            "sourceType": "prompt",
+            "evidence": [
+              {
+                "kind": "prompt",
+                "source": "Change only the ink to charcoal.",
+                "value": "ink=#2B2B2B"
+              }
+            ],
+            "warnings": [],
+            "confidence": 1,
+            "extractorVersion": "brand-extractor-v2",
+            "fingerprint": "81f48a1f2340103c763959198ca2c3c3d87f2bf92fd94bed463e51f5be0146ea"
+          },
+          "method": "deterministic-prompt",
+          "cachedAt": "2026-07-24T23:52:04.764Z",
+          "cached": false
+        },
+        {
+          "profile": {
+            "version": 1,
+            "paper": "#EFE9DA",
+            "ink": "#2B2B2B",
+            "accent": "#C08A28",
+            "headline": "editorial",
+            "body": "clean",
+            "sourceType": "prompt",
+            "evidence": [
+              {
+                "kind": "prompt",
+                "source": "Change only the ink to charcoal.",
+                "value": "ink=#2B2B2B"
+              }
+            ],
+            "warnings": [],
+            "confidence": 1,
+            "extractorVersion": "brand-extractor-v2",
+            "fingerprint": "81f48a1f2340103c763959198ca2c3c3d87f2bf92fd94bed463e51f5be0146ea"
+          },
+          "method": "deterministic-prompt",
+          "cachedAt": "2026-07-24T23:52:04.773Z",
+          "cached": false
+        },
+        {
+          "profile": {
+            "version": 1,
+            "paper": "#EFE9DA",
+            "ink": "#2B2B2B",
+            "accent": "#C08A28",
+            "headline": "editorial",
+            "body": "clean",
+            "sourceType": "prompt",
+            "evidence": [
+              {
+                "kind": "prompt",
+                "source": "Change only the ink to charcoal.",
+                "value": "ink=#2B2B2B"
+              }
+            ],
+            "warnings": [],
+            "confidence": 1,
+            "extractorVersion": "brand-extractor-v2",
+            "fingerprint": "81f48a1f2340103c763959198ca2c3c3d87f2bf92fd94bed463e51f5be0146ea"
+          },
+          "method": "deterministic-prompt",
+          "cachedAt": "2026-07-24T23:52:04.780Z",
+          "cached": false
+        }
+      ]
+    },
+    {
+      "testCase": {
+        "id": "heldout-image-plum",
+        "category": "vision-heldout",
+        "sourceType": "image",
+        "fixture": "brand-plum-rose.png",
+        "prompt": "The large blush field is paper, the dark plum block is ink, and the rose block is the accent. Use an editorial headline and clean body.",
+        "expected": {
+          "paper": "#F2E9E4",
+          "ink": "#2D232E",
+          "accent": "#D7263D",
+          "headline": "editorial",
+          "body": "clean"
+        },
+        "tolerance": 0,
+        "runs": 3
+      },
+      "pass": true,
+      "averageScore": 1,
+      "stability": {
+        "pass": true,
+        "uniqueProfiles": 1
+      },
+      "grades": [
+        {
+          "pass": true,
+          "score": 1,
+          "checks": [
+            {
+              "name": "profile returned",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "valid colors",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "valid typography",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "source type preserved",
+              "pass": true,
+              "detail": "image"
+            },
+            {
+              "name": "readable paper and ink",
+              "pass": true,
+              "detail": "12.61:1"
+            },
+            {
+              "name": "evidence retained",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "paper within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 0"
+            },
+            {
+              "name": "ink within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 0"
+            },
+            {
+              "name": "accent within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 0"
+            },
+            {
+              "name": "headline preset",
+              "pass": true,
+              "detail": "editorial"
+            },
+            {
+              "name": "body preset",
+              "pass": true,
+              "detail": "clean"
+            }
+          ]
+        },
+        {
+          "pass": true,
+          "score": 1,
+          "checks": [
+            {
+              "name": "profile returned",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "valid colors",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "valid typography",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "source type preserved",
+              "pass": true,
+              "detail": "image"
+            },
+            {
+              "name": "readable paper and ink",
+              "pass": true,
+              "detail": "12.61:1"
+            },
+            {
+              "name": "evidence retained",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "paper within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 0"
+            },
+            {
+              "name": "ink within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 0"
+            },
+            {
+              "name": "accent within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 0"
+            },
+            {
+              "name": "headline preset",
+              "pass": true,
+              "detail": "editorial"
+            },
+            {
+              "name": "body preset",
+              "pass": true,
+              "detail": "clean"
+            }
+          ]
+        },
+        {
+          "pass": true,
+          "score": 1,
+          "checks": [
+            {
+              "name": "profile returned",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "valid colors",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "valid typography",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "source type preserved",
+              "pass": true,
+              "detail": "image"
+            },
+            {
+              "name": "readable paper and ink",
+              "pass": true,
+              "detail": "12.61:1"
+            },
+            {
+              "name": "evidence retained",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "paper within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 0"
+            },
+            {
+              "name": "ink within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 0"
+            },
+            {
+              "name": "accent within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 0"
+            },
+            {
+              "name": "headline preset",
+              "pass": true,
+              "detail": "editorial"
+            },
+            {
+              "name": "body preset",
+              "pass": true,
+              "detail": "clean"
+            }
+          ]
+        }
+      ],
+      "outputs": [
+        {
+          "profile": {
+            "version": 1,
+            "paper": "#F2E9E4",
+            "ink": "#2D232E",
+            "accent": "#D7263D",
+            "headline": "editorial",
+            "body": "clean",
+            "sourceType": "image",
+            "evidence": [
+              {
+                "kind": "sampled-color",
+                "source": "image-palette",
+                "value": "#F2E9E4 assigned as paper (large blush/warm-white field, ratio 0.713)"
+              },
+              {
+                "kind": "sampled-color",
+                "source": "image-palette",
+                "value": "#2D232E assigned as ink (dark plum rectangle block, ratio 0.256)"
+              },
+              {
+                "kind": "sampled-color",
+                "source": "image-palette",
+                "value": "#D7263D assigned as accent (rose/red square block, ratio 0.031)"
+              },
+              {
+                "kind": "typography",
+                "source": "image-guidance",
+                "value": "editorial headline, clean body as directed"
+              },
+              {
+                "kind": "sampled-palette",
+                "source": "image-1",
+                "value": "#F2E9E4 (71.3%)"
+              },
+              {
+                "kind": "sampled-palette",
+                "source": "image-1",
+                "value": "#2D232E (25.6%)"
+              },
+              {
+                "kind": "sampled-palette",
+                "source": "image-1",
+                "value": "#D7263D (3.1%)"
+              }
+            ],
+            "warnings": [
+              "Colors chosen exclusively from deterministically sampled palette hex values as instructed; no estimation performed",
+              "Prior brand colors (#EFE9DA, #212B21, #C08A28) differ from sampled values and were not used"
+            ],
+            "confidence": 0.97,
+            "extractorVersion": "brand-extractor-v2",
+            "fingerprint": "5a8f11272a76cbd9c9ddf5c8fd28782c3f5251cc99e453e4d779095483f7bf9d"
+          },
+          "method": "claude-image",
+          "cachedAt": "2026-07-24T23:52:10.548Z",
+          "cached": false,
+          "usage": {
+            "input_tokens": 1304,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 0
+            },
+            "output_tokens": 244,
+            "service_tier": "standard",
+            "inference_geo": "global"
+          }
+        },
+        {
+          "profile": {
+            "version": 1,
+            "paper": "#F2E9E4",
+            "ink": "#2D232E",
+            "accent": "#D7263D",
+            "headline": "editorial",
+            "body": "clean",
+            "sourceType": "image",
+            "evidence": [
+              {
+                "kind": "sampled-color",
+                "source": "image-palette",
+                "value": "#F2E9E4 assigned as paper (large blush/warm-white field, ratio 0.713)"
+              },
+              {
+                "kind": "sampled-color",
+                "source": "image-palette",
+                "value": "#2D232E assigned as ink (dark plum rectangle block, ratio 0.256)"
+              },
+              {
+                "kind": "sampled-color",
+                "source": "image-palette",
+                "value": "#D7263D assigned as accent (rose/red square block, ratio 0.031)"
+              },
+              {
+                "kind": "typography",
+                "source": "image-guidance",
+                "value": "editorial headline, clean body as instructed"
+              },
+              {
+                "kind": "sampled-palette",
+                "source": "image-1",
+                "value": "#F2E9E4 (71.3%)"
+              },
+              {
+                "kind": "sampled-palette",
+                "source": "image-1",
+                "value": "#2D232E (25.6%)"
+              },
+              {
+                "kind": "sampled-palette",
+                "source": "image-1",
+                "value": "#D7263D (3.1%)"
+              }
+            ],
+            "warnings": [
+              "Paper differs from current brand (#EFE9DA); using exact sampled value #F2E9E4 per deterministic palette requirement",
+              "Ink differs from current brand (#212B21); using exact sampled value #2D232E",
+              "Accent differs from current brand (#C08A28); image shows rose-red block, not gold"
+            ],
+            "confidence": 0.97,
+            "extractorVersion": "brand-extractor-v2",
+            "fingerprint": "5a8f11272a76cbd9c9ddf5c8fd28782c3f5251cc99e453e4d779095483f7bf9d"
+          },
+          "method": "claude-image",
+          "cachedAt": "2026-07-24T23:52:16.291Z",
+          "cached": false,
+          "usage": {
+            "input_tokens": 1304,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 0
+            },
+            "output_tokens": 270,
+            "service_tier": "standard",
+            "inference_geo": "global"
+          }
+        },
+        {
+          "profile": {
+            "version": 1,
+            "paper": "#F2E9E4",
+            "ink": "#2D232E",
+            "accent": "#D7263D",
+            "headline": "editorial",
+            "body": "clean",
+            "sourceType": "image",
+            "evidence": [
+              {
+                "kind": "color",
+                "source": "sampled-palette",
+                "value": "#F2E9E4 assigned as paper (large blush/warm-white field, ratio 0.713)"
+              },
+              {
+                "kind": "color",
+                "source": "sampled-palette",
+                "value": "#2D232E assigned as ink (dark plum block, ratio 0.256)"
+              },
+              {
+                "kind": "color",
+                "source": "sampled-palette",
+                "value": "#D7263D assigned as accent (rose/red block, ratio 0.031)"
+              },
+              {
+                "kind": "typography",
+                "source": "image-guidance",
+                "value": "editorial headline, clean body per explicit instruction"
+              },
+              {
+                "kind": "sampled-palette",
+                "source": "image-1",
+                "value": "#F2E9E4 (71.3%)"
+              },
+              {
+                "kind": "sampled-palette",
+                "source": "image-1",
+                "value": "#2D232E (25.6%)"
+              },
+              {
+                "kind": "sampled-palette",
+                "source": "image-1",
+                "value": "#D7263D (3.1%)"
+              }
+            ],
+            "warnings": [
+              "No text visible in image; typography mapping relies entirely on image guidance instruction",
+              "Accent color #D7263D is a vivid red; use sparingly to avoid accessibility contrast issues on light paper"
+            ],
+            "confidence": 0.97,
+            "extractorVersion": "brand-extractor-v2",
+            "fingerprint": "5a8f11272a76cbd9c9ddf5c8fd28782c3f5251cc99e453e4d779095483f7bf9d"
+          },
+          "method": "claude-image",
+          "cachedAt": "2026-07-24T23:52:21.544Z",
+          "cached": false,
+          "usage": {
+            "input_tokens": 1304,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 0
+            },
+            "output_tokens": 228,
+            "service_tier": "standard",
+            "inference_geo": "global"
+          }
+        }
+      ]
+    },
+    {
+      "testCase": {
+        "id": "heldout-url-dark",
+        "category": "website-heldout",
+        "sourceType": "url",
+        "fixtureSite": "brand-site-dark",
+        "expected": {
+          "paper": "#101820",
+          "ink": "#F2F4F3",
+          "accent": "#00A7C4",
+          "headline": "modern",
+          "body": "mono"
+        },
+        "tolerance": 0,
+        "runs": 3
+      },
+      "pass": true,
+      "averageScore": 1,
+      "stability": {
+        "pass": true,
+        "uniqueProfiles": 1
+      },
+      "grades": [
+        {
+          "pass": true,
+          "score": 1,
+          "checks": [
+            {
+              "name": "profile returned",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "valid colors",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "valid typography",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "source type preserved",
+              "pass": true,
+              "detail": "url"
+            },
+            {
+              "name": "readable paper and ink",
+              "pass": true,
+              "detail": "16.20:1"
+            },
+            {
+              "name": "evidence retained",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "paper within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 0"
+            },
+            {
+              "name": "ink within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 0"
+            },
+            {
+              "name": "accent within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 0"
+            },
+            {
+              "name": "headline preset",
+              "pass": true,
+              "detail": "modern"
+            },
+            {
+              "name": "body preset",
+              "pass": true,
+              "detail": "mono"
+            }
+          ]
+        },
+        {
+          "pass": true,
+          "score": 1,
+          "checks": [
+            {
+              "name": "profile returned",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "valid colors",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "valid typography",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "source type preserved",
+              "pass": true,
+              "detail": "url"
+            },
+            {
+              "name": "readable paper and ink",
+              "pass": true,
+              "detail": "16.20:1"
+            },
+            {
+              "name": "evidence retained",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "paper within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 0"
+            },
+            {
+              "name": "ink within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 0"
+            },
+            {
+              "name": "accent within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 0"
+            },
+            {
+              "name": "headline preset",
+              "pass": true,
+              "detail": "modern"
+            },
+            {
+              "name": "body preset",
+              "pass": true,
+              "detail": "mono"
+            }
+          ]
+        },
+        {
+          "pass": true,
+          "score": 1,
+          "checks": [
+            {
+              "name": "profile returned",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "valid colors",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "valid typography",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "source type preserved",
+              "pass": true,
+              "detail": "url"
+            },
+            {
+              "name": "readable paper and ink",
+              "pass": true,
+              "detail": "16.20:1"
+            },
+            {
+              "name": "evidence retained",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "paper within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 0"
+            },
+            {
+              "name": "ink within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 0"
+            },
+            {
+              "name": "accent within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 0"
+            },
+            {
+              "name": "headline preset",
+              "pass": true,
+              "detail": "modern"
+            },
+            {
+              "name": "body preset",
+              "pass": true,
+              "detail": "mono"
+            }
+          ]
+        }
+      ],
+      "outputs": [
+        {
+          "profile": {
+            "version": 1,
+            "paper": "#101820",
+            "ink": "#F2F4F3",
+            "accent": "#00A7C4",
+            "headline": "modern",
+            "body": "mono",
+            "sourceType": "url",
+            "evidence": [
+              {
+                "kind": "theme-color",
+                "source": "http://127.0.0.1:53176/brand-site-dark/",
+                "value": "#00A7C4"
+              },
+              {
+                "kind": "stylesheet",
+                "source": "http://127.0.0.1:53176/brand-dark.css",
+                "value": "http://127.0.0.1:53176/brand-dark.css"
+              },
+              {
+                "kind": "css-variable-root",
+                "source": "http://127.0.0.1:53176/brand-dark.css",
+                "value": "--surface-background=#101820"
+              },
+              {
+                "kind": "css-variable-root",
+                "source": "http://127.0.0.1:53176/brand-dark.css",
+                "value": "--foreground-text=#F2F4F3"
+              },
+              {
+                "kind": "css-variable-root",
+                "source": "http://127.0.0.1:53176/brand-dark.css",
+                "value": "--primary-brand=#00A7C4"
+              },
+              {
+                "kind": "css-variable",
+                "source": "http://127.0.0.1:53176/brand-dark.css",
+                "value": "--surface-background=#101820"
+              },
+              {
+                "kind": "css-variable",
+                "source": "http://127.0.0.1:53176/brand-dark.css",
+                "value": "--foreground-text=#F2F4F3"
+              },
+              {
+                "kind": "css-variable",
+                "source": "http://127.0.0.1:53176/brand-dark.css",
+                "value": "--primary-brand=#00A7C4"
+              },
+              {
+                "kind": "page-background",
+                "source": "http://127.0.0.1:53176/brand-dark.css",
+                "value": "#101820"
+              },
+              {
+                "kind": "page-text",
+                "source": "http://127.0.0.1:53176/brand-dark.css",
+                "value": "#F2F4F3"
+              },
+              {
+                "kind": "font-family",
+                "source": "http://127.0.0.1:53176/brand-dark.css",
+                "value": "\"IBM Plex Mono\", monospace"
+              }
+            ],
+            "warnings": [],
+            "confidence": 0.88,
+            "extractorVersion": "brand-extractor-v2",
+            "fingerprint": "e365af086b4ca5475105206acba519550bb6c652904553a2ee35e0e26609e319"
+          },
+          "method": "deterministic-web-evidence",
+          "cachedAt": "2026-07-24T23:52:21.568Z",
+          "cached": false,
+          "crawl": {
+            "url": "http://127.0.0.1:53176/brand-site-dark/",
+            "stylesheets": 1,
+            "evidence": 11
+          }
+        },
+        {
+          "profile": {
+            "version": 1,
+            "paper": "#101820",
+            "ink": "#F2F4F3",
+            "accent": "#00A7C4",
+            "headline": "modern",
+            "body": "mono",
+            "sourceType": "url",
+            "evidence": [
+              {
+                "kind": "theme-color",
+                "source": "http://127.0.0.1:53176/brand-site-dark/",
+                "value": "#00A7C4"
+              },
+              {
+                "kind": "stylesheet",
+                "source": "http://127.0.0.1:53176/brand-dark.css",
+                "value": "http://127.0.0.1:53176/brand-dark.css"
+              },
+              {
+                "kind": "css-variable-root",
+                "source": "http://127.0.0.1:53176/brand-dark.css",
+                "value": "--surface-background=#101820"
+              },
+              {
+                "kind": "css-variable-root",
+                "source": "http://127.0.0.1:53176/brand-dark.css",
+                "value": "--foreground-text=#F2F4F3"
+              },
+              {
+                "kind": "css-variable-root",
+                "source": "http://127.0.0.1:53176/brand-dark.css",
+                "value": "--primary-brand=#00A7C4"
+              },
+              {
+                "kind": "css-variable",
+                "source": "http://127.0.0.1:53176/brand-dark.css",
+                "value": "--surface-background=#101820"
+              },
+              {
+                "kind": "css-variable",
+                "source": "http://127.0.0.1:53176/brand-dark.css",
+                "value": "--foreground-text=#F2F4F3"
+              },
+              {
+                "kind": "css-variable",
+                "source": "http://127.0.0.1:53176/brand-dark.css",
+                "value": "--primary-brand=#00A7C4"
+              },
+              {
+                "kind": "page-background",
+                "source": "http://127.0.0.1:53176/brand-dark.css",
+                "value": "#101820"
+              },
+              {
+                "kind": "page-text",
+                "source": "http://127.0.0.1:53176/brand-dark.css",
+                "value": "#F2F4F3"
+              },
+              {
+                "kind": "font-family",
+                "source": "http://127.0.0.1:53176/brand-dark.css",
+                "value": "\"IBM Plex Mono\", monospace"
+              }
+            ],
+            "warnings": [],
+            "confidence": 0.88,
+            "extractorVersion": "brand-extractor-v2",
+            "fingerprint": "e365af086b4ca5475105206acba519550bb6c652904553a2ee35e0e26609e319"
+          },
+          "method": "deterministic-web-evidence",
+          "cachedAt": "2026-07-24T23:52:21.580Z",
+          "cached": false,
+          "crawl": {
+            "url": "http://127.0.0.1:53176/brand-site-dark/",
+            "stylesheets": 1,
+            "evidence": 11
+          }
+        },
+        {
+          "profile": {
+            "version": 1,
+            "paper": "#101820",
+            "ink": "#F2F4F3",
+            "accent": "#00A7C4",
+            "headline": "modern",
+            "body": "mono",
+            "sourceType": "url",
+            "evidence": [
+              {
+                "kind": "theme-color",
+                "source": "http://127.0.0.1:53176/brand-site-dark/",
+                "value": "#00A7C4"
+              },
+              {
+                "kind": "stylesheet",
+                "source": "http://127.0.0.1:53176/brand-dark.css",
+                "value": "http://127.0.0.1:53176/brand-dark.css"
+              },
+              {
+                "kind": "css-variable-root",
+                "source": "http://127.0.0.1:53176/brand-dark.css",
+                "value": "--surface-background=#101820"
+              },
+              {
+                "kind": "css-variable-root",
+                "source": "http://127.0.0.1:53176/brand-dark.css",
+                "value": "--foreground-text=#F2F4F3"
+              },
+              {
+                "kind": "css-variable-root",
+                "source": "http://127.0.0.1:53176/brand-dark.css",
+                "value": "--primary-brand=#00A7C4"
+              },
+              {
+                "kind": "css-variable",
+                "source": "http://127.0.0.1:53176/brand-dark.css",
+                "value": "--surface-background=#101820"
+              },
+              {
+                "kind": "css-variable",
+                "source": "http://127.0.0.1:53176/brand-dark.css",
+                "value": "--foreground-text=#F2F4F3"
+              },
+              {
+                "kind": "css-variable",
+                "source": "http://127.0.0.1:53176/brand-dark.css",
+                "value": "--primary-brand=#00A7C4"
+              },
+              {
+                "kind": "page-background",
+                "source": "http://127.0.0.1:53176/brand-dark.css",
+                "value": "#101820"
+              },
+              {
+                "kind": "page-text",
+                "source": "http://127.0.0.1:53176/brand-dark.css",
+                "value": "#F2F4F3"
+              },
+              {
+                "kind": "font-family",
+                "source": "http://127.0.0.1:53176/brand-dark.css",
+                "value": "\"IBM Plex Mono\", monospace"
+              }
+            ],
+            "warnings": [],
+            "confidence": 0.88,
+            "extractorVersion": "brand-extractor-v2",
+            "fingerprint": "e365af086b4ca5475105206acba519550bb6c652904553a2ee35e0e26609e319"
+          },
+          "method": "deterministic-web-evidence",
+          "cachedAt": "2026-07-24T23:52:21.592Z",
+          "cached": false,
+          "crawl": {
+            "url": "http://127.0.0.1:53176/brand-site-dark/",
+            "stylesheets": 1,
+            "evidence": 11
+          }
+        }
+      ]
+    },
+    {
+      "testCase": {
+        "id": "heldout-url-hsl-tokens",
+        "category": "website-heldout",
+        "sourceType": "url",
+        "fixtureSite": "brand-site-hsl",
+        "expected": {
+          "paper": "#FFFFFF",
+          "ink": "#020817",
+          "accent": "#AB45DE",
+          "headline": "modern",
+          "body": "clean"
+        },
+        "tolerance": 0,
+        "runs": 3
+      },
+      "pass": true,
+      "averageScore": 1,
+      "stability": {
+        "pass": true,
+        "uniqueProfiles": 1
+      },
+      "grades": [
+        {
+          "pass": true,
+          "score": 1,
+          "checks": [
+            {
+              "name": "profile returned",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "valid colors",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "valid typography",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "source type preserved",
+              "pass": true,
+              "detail": "url"
+            },
+            {
+              "name": "readable paper and ink",
+              "pass": true,
+              "detail": "20.01:1"
+            },
+            {
+              "name": "evidence retained",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "paper within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 0"
+            },
+            {
+              "name": "ink within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 0"
+            },
+            {
+              "name": "accent within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 0"
+            },
+            {
+              "name": "headline preset",
+              "pass": true,
+              "detail": "modern"
+            },
+            {
+              "name": "body preset",
+              "pass": true,
+              "detail": "clean"
+            }
+          ]
+        },
+        {
+          "pass": true,
+          "score": 1,
+          "checks": [
+            {
+              "name": "profile returned",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "valid colors",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "valid typography",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "source type preserved",
+              "pass": true,
+              "detail": "url"
+            },
+            {
+              "name": "readable paper and ink",
+              "pass": true,
+              "detail": "20.01:1"
+            },
+            {
+              "name": "evidence retained",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "paper within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 0"
+            },
+            {
+              "name": "ink within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 0"
+            },
+            {
+              "name": "accent within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 0"
+            },
+            {
+              "name": "headline preset",
+              "pass": true,
+              "detail": "modern"
+            },
+            {
+              "name": "body preset",
+              "pass": true,
+              "detail": "clean"
+            }
+          ]
+        },
+        {
+          "pass": true,
+          "score": 1,
+          "checks": [
+            {
+              "name": "profile returned",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "valid colors",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "valid typography",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "source type preserved",
+              "pass": true,
+              "detail": "url"
+            },
+            {
+              "name": "readable paper and ink",
+              "pass": true,
+              "detail": "20.01:1"
+            },
+            {
+              "name": "evidence retained",
+              "pass": true,
+              "detail": ""
+            },
+            {
+              "name": "paper within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 0"
+            },
+            {
+              "name": "ink within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 0"
+            },
+            {
+              "name": "accent within tolerance",
+              "pass": true,
+              "detail": "distance 0.00, tolerance 0"
+            },
+            {
+              "name": "headline preset",
+              "pass": true,
+              "detail": "modern"
+            },
+            {
+              "name": "body preset",
+              "pass": true,
+              "detail": "clean"
+            }
+          ]
+        }
+      ],
+      "outputs": [
+        {
+          "profile": {
+            "version": 1,
+            "paper": "#FFFFFF",
+            "ink": "#020817",
+            "accent": "#AB45DE",
+            "headline": "modern",
+            "body": "clean",
+            "sourceType": "url",
+            "evidence": [
+              {
+                "kind": "stylesheet",
+                "source": "http://127.0.0.1:53176/brand-hsl.css",
+                "value": "http://127.0.0.1:53176/brand-hsl.css"
+              },
+              {
+                "kind": "css-variable-root",
+                "source": "http://127.0.0.1:53176/brand-hsl.css",
+                "value": "--background=#FFFFFF"
+              },
+              {
+                "kind": "css-variable-root",
+                "source": "http://127.0.0.1:53176/brand-hsl.css",
+                "value": "--foreground=#020817"
+              },
+              {
+                "kind": "css-variable-root",
+                "source": "http://127.0.0.1:53176/brand-hsl.css",
+                "value": "--primary=#AB45DE"
+              },
+              {
+                "kind": "css-variable-root",
+                "source": "http://127.0.0.1:53176/brand-hsl.css",
+                "value": "--secondary=#FF7438"
+              },
+              {
+                "kind": "css-variable-root",
+                "source": "http://127.0.0.1:53176/brand-hsl.css",
+                "value": "--accent=#FFB347"
+              },
+              {
+                "kind": "css-variable",
+                "source": "http://127.0.0.1:53176/brand-hsl.css",
+                "value": "--background=#FFFFFF"
+              },
+              {
+                "kind": "css-variable",
+                "source": "http://127.0.0.1:53176/brand-hsl.css",
+                "value": "--foreground=#020817"
+              },
+              {
+                "kind": "css-variable",
+                "source": "http://127.0.0.1:53176/brand-hsl.css",
+                "value": "--primary=#AB45DE"
+              },
+              {
+                "kind": "css-variable",
+                "source": "http://127.0.0.1:53176/brand-hsl.css",
+                "value": "--secondary=#FF7438"
+              },
+              {
+                "kind": "css-variable",
+                "source": "http://127.0.0.1:53176/brand-hsl.css",
+                "value": "--accent=#FFB347"
+              },
+              {
+                "kind": "page-background",
+                "source": "http://127.0.0.1:53176/brand-hsl.css",
+                "value": "#FFFFFF"
+              },
+              {
+                "kind": "page-text",
+                "source": "http://127.0.0.1:53176/brand-hsl.css",
+                "value": "#020817"
+              },
+              {
+                "kind": "font-family",
+                "source": "http://127.0.0.1:53176/brand-hsl.css",
+                "value": "Poppins, sans-serif"
+              }
+            ],
+            "warnings": [],
+            "confidence": 0.88,
+            "extractorVersion": "brand-extractor-v2",
+            "fingerprint": "2d061b489498a90c157872912dbf18d0b95d185ea1ca3b973d67c99f9cbdfb8a"
+          },
+          "method": "deterministic-web-evidence",
+          "cachedAt": "2026-07-24T23:52:21.611Z",
+          "cached": false,
+          "crawl": {
+            "url": "http://127.0.0.1:53176/brand-site-hsl/",
+            "stylesheets": 1,
+            "evidence": 14
+          }
+        },
+        {
+          "profile": {
+            "version": 1,
+            "paper": "#FFFFFF",
+            "ink": "#020817",
+            "accent": "#AB45DE",
+            "headline": "modern",
+            "body": "clean",
+            "sourceType": "url",
+            "evidence": [
+              {
+                "kind": "stylesheet",
+                "source": "http://127.0.0.1:53176/brand-hsl.css",
+                "value": "http://127.0.0.1:53176/brand-hsl.css"
+              },
+              {
+                "kind": "css-variable-root",
+                "source": "http://127.0.0.1:53176/brand-hsl.css",
+                "value": "--background=#FFFFFF"
+              },
+              {
+                "kind": "css-variable-root",
+                "source": "http://127.0.0.1:53176/brand-hsl.css",
+                "value": "--foreground=#020817"
+              },
+              {
+                "kind": "css-variable-root",
+                "source": "http://127.0.0.1:53176/brand-hsl.css",
+                "value": "--primary=#AB45DE"
+              },
+              {
+                "kind": "css-variable-root",
+                "source": "http://127.0.0.1:53176/brand-hsl.css",
+                "value": "--secondary=#FF7438"
+              },
+              {
+                "kind": "css-variable-root",
+                "source": "http://127.0.0.1:53176/brand-hsl.css",
+                "value": "--accent=#FFB347"
+              },
+              {
+                "kind": "css-variable",
+                "source": "http://127.0.0.1:53176/brand-hsl.css",
+                "value": "--background=#FFFFFF"
+              },
+              {
+                "kind": "css-variable",
+                "source": "http://127.0.0.1:53176/brand-hsl.css",
+                "value": "--foreground=#020817"
+              },
+              {
+                "kind": "css-variable",
+                "source": "http://127.0.0.1:53176/brand-hsl.css",
+                "value": "--primary=#AB45DE"
+              },
+              {
+                "kind": "css-variable",
+                "source": "http://127.0.0.1:53176/brand-hsl.css",
+                "value": "--secondary=#FF7438"
+              },
+              {
+                "kind": "css-variable",
+                "source": "http://127.0.0.1:53176/brand-hsl.css",
+                "value": "--accent=#FFB347"
+              },
+              {
+                "kind": "page-background",
+                "source": "http://127.0.0.1:53176/brand-hsl.css",
+                "value": "#FFFFFF"
+              },
+              {
+                "kind": "page-text",
+                "source": "http://127.0.0.1:53176/brand-hsl.css",
+                "value": "#020817"
+              },
+              {
+                "kind": "font-family",
+                "source": "http://127.0.0.1:53176/brand-hsl.css",
+                "value": "Poppins, sans-serif"
+              }
+            ],
+            "warnings": [],
+            "confidence": 0.88,
+            "extractorVersion": "brand-extractor-v2",
+            "fingerprint": "2d061b489498a90c157872912dbf18d0b95d185ea1ca3b973d67c99f9cbdfb8a"
+          },
+          "method": "deterministic-web-evidence",
+          "cachedAt": "2026-07-24T23:52:21.634Z",
+          "cached": false,
+          "crawl": {
+            "url": "http://127.0.0.1:53176/brand-site-hsl/",
+            "stylesheets": 1,
+            "evidence": 14
+          }
+        },
+        {
+          "profile": {
+            "version": 1,
+            "paper": "#FFFFFF",
+            "ink": "#020817",
+            "accent": "#AB45DE",
+            "headline": "modern",
+            "body": "clean",
+            "sourceType": "url",
+            "evidence": [
+              {
+                "kind": "stylesheet",
+                "source": "http://127.0.0.1:53176/brand-hsl.css",
+                "value": "http://127.0.0.1:53176/brand-hsl.css"
+              },
+              {
+                "kind": "css-variable-root",
+                "source": "http://127.0.0.1:53176/brand-hsl.css",
+                "value": "--background=#FFFFFF"
+              },
+              {
+                "kind": "css-variable-root",
+                "source": "http://127.0.0.1:53176/brand-hsl.css",
+                "value": "--foreground=#020817"
+              },
+              {
+                "kind": "css-variable-root",
+                "source": "http://127.0.0.1:53176/brand-hsl.css",
+                "value": "--primary=#AB45DE"
+              },
+              {
+                "kind": "css-variable-root",
+                "source": "http://127.0.0.1:53176/brand-hsl.css",
+                "value": "--secondary=#FF7438"
+              },
+              {
+                "kind": "css-variable-root",
+                "source": "http://127.0.0.1:53176/brand-hsl.css",
+                "value": "--accent=#FFB347"
+              },
+              {
+                "kind": "css-variable",
+                "source": "http://127.0.0.1:53176/brand-hsl.css",
+                "value": "--background=#FFFFFF"
+              },
+              {
+                "kind": "css-variable",
+                "source": "http://127.0.0.1:53176/brand-hsl.css",
+                "value": "--foreground=#020817"
+              },
+              {
+                "kind": "css-variable",
+                "source": "http://127.0.0.1:53176/brand-hsl.css",
+                "value": "--primary=#AB45DE"
+              },
+              {
+                "kind": "css-variable",
+                "source": "http://127.0.0.1:53176/brand-hsl.css",
+                "value": "--secondary=#FF7438"
+              },
+              {
+                "kind": "css-variable",
+                "source": "http://127.0.0.1:53176/brand-hsl.css",
+                "value": "--accent=#FFB347"
+              },
+              {
+                "kind": "page-background",
+                "source": "http://127.0.0.1:53176/brand-hsl.css",
+                "value": "#FFFFFF"
+              },
+              {
+                "kind": "page-text",
+                "source": "http://127.0.0.1:53176/brand-hsl.css",
+                "value": "#020817"
+              },
+              {
+                "kind": "font-family",
+                "source": "http://127.0.0.1:53176/brand-hsl.css",
+                "value": "Poppins, sans-serif"
+              }
+            ],
+            "warnings": [],
+            "confidence": 0.88,
+            "extractorVersion": "brand-extractor-v2",
+            "fingerprint": "2d061b489498a90c157872912dbf18d0b95d185ea1ca3b973d67c99f9cbdfb8a"
+          },
+          "method": "deterministic-web-evidence",
+          "cachedAt": "2026-07-24T23:52:21.664Z",
+          "cached": false,
+          "crawl": {
+            "url": "http://127.0.0.1:53176/brand-site-hsl/",
+            "stylesheets": 1,
+            "evidence": 14
+          }
+        }
+      ]
+    }
+  ]
+}

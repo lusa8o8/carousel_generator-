@@ -1,0 +1,11 @@
+:root {
+  --brand-paper: #F7F5EE;
+  --brand-ink: #171A18;
+  --brand-accent: #E84F3D;
+}
+
+body {
+  background: #F7F5EE;
+  color: #171A18;
+  font-family: Inter, Arial, sans-serif;
+}

@@ -1,0 +1,11 @@
+:root {
+  --surface-background: #101820;
+  --foreground-text: #F2F4F3;
+  --primary-brand: #00A7C4;
+}
+
+html {
+  background-color: #101820;
+  color: #F2F4F3;
+  font-family: "IBM Plex Mono", monospace;
+}

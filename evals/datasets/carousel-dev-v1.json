@@ -1,0 +1,64 @@
+[
+  {
+    "id": "practical-list",
+    "category": "normal-practical-list",
+    "input": "Create a carousel with practical ways freelance designers can avoid burnout.",
+    "expected_behavior": "Produce a concise, audience-specific carousel with actionable burnout prevention ideas, a hook cover, non-cover middle slides, and a dedicated CTA cover.",
+    "expect": { "brandApply": false, "topicTerms": ["burnout", "freelance", "designer"] }
+  },
+  {
+    "id": "specific-audience",
+    "category": "audience-specificity",
+    "input": "Make a useful carousel explaining cash-flow forecasting to first-time agency owners. Avoid generic business advice.",
+    "expected_behavior": "Explain cash-flow forecasting specifically for first-time agency owners with concrete guidance rather than generic business advice.",
+    "expect": { "brandApply": false, "topicTerms": ["cash", "forecast", "agency"] }
+  },
+  {
+    "id": "myth-flow",
+    "category": "requested-flow",
+    "input": "Create a myth-busting carousel about why motivation is not enough to build consistent habits.",
+    "flow": "myth",
+    "expected_behavior": "Use a clear myth-to-truth progression about motivation and consistent habits while preserving the required slide roles.",
+    "expect": { "brandApply": false, "topicTerms": ["motivation", "habit", "consistent"] }
+  },
+  {
+    "id": "brand-locked",
+    "category": "brand-permission-denied",
+    "input": "Use a black background, white text, and a red accent for a carousel about product positioning.",
+    "allowBrandUpdate": false,
+    "expected_behavior": "Create relevant product-positioning copy but keep brand.apply false because brand changes are not permitted.",
+    "expect": { "brandApply": false, "topicTerms": ["product", "position"] }
+  },
+  {
+    "id": "brand-permitted-explicit",
+    "category": "brand-permission-explicit",
+    "input": "Create a carousel about product positioning. Use a black background, white text, and a red accent.",
+    "allowBrandUpdate": true,
+    "expected_behavior": "Create relevant product-positioning copy and set brand.apply true with the explicitly requested visual direction.",
+    "expect": { "brandApply": true, "topicTerms": ["product", "position"] }
+  },
+  {
+    "id": "brand-permitted-unrequested",
+    "category": "brand-permission-unused",
+    "input": "Create a carousel about product positioning for early-stage founders.",
+    "allowBrandUpdate": true,
+    "expected_behavior": "Create founder-specific positioning guidance while leaving brand.apply false because no visual change was requested.",
+    "expect": { "brandApply": false, "topicTerms": ["product", "position", "founder"] }
+  },
+  {
+    "id": "brand-only",
+    "category": "brand-only-preservation",
+    "input": "Change the visual treatment to dark paper, warm white type, and an amber accent.",
+    "allowBrandUpdate": true,
+    "brandOnly": true,
+    "expected_behavior": "Set brand.apply true with a valid visual patch. Slide copy is ignored by the client and must not be treated as a requested rewrite.",
+    "expect": { "brandApply": true, "skipContentChecks": true }
+  },
+  {
+    "id": "long-complex-brief",
+    "category": "complex-brief",
+    "input": "Build a concise carousel for experienced product managers showing how to distinguish a weak customer signal from repeatable evidence. Include practical tests, avoid buzzwords, and end with an action the reader can take this week.",
+    "expected_behavior": "Address experienced product managers with practical evidence tests, avoid buzzwords, and finish with an immediate action.",
+    "expect": { "brandApply": false, "topicTerms": ["customer", "signal", "evidence", "product"] }
+  }
+]

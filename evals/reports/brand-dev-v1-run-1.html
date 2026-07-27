@@ -1,0 +1,985 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Brand extraction eval</title><style>
+    body{font:14px/1.5 system-ui,sans-serif;max-width:1100px;margin:40px auto;padding:0 20px;color:#20211f;background:#f5f4ef}
+    header{border-bottom:2px solid #20211f;margin-bottom:24px}section{background:white;border:1px solid #ccc;padding:18px;margin:18px 0;border-left:5px solid #17834a}
+    section.fail{border-left-color:#bf2f2f}h2{display:flex;justify-content:space-between}pre{white-space:pre-wrap;background:#f1f1ed;padding:12px;overflow:auto}
+    ul{padding-left:20px}.ok{color:#126b3c}.bad{color:#a51e1e}
+  </style></head><body><header><h1>Brand extraction eval</h1><p>Pass rate 100% · average 1.000 · stability 100% · 6 model calls · 7800 input / 1631 output tokens</p></header>
+    <section class="pass">
+      <h2>prompt-named-roles <span>PASS</span></h2>
+      <p>prompt-exact · score 1.000 · 1 unique profile(s)</p>
+      
+        <h3>Run 1 · deterministic-prompt</h3>
+        <pre>{
+  &quot;version&quot;: 1,
+  &quot;paper&quot;: &quot;#000000&quot;,
+  &quot;ink&quot;: &quot;#FFFFFF&quot;,
+  &quot;accent&quot;: &quot;#E53935&quot;,
+  &quot;headline&quot;: &quot;modern&quot;,
+  &quot;body&quot;: &quot;clean&quot;,
+  &quot;sourceType&quot;: &quot;prompt&quot;,
+  &quot;evidence&quot;: [
+    {
+      &quot;kind&quot;: &quot;prompt&quot;,
+      &quot;source&quot;: &quot;Use a black background&quot;,
+      &quot;value&quot;: &quot;paper=#000000&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;prompt&quot;,
+      &quot;source&quot;: &quot;white text&quot;,
+      &quot;value&quot;: &quot;ink=#FFFFFF&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;prompt&quot;,
+      &quot;source&quot;: &quot;a red accent with a modern sans headline.&quot;,
+      &quot;value&quot;: &quot;accent=#E53935&quot;
+    }
+  ],
+  &quot;warnings&quot;: [],
+  &quot;confidence&quot;: 1,
+  &quot;extractorVersion&quot;: &quot;brand-extractor-v2&quot;,
+  &quot;fingerprint&quot;: &quot;0fd27912722eacc69db3513f628490576d4748d1c26488ad310e878a0063675b&quot;
+}</pre>
+        <ul><li class="ok">PASS profile returned </li><li class="ok">PASS valid colors </li><li class="ok">PASS valid typography </li><li class="ok">PASS source type preserved prompt</li><li class="ok">PASS readable paper and ink 21.00:1</li><li class="ok">PASS evidence retained </li><li class="ok">PASS paper within tolerance distance 0.00, tolerance 0</li><li class="ok">PASS ink within tolerance distance 0.00, tolerance 0</li><li class="ok">PASS accent within tolerance distance 0.00, tolerance 0</li><li class="ok">PASS headline preset modern</li><li class="ok">PASS body preset clean</li></ul>
+      
+        <h3>Run 2 · deterministic-prompt</h3>
+        <pre>{
+  &quot;version&quot;: 1,
+  &quot;paper&quot;: &quot;#000000&quot;,
+  &quot;ink&quot;: &quot;#FFFFFF&quot;,
+  &quot;accent&quot;: &quot;#E53935&quot;,
+  &quot;headline&quot;: &quot;modern&quot;,
+  &quot;body&quot;: &quot;clean&quot;,
+  &quot;sourceType&quot;: &quot;prompt&quot;,
+  &quot;evidence&quot;: [
+    {
+      &quot;kind&quot;: &quot;prompt&quot;,
+      &quot;source&quot;: &quot;Use a black background&quot;,
+      &quot;value&quot;: &quot;paper=#000000&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;prompt&quot;,
+      &quot;source&quot;: &quot;white text&quot;,
+      &quot;value&quot;: &quot;ink=#FFFFFF&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;prompt&quot;,
+      &quot;source&quot;: &quot;a red accent with a modern sans headline.&quot;,
+      &quot;value&quot;: &quot;accent=#E53935&quot;
+    }
+  ],
+  &quot;warnings&quot;: [],
+  &quot;confidence&quot;: 1,
+  &quot;extractorVersion&quot;: &quot;brand-extractor-v2&quot;,
+  &quot;fingerprint&quot;: &quot;0fd27912722eacc69db3513f628490576d4748d1c26488ad310e878a0063675b&quot;
+}</pre>
+        <ul><li class="ok">PASS profile returned </li><li class="ok">PASS valid colors </li><li class="ok">PASS valid typography </li><li class="ok">PASS source type preserved prompt</li><li class="ok">PASS readable paper and ink 21.00:1</li><li class="ok">PASS evidence retained </li><li class="ok">PASS paper within tolerance distance 0.00, tolerance 0</li><li class="ok">PASS ink within tolerance distance 0.00, tolerance 0</li><li class="ok">PASS accent within tolerance distance 0.00, tolerance 0</li><li class="ok">PASS headline preset modern</li><li class="ok">PASS body preset clean</li></ul>
+      
+        <h3>Run 3 · deterministic-prompt</h3>
+        <pre>{
+  &quot;version&quot;: 1,
+  &quot;paper&quot;: &quot;#000000&quot;,
+  &quot;ink&quot;: &quot;#FFFFFF&quot;,
+  &quot;accent&quot;: &quot;#E53935&quot;,
+  &quot;headline&quot;: &quot;modern&quot;,
+  &quot;body&quot;: &quot;clean&quot;,
+  &quot;sourceType&quot;: &quot;prompt&quot;,
+  &quot;evidence&quot;: [
+    {
+      &quot;kind&quot;: &quot;prompt&quot;,
+      &quot;source&quot;: &quot;Use a black background&quot;,
+      &quot;value&quot;: &quot;paper=#000000&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;prompt&quot;,
+      &quot;source&quot;: &quot;white text&quot;,
+      &quot;value&quot;: &quot;ink=#FFFFFF&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;prompt&quot;,
+      &quot;source&quot;: &quot;a red accent with a modern sans headline.&quot;,
+      &quot;value&quot;: &quot;accent=#E53935&quot;
+    }
+  ],
+  &quot;warnings&quot;: [],
+  &quot;confidence&quot;: 1,
+  &quot;extractorVersion&quot;: &quot;brand-extractor-v2&quot;,
+  &quot;fingerprint&quot;: &quot;0fd27912722eacc69db3513f628490576d4748d1c26488ad310e878a0063675b&quot;
+}</pre>
+        <ul><li class="ok">PASS profile returned </li><li class="ok">PASS valid colors </li><li class="ok">PASS valid typography </li><li class="ok">PASS source type preserved prompt</li><li class="ok">PASS readable paper and ink 21.00:1</li><li class="ok">PASS evidence retained </li><li class="ok">PASS paper within tolerance distance 0.00, tolerance 0</li><li class="ok">PASS ink within tolerance distance 0.00, tolerance 0</li><li class="ok">PASS accent within tolerance distance 0.00, tolerance 0</li><li class="ok">PASS headline preset modern</li><li class="ok">PASS body preset clean</li></ul>
+      
+    </section>
+  
+    <section class="pass">
+      <h2>prompt-hex-roles <span>PASS</span></h2>
+      <p>prompt-exact · score 1.000 · 1 unique profile(s)</p>
+      
+        <h3>Run 1 · deterministic-prompt</h3>
+        <pre>{
+  &quot;version&quot;: 1,
+  &quot;paper&quot;: &quot;#F8F4EA&quot;,
+  &quot;ink&quot;: &quot;#182018&quot;,
+  &quot;accent&quot;: &quot;#EF5B3F&quot;,
+  &quot;headline&quot;: &quot;editorial&quot;,
+  &quot;body&quot;: &quot;mono&quot;,
+  &quot;sourceType&quot;: &quot;prompt&quot;,
+  &quot;evidence&quot;: [
+    {
+      &quot;kind&quot;: &quot;prompt&quot;,
+      &quot;source&quot;: &quot;Paper #F8F4EA&quot;,
+      &quot;value&quot;: &quot;paper=#F8F4EA&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;prompt&quot;,
+      &quot;source&quot;: &quot;ink #182018&quot;,
+      &quot;value&quot;: &quot;ink=#182018&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;prompt&quot;,
+      &quot;source&quot;: &quot;accent #EF5B3F&quot;,
+      &quot;value&quot;: &quot;accent=#EF5B3F&quot;
+    }
+  ],
+  &quot;warnings&quot;: [],
+  &quot;confidence&quot;: 1,
+  &quot;extractorVersion&quot;: &quot;brand-extractor-v2&quot;,
+  &quot;fingerprint&quot;: &quot;6341a7a0b96aff2273da46489e68573063c21b6e2b712abe6b85863dc7a6ce61&quot;
+}</pre>
+        <ul><li class="ok">PASS profile returned </li><li class="ok">PASS valid colors </li><li class="ok">PASS valid typography </li><li class="ok">PASS source type preserved prompt</li><li class="ok">PASS readable paper and ink 15.19:1</li><li class="ok">PASS evidence retained </li><li class="ok">PASS paper within tolerance distance 0.00, tolerance 0</li><li class="ok">PASS ink within tolerance distance 0.00, tolerance 0</li><li class="ok">PASS accent within tolerance distance 0.00, tolerance 0</li><li class="ok">PASS headline preset editorial</li><li class="ok">PASS body preset mono</li></ul>
+      
+        <h3>Run 2 · deterministic-prompt</h3>
+        <pre>{
+  &quot;version&quot;: 1,
+  &quot;paper&quot;: &quot;#F8F4EA&quot;,
+  &quot;ink&quot;: &quot;#182018&quot;,
+  &quot;accent&quot;: &quot;#EF5B3F&quot;,
+  &quot;headline&quot;: &quot;editorial&quot;,
+  &quot;body&quot;: &quot;mono&quot;,
+  &quot;sourceType&quot;: &quot;prompt&quot;,
+  &quot;evidence&quot;: [
+    {
+      &quot;kind&quot;: &quot;prompt&quot;,
+      &quot;source&quot;: &quot;Paper #F8F4EA&quot;,
+      &quot;value&quot;: &quot;paper=#F8F4EA&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;prompt&quot;,
+      &quot;source&quot;: &quot;ink #182018&quot;,
+      &quot;value&quot;: &quot;ink=#182018&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;prompt&quot;,
+      &quot;source&quot;: &quot;accent #EF5B3F&quot;,
+      &quot;value&quot;: &quot;accent=#EF5B3F&quot;
+    }
+  ],
+  &quot;warnings&quot;: [],
+  &quot;confidence&quot;: 1,
+  &quot;extractorVersion&quot;: &quot;brand-extractor-v2&quot;,
+  &quot;fingerprint&quot;: &quot;6341a7a0b96aff2273da46489e68573063c21b6e2b712abe6b85863dc7a6ce61&quot;
+}</pre>
+        <ul><li class="ok">PASS profile returned </li><li class="ok">PASS valid colors </li><li class="ok">PASS valid typography </li><li class="ok">PASS source type preserved prompt</li><li class="ok">PASS readable paper and ink 15.19:1</li><li class="ok">PASS evidence retained </li><li class="ok">PASS paper within tolerance distance 0.00, tolerance 0</li><li class="ok">PASS ink within tolerance distance 0.00, tolerance 0</li><li class="ok">PASS accent within tolerance distance 0.00, tolerance 0</li><li class="ok">PASS headline preset editorial</li><li class="ok">PASS body preset mono</li></ul>
+      
+        <h3>Run 3 · deterministic-prompt</h3>
+        <pre>{
+  &quot;version&quot;: 1,
+  &quot;paper&quot;: &quot;#F8F4EA&quot;,
+  &quot;ink&quot;: &quot;#182018&quot;,
+  &quot;accent&quot;: &quot;#EF5B3F&quot;,
+  &quot;headline&quot;: &quot;editorial&quot;,
+  &quot;body&quot;: &quot;mono&quot;,
+  &quot;sourceType&quot;: &quot;prompt&quot;,
+  &quot;evidence&quot;: [
+    {
+      &quot;kind&quot;: &quot;prompt&quot;,
+      &quot;source&quot;: &quot;Paper #F8F4EA&quot;,
+      &quot;value&quot;: &quot;paper=#F8F4EA&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;prompt&quot;,
+      &quot;source&quot;: &quot;ink #182018&quot;,
+      &quot;value&quot;: &quot;ink=#182018&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;prompt&quot;,
+      &quot;source&quot;: &quot;accent #EF5B3F&quot;,
+      &quot;value&quot;: &quot;accent=#EF5B3F&quot;
+    }
+  ],
+  &quot;warnings&quot;: [],
+  &quot;confidence&quot;: 1,
+  &quot;extractorVersion&quot;: &quot;brand-extractor-v2&quot;,
+  &quot;fingerprint&quot;: &quot;6341a7a0b96aff2273da46489e68573063c21b6e2b712abe6b85863dc7a6ce61&quot;
+}</pre>
+        <ul><li class="ok">PASS profile returned </li><li class="ok">PASS valid colors </li><li class="ok">PASS valid typography </li><li class="ok">PASS source type preserved prompt</li><li class="ok">PASS readable paper and ink 15.19:1</li><li class="ok">PASS evidence retained </li><li class="ok">PASS paper within tolerance distance 0.00, tolerance 0</li><li class="ok">PASS ink within tolerance distance 0.00, tolerance 0</li><li class="ok">PASS accent within tolerance distance 0.00, tolerance 0</li><li class="ok">PASS headline preset editorial</li><li class="ok">PASS body preset mono</li></ul>
+      
+    </section>
+  
+    <section class="pass">
+      <h2>prompt-partial-preservation <span>PASS</span></h2>
+      <p>prompt-partial · score 1.000 · 1 unique profile(s)</p>
+      
+        <h3>Run 1 · deterministic-prompt</h3>
+        <pre>{
+  &quot;version&quot;: 1,
+  &quot;paper&quot;: &quot;#EFE9DA&quot;,
+  &quot;ink&quot;: &quot;#212B21&quot;,
+  &quot;accent&quot;: &quot;#00AA88&quot;,
+  &quot;headline&quot;: &quot;editorial&quot;,
+  &quot;body&quot;: &quot;clean&quot;,
+  &quot;sourceType&quot;: &quot;prompt&quot;,
+  &quot;evidence&quot;: [
+    {
+      &quot;kind&quot;: &quot;prompt&quot;,
+      &quot;source&quot;: &quot;Change only the accent to #00AA88.&quot;,
+      &quot;value&quot;: &quot;accent=#00AA88&quot;
+    }
+  ],
+  &quot;warnings&quot;: [],
+  &quot;confidence&quot;: 1,
+  &quot;extractorVersion&quot;: &quot;brand-extractor-v2&quot;,
+  &quot;fingerprint&quot;: &quot;4866458ab69c6e7bee00d55dc7519f4a19669ac81a4e695cc5e0ad4ce60a4446&quot;
+}</pre>
+        <ul><li class="ok">PASS profile returned </li><li class="ok">PASS valid colors </li><li class="ok">PASS valid typography </li><li class="ok">PASS source type preserved prompt</li><li class="ok">PASS readable paper and ink 12.11:1</li><li class="ok">PASS evidence retained </li><li class="ok">PASS paper within tolerance distance 0.00, tolerance 0</li><li class="ok">PASS ink within tolerance distance 0.00, tolerance 0</li><li class="ok">PASS accent within tolerance distance 0.00, tolerance 0</li><li class="ok">PASS headline preset editorial</li><li class="ok">PASS body preset clean</li></ul>
+      
+        <h3>Run 2 · deterministic-prompt</h3>
+        <pre>{
+  &quot;version&quot;: 1,
+  &quot;paper&quot;: &quot;#EFE9DA&quot;,
+  &quot;ink&quot;: &quot;#212B21&quot;,
+  &quot;accent&quot;: &quot;#00AA88&quot;,
+  &quot;headline&quot;: &quot;editorial&quot;,
+  &quot;body&quot;: &quot;clean&quot;,
+  &quot;sourceType&quot;: &quot;prompt&quot;,
+  &quot;evidence&quot;: [
+    {
+      &quot;kind&quot;: &quot;prompt&quot;,
+      &quot;source&quot;: &quot;Change only the accent to #00AA88.&quot;,
+      &quot;value&quot;: &quot;accent=#00AA88&quot;
+    }
+  ],
+  &quot;warnings&quot;: [],
+  &quot;confidence&quot;: 1,
+  &quot;extractorVersion&quot;: &quot;brand-extractor-v2&quot;,
+  &quot;fingerprint&quot;: &quot;4866458ab69c6e7bee00d55dc7519f4a19669ac81a4e695cc5e0ad4ce60a4446&quot;
+}</pre>
+        <ul><li class="ok">PASS profile returned </li><li class="ok">PASS valid colors </li><li class="ok">PASS valid typography </li><li class="ok">PASS source type preserved prompt</li><li class="ok">PASS readable paper and ink 12.11:1</li><li class="ok">PASS evidence retained </li><li class="ok">PASS paper within tolerance distance 0.00, tolerance 0</li><li class="ok">PASS ink within tolerance distance 0.00, tolerance 0</li><li class="ok">PASS accent within tolerance distance 0.00, tolerance 0</li><li class="ok">PASS headline preset editorial</li><li class="ok">PASS body preset clean</li></ul>
+      
+        <h3>Run 3 · deterministic-prompt</h3>
+        <pre>{
+  &quot;version&quot;: 1,
+  &quot;paper&quot;: &quot;#EFE9DA&quot;,
+  &quot;ink&quot;: &quot;#212B21&quot;,
+  &quot;accent&quot;: &quot;#00AA88&quot;,
+  &quot;headline&quot;: &quot;editorial&quot;,
+  &quot;body&quot;: &quot;clean&quot;,
+  &quot;sourceType&quot;: &quot;prompt&quot;,
+  &quot;evidence&quot;: [
+    {
+      &quot;kind&quot;: &quot;prompt&quot;,
+      &quot;source&quot;: &quot;Change only the accent to #00AA88.&quot;,
+      &quot;value&quot;: &quot;accent=#00AA88&quot;
+    }
+  ],
+  &quot;warnings&quot;: [],
+  &quot;confidence&quot;: 1,
+  &quot;extractorVersion&quot;: &quot;brand-extractor-v2&quot;,
+  &quot;fingerprint&quot;: &quot;4866458ab69c6e7bee00d55dc7519f4a19669ac81a4e695cc5e0ad4ce60a4446&quot;
+}</pre>
+        <ul><li class="ok">PASS profile returned </li><li class="ok">PASS valid colors </li><li class="ok">PASS valid typography </li><li class="ok">PASS source type preserved prompt</li><li class="ok">PASS readable paper and ink 12.11:1</li><li class="ok">PASS evidence retained </li><li class="ok">PASS paper within tolerance distance 0.00, tolerance 0</li><li class="ok">PASS ink within tolerance distance 0.00, tolerance 0</li><li class="ok">PASS accent within tolerance distance 0.00, tolerance 0</li><li class="ok">PASS headline preset editorial</li><li class="ok">PASS body preset clean</li></ul>
+      
+    </section>
+  
+    <section class="pass">
+      <h2>prompt-semantic <span>PASS</span></h2>
+      <p>prompt-semantic · score 1.000 · 1 unique profile(s)</p>
+      
+        <h3>Run 1 · deterministic-prompt</h3>
+        <pre>{
+  &quot;version&quot;: 1,
+  &quot;paper&quot;: &quot;#15130F&quot;,
+  &quot;ink&quot;: &quot;#F4EFE3&quot;,
+  &quot;accent&quot;: &quot;#B89445&quot;,
+  &quot;headline&quot;: &quot;editorial&quot;,
+  &quot;body&quot;: &quot;clean&quot;,
+  &quot;sourceType&quot;: &quot;prompt&quot;,
+  &quot;evidence&quot;: [
+    {
+      &quot;kind&quot;: &quot;prompt&quot;,
+      &quot;source&quot;: &quot;A restrained luxury finance identity: near-black paper&quot;,
+      &quot;value&quot;: &quot;paper=#15130F&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;prompt&quot;,
+      &quot;source&quot;: &quot;warm ivory type&quot;,
+      &quot;value&quot;: &quot;ink=#F4EFE3&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;prompt&quot;,
+      &quot;source&quot;: &quot;muted gold accent&quot;,
+      &quot;value&quot;: &quot;accent=#B89445&quot;
+    }
+  ],
+  &quot;warnings&quot;: [],
+  &quot;confidence&quot;: 1,
+  &quot;extractorVersion&quot;: &quot;brand-extractor-v2&quot;,
+  &quot;fingerprint&quot;: &quot;eafbbb0033dea0183908511b8c7b542f5e47417d850cdcfedde4f0a37eb59afd&quot;
+}</pre>
+        <ul><li class="ok">PASS profile returned </li><li class="ok">PASS valid colors </li><li class="ok">PASS valid typography </li><li class="ok">PASS source type preserved prompt</li><li class="ok">PASS readable paper and ink 16.17:1</li><li class="ok">PASS evidence retained </li><li class="ok">PASS paper within tolerance distance 0.00, tolerance 70</li><li class="ok">PASS ink within tolerance distance 0.00, tolerance 70</li><li class="ok">PASS accent within tolerance distance 0.00, tolerance 70</li><li class="ok">PASS headline preset editorial</li><li class="ok">PASS body preset clean</li></ul>
+      
+        <h3>Run 2 · deterministic-prompt</h3>
+        <pre>{
+  &quot;version&quot;: 1,
+  &quot;paper&quot;: &quot;#15130F&quot;,
+  &quot;ink&quot;: &quot;#F4EFE3&quot;,
+  &quot;accent&quot;: &quot;#B89445&quot;,
+  &quot;headline&quot;: &quot;editorial&quot;,
+  &quot;body&quot;: &quot;clean&quot;,
+  &quot;sourceType&quot;: &quot;prompt&quot;,
+  &quot;evidence&quot;: [
+    {
+      &quot;kind&quot;: &quot;prompt&quot;,
+      &quot;source&quot;: &quot;A restrained luxury finance identity: near-black paper&quot;,
+      &quot;value&quot;: &quot;paper=#15130F&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;prompt&quot;,
+      &quot;source&quot;: &quot;warm ivory type&quot;,
+      &quot;value&quot;: &quot;ink=#F4EFE3&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;prompt&quot;,
+      &quot;source&quot;: &quot;muted gold accent&quot;,
+      &quot;value&quot;: &quot;accent=#B89445&quot;
+    }
+  ],
+  &quot;warnings&quot;: [],
+  &quot;confidence&quot;: 1,
+  &quot;extractorVersion&quot;: &quot;brand-extractor-v2&quot;,
+  &quot;fingerprint&quot;: &quot;eafbbb0033dea0183908511b8c7b542f5e47417d850cdcfedde4f0a37eb59afd&quot;
+}</pre>
+        <ul><li class="ok">PASS profile returned </li><li class="ok">PASS valid colors </li><li class="ok">PASS valid typography </li><li class="ok">PASS source type preserved prompt</li><li class="ok">PASS readable paper and ink 16.17:1</li><li class="ok">PASS evidence retained </li><li class="ok">PASS paper within tolerance distance 0.00, tolerance 70</li><li class="ok">PASS ink within tolerance distance 0.00, tolerance 70</li><li class="ok">PASS accent within tolerance distance 0.00, tolerance 70</li><li class="ok">PASS headline preset editorial</li><li class="ok">PASS body preset clean</li></ul>
+      
+        <h3>Run 3 · deterministic-prompt</h3>
+        <pre>{
+  &quot;version&quot;: 1,
+  &quot;paper&quot;: &quot;#15130F&quot;,
+  &quot;ink&quot;: &quot;#F4EFE3&quot;,
+  &quot;accent&quot;: &quot;#B89445&quot;,
+  &quot;headline&quot;: &quot;editorial&quot;,
+  &quot;body&quot;: &quot;clean&quot;,
+  &quot;sourceType&quot;: &quot;prompt&quot;,
+  &quot;evidence&quot;: [
+    {
+      &quot;kind&quot;: &quot;prompt&quot;,
+      &quot;source&quot;: &quot;A restrained luxury finance identity: near-black paper&quot;,
+      &quot;value&quot;: &quot;paper=#15130F&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;prompt&quot;,
+      &quot;source&quot;: &quot;warm ivory type&quot;,
+      &quot;value&quot;: &quot;ink=#F4EFE3&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;prompt&quot;,
+      &quot;source&quot;: &quot;muted gold accent&quot;,
+      &quot;value&quot;: &quot;accent=#B89445&quot;
+    }
+  ],
+  &quot;warnings&quot;: [],
+  &quot;confidence&quot;: 1,
+  &quot;extractorVersion&quot;: &quot;brand-extractor-v2&quot;,
+  &quot;fingerprint&quot;: &quot;eafbbb0033dea0183908511b8c7b542f5e47417d850cdcfedde4f0a37eb59afd&quot;
+}</pre>
+        <ul><li class="ok">PASS profile returned </li><li class="ok">PASS valid colors </li><li class="ok">PASS valid typography </li><li class="ok">PASS source type preserved prompt</li><li class="ok">PASS readable paper and ink 16.17:1</li><li class="ok">PASS evidence retained </li><li class="ok">PASS paper within tolerance distance 0.00, tolerance 70</li><li class="ok">PASS ink within tolerance distance 0.00, tolerance 70</li><li class="ok">PASS accent within tolerance distance 0.00, tolerance 70</li><li class="ok">PASS headline preset editorial</li><li class="ok">PASS body preset clean</li></ul>
+      
+    </section>
+  
+    <section class="pass">
+      <h2>image-light-coral <span>PASS</span></h2>
+      <p>vision · score 1.000 · 1 unique profile(s)</p>
+      
+        <h3>Run 1 · claude-image</h3>
+        <pre>{
+  &quot;version&quot;: 1,
+  &quot;paper&quot;: &quot;#FAFAF5&quot;,
+  &quot;ink&quot;: &quot;#151515&quot;,
+  &quot;accent&quot;: &quot;#FF5533&quot;,
+  &quot;headline&quot;: &quot;modern&quot;,
+  &quot;body&quot;: &quot;clean&quot;,
+  &quot;sourceType&quot;: &quot;image&quot;,
+  &quot;evidence&quot;: [
+    {
+      &quot;kind&quot;: &quot;sampled-color&quot;,
+      &quot;source&quot;: &quot;image-large-field&quot;,
+      &quot;value&quot;: &quot;#FAFAF5 assigned as paper (dominant background region)&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;sampled-color&quot;,
+      &quot;source&quot;: &quot;image-dark-block&quot;,
+      &quot;value&quot;: &quot;#151515 assigned as ink (dark rectangular block)&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;sampled-color&quot;,
+      &quot;source&quot;: &quot;image-small-coral-block&quot;,
+      &quot;value&quot;: &quot;#FF5533 assigned as accent (small coral/orange-red square)&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;image-guidance&quot;,
+      &quot;source&quot;: &quot;prompt&quot;,
+      &quot;value&quot;: &quot;modern sans headline and clean body specified explicitly&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;sampled-palette&quot;,
+      &quot;source&quot;: &quot;image-1&quot;,
+      &quot;value&quot;: &quot;#FAFAF5 (71.3%)&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;sampled-palette&quot;,
+      &quot;source&quot;: &quot;image-1&quot;,
+      &quot;value&quot;: &quot;#151515 (25.6%)&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;sampled-palette&quot;,
+      &quot;source&quot;: &quot;image-1&quot;,
+      &quot;value&quot;: &quot;#FF5533 (3.1%)&quot;
+    }
+  ],
+  &quot;warnings&quot;: [
+    &quot;Colors chosen exclusively from deterministically sampled palette as instructed; no interpolation performed&quot;,
+    &quot;Current brand accent #C08A28 replaced by sampled #FF5533 per image evidence&quot;,
+    &quot;Current brand paper #EFE9DA replaced by sampled #FAFAF5 per image evidence&quot;,
+    &quot;Typography mapping to modern/clean is based on image guidance, not pixel-level font identification&quot;
+  ],
+  &quot;confidence&quot;: 0.95,
+  &quot;extractorVersion&quot;: &quot;brand-extractor-v2&quot;,
+  &quot;fingerprint&quot;: &quot;84c6139330d8acab1a2a921b41ca8369602bd07d98e05d40c12f06b985e93d0d&quot;
+}</pre>
+        <ul><li class="ok">PASS profile returned </li><li class="ok">PASS valid colors </li><li class="ok">PASS valid typography </li><li class="ok">PASS source type preserved image</li><li class="ok">PASS readable paper and ink 17.44:1</li><li class="ok">PASS evidence retained </li><li class="ok">PASS paper within tolerance distance 0.00, tolerance 45</li><li class="ok">PASS ink within tolerance distance 0.00, tolerance 45</li><li class="ok">PASS accent within tolerance distance 0.00, tolerance 45</li><li class="ok">PASS headline preset modern</li><li class="ok">PASS body preset clean</li></ul>
+      
+        <h3>Run 2 · claude-image</h3>
+        <pre>{
+  &quot;version&quot;: 1,
+  &quot;paper&quot;: &quot;#FAFAF5&quot;,
+  &quot;ink&quot;: &quot;#151515&quot;,
+  &quot;accent&quot;: &quot;#FF5533&quot;,
+  &quot;headline&quot;: &quot;modern&quot;,
+  &quot;body&quot;: &quot;clean&quot;,
+  &quot;sourceType&quot;: &quot;image&quot;,
+  &quot;evidence&quot;: [
+    {
+      &quot;kind&quot;: &quot;sampled-color&quot;,
+      &quot;source&quot;: &quot;image-large-field&quot;,
+      &quot;value&quot;: &quot;#FAFAF5 assigned as paper (dominant background region)&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;sampled-color&quot;,
+      &quot;source&quot;: &quot;image-dark-block&quot;,
+      &quot;value&quot;: &quot;#151515 assigned as ink (dark rectangular block)&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;sampled-color&quot;,
+      &quot;source&quot;: &quot;image-small-coral-block&quot;,
+      &quot;value&quot;: &quot;#FF5533 assigned as accent (small coral/orange-red square)&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;image-guidance&quot;,
+      &quot;source&quot;: &quot;prompt&quot;,
+      &quot;value&quot;: &quot;Use modern sans headline and clean body as instructed&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;contrast-check&quot;,
+      &quot;source&quot;: &quot;paper-ink-pair&quot;,
+      &quot;value&quot;: &quot;#FAFAF5 on #151515 provides high contrast, readable&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;sampled-palette&quot;,
+      &quot;source&quot;: &quot;image-1&quot;,
+      &quot;value&quot;: &quot;#FAFAF5 (71.3%)&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;sampled-palette&quot;,
+      &quot;source&quot;: &quot;image-1&quot;,
+      &quot;value&quot;: &quot;#151515 (25.6%)&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;sampled-palette&quot;,
+      &quot;source&quot;: &quot;image-1&quot;,
+      &quot;value&quot;: &quot;#FF5533 (3.1%)&quot;
+    }
+  ],
+  &quot;warnings&quot;: [
+    &quot;Current brand accent #C08A28 replaced with sampled #FF5533 per deterministic palette constraint&quot;,
+    &quot;Current brand paper #EFE9DA replaced with sampled #FAFAF5; hue is similar warm off-white but not identical&quot;,
+    &quot;Headline mapped to modern per image guidance override of current brand editorial setting&quot;,
+    &quot;Font identification from pixels is not possible; modern enum chosen per explicit instruction&quot;
+  ],
+  &quot;confidence&quot;: 0.95,
+  &quot;extractorVersion&quot;: &quot;brand-extractor-v2&quot;,
+  &quot;fingerprint&quot;: &quot;84c6139330d8acab1a2a921b41ca8369602bd07d98e05d40c12f06b985e93d0d&quot;
+}</pre>
+        <ul><li class="ok">PASS profile returned </li><li class="ok">PASS valid colors </li><li class="ok">PASS valid typography </li><li class="ok">PASS source type preserved image</li><li class="ok">PASS readable paper and ink 17.44:1</li><li class="ok">PASS evidence retained </li><li class="ok">PASS paper within tolerance distance 0.00, tolerance 45</li><li class="ok">PASS ink within tolerance distance 0.00, tolerance 45</li><li class="ok">PASS accent within tolerance distance 0.00, tolerance 45</li><li class="ok">PASS headline preset modern</li><li class="ok">PASS body preset clean</li></ul>
+      
+        <h3>Run 3 · claude-image</h3>
+        <pre>{
+  &quot;version&quot;: 1,
+  &quot;paper&quot;: &quot;#FAFAF5&quot;,
+  &quot;ink&quot;: &quot;#151515&quot;,
+  &quot;accent&quot;: &quot;#FF5533&quot;,
+  &quot;headline&quot;: &quot;modern&quot;,
+  &quot;body&quot;: &quot;clean&quot;,
+  &quot;sourceType&quot;: &quot;image&quot;,
+  &quot;evidence&quot;: [
+    {
+      &quot;kind&quot;: &quot;sampled-color&quot;,
+      &quot;source&quot;: &quot;image-large-field&quot;,
+      &quot;value&quot;: &quot;#FAFAF5 assigned as paper (dominant background region)&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;sampled-color&quot;,
+      &quot;source&quot;: &quot;image-dark-block&quot;,
+      &quot;value&quot;: &quot;#151515 assigned as ink (dark rectangular block)&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;sampled-color&quot;,
+      &quot;source&quot;: &quot;image-small-coral-block&quot;,
+      &quot;value&quot;: &quot;#FF5533 assigned as accent (small coral/orange-red square)&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;image-guidance&quot;,
+      &quot;source&quot;: &quot;prompt&quot;,
+      &quot;value&quot;: &quot;modern sans headline and clean body specified explicitly&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;sampled-palette&quot;,
+      &quot;source&quot;: &quot;image-1&quot;,
+      &quot;value&quot;: &quot;#FAFAF5 (71.3%)&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;sampled-palette&quot;,
+      &quot;source&quot;: &quot;image-1&quot;,
+      &quot;value&quot;: &quot;#151515 (25.6%)&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;sampled-palette&quot;,
+      &quot;source&quot;: &quot;image-1&quot;,
+      &quot;value&quot;: &quot;#FF5533 (3.1%)&quot;
+    }
+  ],
+  &quot;warnings&quot;: [
+    &quot;Current brand accent #C08A28 replaced with sampled #FF5533 per image evidence&quot;,
+    &quot;Current brand paper #EFE9DA replaced with sampled #FAFAF5 per deterministic palette constraint&quot;,
+    &quot;Current brand ink #212B21 replaced with sampled #151515 per deterministic palette constraint&quot;,
+    &quot;Headline changed from editorial to modern per explicit image guidance&quot;
+  ],
+  &quot;confidence&quot;: 0.95,
+  &quot;extractorVersion&quot;: &quot;brand-extractor-v2&quot;,
+  &quot;fingerprint&quot;: &quot;84c6139330d8acab1a2a921b41ca8369602bd07d98e05d40c12f06b985e93d0d&quot;
+}</pre>
+        <ul><li class="ok">PASS profile returned </li><li class="ok">PASS valid colors </li><li class="ok">PASS valid typography </li><li class="ok">PASS source type preserved image</li><li class="ok">PASS readable paper and ink 17.44:1</li><li class="ok">PASS evidence retained </li><li class="ok">PASS paper within tolerance distance 0.00, tolerance 45</li><li class="ok">PASS ink within tolerance distance 0.00, tolerance 45</li><li class="ok">PASS accent within tolerance distance 0.00, tolerance 45</li><li class="ok">PASS headline preset modern</li><li class="ok">PASS body preset clean</li></ul>
+      
+    </section>
+  
+    <section class="pass">
+      <h2>image-dark-lime <span>PASS</span></h2>
+      <p>vision · score 1.000 · 1 unique profile(s)</p>
+      
+        <h3>Run 1 · claude-image</h3>
+        <pre>{
+  &quot;version&quot;: 1,
+  &quot;paper&quot;: &quot;#121820&quot;,
+  &quot;ink&quot;: &quot;#F4F0E6&quot;,
+  &quot;accent&quot;: &quot;#B8E51A&quot;,
+  &quot;headline&quot;: &quot;modern&quot;,
+  &quot;body&quot;: &quot;clean&quot;,
+  &quot;sourceType&quot;: &quot;image&quot;,
+  &quot;evidence&quot;: [
+    {
+      &quot;kind&quot;: &quot;palette_sample&quot;,
+      &quot;source&quot;: &quot;image_dominant&quot;,
+      &quot;value&quot;: &quot;#121820 covers ~71% of image area — large dark field identified as paper&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;palette_sample&quot;,
+      &quot;source&quot;: &quot;image_secondary&quot;,
+      &quot;value&quot;: &quot;#F4F0E6 covers ~26% of image area — cream block identified as ink&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;palette_sample&quot;,
+      &quot;source&quot;: &quot;image_tertiary&quot;,
+      &quot;value&quot;: &quot;#B8E51A covers ~3% of image area — lime block identified as accent&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;image_guidance&quot;,
+      &quot;source&quot;: &quot;prompt&quot;,
+      &quot;value&quot;: &quot;Large dark field is paper, cream block is ink, lime block is accent; use modern sans headline and clean body&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;sampled-palette&quot;,
+      &quot;source&quot;: &quot;image-1&quot;,
+      &quot;value&quot;: &quot;#121820 (71.3%)&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;sampled-palette&quot;,
+      &quot;source&quot;: &quot;image-1&quot;,
+      &quot;value&quot;: &quot;#F4F0E6 (25.6%)&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;sampled-palette&quot;,
+      &quot;source&quot;: &quot;image-1&quot;,
+      &quot;value&quot;: &quot;#B8E51A (3.1%)&quot;
+    }
+  ],
+  &quot;warnings&quot;: [
+    &quot;Paper and ink roles are inverted from current brand (which uses cream as paper and dark as ink) — following explicit image guidance&quot;,
+    &quot;Accent #B8E51A is a vivid lime-green, high contrast against dark paper — deliberate brand choice per guidance&quot;,
+    &quot;Font mapping to modern/clean based on guidance only; no typographic specimens visible in image&quot;
+  ],
+  &quot;confidence&quot;: 0.97,
+  &quot;extractorVersion&quot;: &quot;brand-extractor-v2&quot;,
+  &quot;fingerprint&quot;: &quot;9a72e507f2039a8329c1c69f4340b3f13c4dae804006a97ac08fa3f4229c5339&quot;
+}</pre>
+        <ul><li class="ok">PASS profile returned </li><li class="ok">PASS valid colors </li><li class="ok">PASS valid typography </li><li class="ok">PASS source type preserved image</li><li class="ok">PASS readable paper and ink 15.68:1</li><li class="ok">PASS evidence retained </li><li class="ok">PASS paper within tolerance distance 0.00, tolerance 45</li><li class="ok">PASS ink within tolerance distance 0.00, tolerance 45</li><li class="ok">PASS accent within tolerance distance 0.00, tolerance 45</li><li class="ok">PASS headline preset modern</li><li class="ok">PASS body preset clean</li></ul>
+      
+        <h3>Run 2 · claude-image</h3>
+        <pre>{
+  &quot;version&quot;: 1,
+  &quot;paper&quot;: &quot;#121820&quot;,
+  &quot;ink&quot;: &quot;#F4F0E6&quot;,
+  &quot;accent&quot;: &quot;#B8E51A&quot;,
+  &quot;headline&quot;: &quot;modern&quot;,
+  &quot;body&quot;: &quot;clean&quot;,
+  &quot;sourceType&quot;: &quot;image&quot;,
+  &quot;evidence&quot;: [
+    {
+      &quot;kind&quot;: &quot;palette_sample&quot;,
+      &quot;source&quot;: &quot;image_dominant&quot;,
+      &quot;value&quot;: &quot;#121820 covers ~71% of image area — large dark field identified as paper&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;palette_sample&quot;,
+      &quot;source&quot;: &quot;image_secondary&quot;,
+      &quot;value&quot;: &quot;#F4F0E6 covers ~26% of image area — cream block identified as ink&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;palette_sample&quot;,
+      &quot;source&quot;: &quot;image_tertiary&quot;,
+      &quot;value&quot;: &quot;#B8E51A covers ~3% of image area — lime block identified as accent&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;image_guidance&quot;,
+      &quot;source&quot;: &quot;prompt&quot;,
+      &quot;value&quot;: &quot;Large dark field is paper, cream block is ink, lime block is accent; use modern sans headline and clean body&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;sampled-palette&quot;,
+      &quot;source&quot;: &quot;image-1&quot;,
+      &quot;value&quot;: &quot;#121820 (71.3%)&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;sampled-palette&quot;,
+      &quot;source&quot;: &quot;image-1&quot;,
+      &quot;value&quot;: &quot;#F4F0E6 (25.6%)&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;sampled-palette&quot;,
+      &quot;source&quot;: &quot;image-1&quot;,
+      &quot;value&quot;: &quot;#B8E51A (3.1%)&quot;
+    }
+  ],
+  &quot;warnings&quot;: [
+    &quot;Paper and ink roles are inverted from current brand config — dark background with light text as directed by image guidance&quot;,
+    &quot;Accent #B8E51A is a vivid lime-green, high contrast against dark paper&quot;,
+    &quot;Font mapping to modern is inferred from image guidance, not from visible typography in image&quot;,
+    &quot;All three hex values taken exactly from deterministic palette samples as instructed&quot;
+  ],
+  &quot;confidence&quot;: 0.97,
+  &quot;extractorVersion&quot;: &quot;brand-extractor-v2&quot;,
+  &quot;fingerprint&quot;: &quot;9a72e507f2039a8329c1c69f4340b3f13c4dae804006a97ac08fa3f4229c5339&quot;
+}</pre>
+        <ul><li class="ok">PASS profile returned </li><li class="ok">PASS valid colors </li><li class="ok">PASS valid typography </li><li class="ok">PASS source type preserved image</li><li class="ok">PASS readable paper and ink 15.68:1</li><li class="ok">PASS evidence retained </li><li class="ok">PASS paper within tolerance distance 0.00, tolerance 45</li><li class="ok">PASS ink within tolerance distance 0.00, tolerance 45</li><li class="ok">PASS accent within tolerance distance 0.00, tolerance 45</li><li class="ok">PASS headline preset modern</li><li class="ok">PASS body preset clean</li></ul>
+      
+        <h3>Run 3 · claude-image</h3>
+        <pre>{
+  &quot;version&quot;: 1,
+  &quot;paper&quot;: &quot;#121820&quot;,
+  &quot;ink&quot;: &quot;#F4F0E6&quot;,
+  &quot;accent&quot;: &quot;#B8E51A&quot;,
+  &quot;headline&quot;: &quot;modern&quot;,
+  &quot;body&quot;: &quot;clean&quot;,
+  &quot;sourceType&quot;: &quot;image&quot;,
+  &quot;evidence&quot;: [
+    {
+      &quot;kind&quot;: &quot;palette_sample&quot;,
+      &quot;source&quot;: &quot;image_dominant&quot;,
+      &quot;value&quot;: &quot;#121820 covers ~71% of image area — large dark field identified as paper&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;palette_sample&quot;,
+      &quot;source&quot;: &quot;image_secondary&quot;,
+      &quot;value&quot;: &quot;#F4F0E6 covers ~26% of image area — cream block identified as ink&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;palette_sample&quot;,
+      &quot;source&quot;: &quot;image_tertiary&quot;,
+      &quot;value&quot;: &quot;#B8E51A covers ~3% of image area — lime block identified as accent&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;image_guidance&quot;,
+      &quot;source&quot;: &quot;prompt&quot;,
+      &quot;value&quot;: &quot;Large dark field is paper, cream block is ink, lime block is accent; use modern sans headline and clean body&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;sampled-palette&quot;,
+      &quot;source&quot;: &quot;image-1&quot;,
+      &quot;value&quot;: &quot;#121820 (71.3%)&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;sampled-palette&quot;,
+      &quot;source&quot;: &quot;image-1&quot;,
+      &quot;value&quot;: &quot;#F4F0E6 (25.6%)&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;sampled-palette&quot;,
+      &quot;source&quot;: &quot;image-1&quot;,
+      &quot;value&quot;: &quot;#B8E51A (3.1%)&quot;
+    }
+  ],
+  &quot;warnings&quot;: [
+    &quot;Paper and ink roles are inverted from current brand config — dark background with light text as directed by image guidance&quot;,
+    &quot;Accent #B8E51A is high-chroma lime; ensure sufficient contrast when used on dark paper&quot;,
+    &quot;Font mapping to modern is inferred from image guidance, not pixel-level font identification&quot;,
+    &quot;Sampled hex values used exactly as provided; no interpolation performed&quot;
+  ],
+  &quot;confidence&quot;: 0.97,
+  &quot;extractorVersion&quot;: &quot;brand-extractor-v2&quot;,
+  &quot;fingerprint&quot;: &quot;9a72e507f2039a8329c1c69f4340b3f13c4dae804006a97ac08fa3f4229c5339&quot;
+}</pre>
+        <ul><li class="ok">PASS profile returned </li><li class="ok">PASS valid colors </li><li class="ok">PASS valid typography </li><li class="ok">PASS source type preserved image</li><li class="ok">PASS readable paper and ink 15.68:1</li><li class="ok">PASS evidence retained </li><li class="ok">PASS paper within tolerance distance 0.00, tolerance 45</li><li class="ok">PASS ink within tolerance distance 0.00, tolerance 45</li><li class="ok">PASS accent within tolerance distance 0.00, tolerance 45</li><li class="ok">PASS headline preset modern</li><li class="ok">PASS body preset clean</li></ul>
+      
+    </section>
+  
+    <section class="pass">
+      <h2>url-css-contract <span>PASS</span></h2>
+      <p>website · score 1.000 · 1 unique profile(s)</p>
+      
+        <h3>Run 1 · deterministic-web-evidence</h3>
+        <pre>{
+  &quot;version&quot;: 1,
+  &quot;paper&quot;: &quot;#F7F5EE&quot;,
+  &quot;ink&quot;: &quot;#171A18&quot;,
+  &quot;accent&quot;: &quot;#E84F3D&quot;,
+  &quot;headline&quot;: &quot;modern&quot;,
+  &quot;body&quot;: &quot;clean&quot;,
+  &quot;sourceType&quot;: &quot;url&quot;,
+  &quot;evidence&quot;: [
+    {
+      &quot;kind&quot;: &quot;theme-color&quot;,
+      &quot;source&quot;: &quot;http://127.0.0.1:50243/brand-site/&quot;,
+      &quot;value&quot;: &quot;#E84F3D&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;stylesheet&quot;,
+      &quot;source&quot;: &quot;http://127.0.0.1:50243/brand.css&quot;,
+      &quot;value&quot;: &quot;http://127.0.0.1:50243/brand.css&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;css-variable-root&quot;,
+      &quot;source&quot;: &quot;http://127.0.0.1:50243/brand.css&quot;,
+      &quot;value&quot;: &quot;--brand-paper=#F7F5EE&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;css-variable-root&quot;,
+      &quot;source&quot;: &quot;http://127.0.0.1:50243/brand.css&quot;,
+      &quot;value&quot;: &quot;--brand-ink=#171A18&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;css-variable-root&quot;,
+      &quot;source&quot;: &quot;http://127.0.0.1:50243/brand.css&quot;,
+      &quot;value&quot;: &quot;--brand-accent=#E84F3D&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;css-variable&quot;,
+      &quot;source&quot;: &quot;http://127.0.0.1:50243/brand.css&quot;,
+      &quot;value&quot;: &quot;--brand-paper=#F7F5EE&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;css-variable&quot;,
+      &quot;source&quot;: &quot;http://127.0.0.1:50243/brand.css&quot;,
+      &quot;value&quot;: &quot;--brand-ink=#171A18&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;css-variable&quot;,
+      &quot;source&quot;: &quot;http://127.0.0.1:50243/brand.css&quot;,
+      &quot;value&quot;: &quot;--brand-accent=#E84F3D&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;page-background&quot;,
+      &quot;source&quot;: &quot;http://127.0.0.1:50243/brand.css&quot;,
+      &quot;value&quot;: &quot;#F7F5EE&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;page-text&quot;,
+      &quot;source&quot;: &quot;http://127.0.0.1:50243/brand.css&quot;,
+      &quot;value&quot;: &quot;#171A18&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;font-family&quot;,
+      &quot;source&quot;: &quot;http://127.0.0.1:50243/brand.css&quot;,
+      &quot;value&quot;: &quot;Inter, Arial, sans-serif&quot;
+    }
+  ],
+  &quot;warnings&quot;: [],
+  &quot;confidence&quot;: 0.88,
+  &quot;extractorVersion&quot;: &quot;brand-extractor-v2&quot;,
+  &quot;fingerprint&quot;: &quot;f8324e4317f958967bd2ef12097cbba34a6a6cc76d497f454438a146437680b8&quot;
+}</pre>
+        <ul><li class="ok">PASS profile returned </li><li class="ok">PASS valid colors </li><li class="ok">PASS valid typography </li><li class="ok">PASS source type preserved url</li><li class="ok">PASS readable paper and ink 16.08:1</li><li class="ok">PASS evidence retained </li><li class="ok">PASS paper within tolerance distance 0.00, tolerance 0</li><li class="ok">PASS ink within tolerance distance 0.00, tolerance 0</li><li class="ok">PASS accent within tolerance distance 0.00, tolerance 0</li><li class="ok">PASS headline preset modern</li><li class="ok">PASS body preset clean</li></ul>
+      
+        <h3>Run 2 · deterministic-web-evidence</h3>
+        <pre>{
+  &quot;version&quot;: 1,
+  &quot;paper&quot;: &quot;#F7F5EE&quot;,
+  &quot;ink&quot;: &quot;#171A18&quot;,
+  &quot;accent&quot;: &quot;#E84F3D&quot;,
+  &quot;headline&quot;: &quot;modern&quot;,
+  &quot;body&quot;: &quot;clean&quot;,
+  &quot;sourceType&quot;: &quot;url&quot;,
+  &quot;evidence&quot;: [
+    {
+      &quot;kind&quot;: &quot;theme-color&quot;,
+      &quot;source&quot;: &quot;http://127.0.0.1:50243/brand-site/&quot;,
+      &quot;value&quot;: &quot;#E84F3D&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;stylesheet&quot;,
+      &quot;source&quot;: &quot;http://127.0.0.1:50243/brand.css&quot;,
+      &quot;value&quot;: &quot;http://127.0.0.1:50243/brand.css&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;css-variable-root&quot;,
+      &quot;source&quot;: &quot;http://127.0.0.1:50243/brand.css&quot;,
+      &quot;value&quot;: &quot;--brand-paper=#F7F5EE&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;css-variable-root&quot;,
+      &quot;source&quot;: &quot;http://127.0.0.1:50243/brand.css&quot;,
+      &quot;value&quot;: &quot;--brand-ink=#171A18&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;css-variable-root&quot;,
+      &quot;source&quot;: &quot;http://127.0.0.1:50243/brand.css&quot;,
+      &quot;value&quot;: &quot;--brand-accent=#E84F3D&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;css-variable&quot;,
+      &quot;source&quot;: &quot;http://127.0.0.1:50243/brand.css&quot;,
+      &quot;value&quot;: &quot;--brand-paper=#F7F5EE&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;css-variable&quot;,
+      &quot;source&quot;: &quot;http://127.0.0.1:50243/brand.css&quot;,
+      &quot;value&quot;: &quot;--brand-ink=#171A18&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;css-variable&quot;,
+      &quot;source&quot;: &quot;http://127.0.0.1:50243/brand.css&quot;,
+      &quot;value&quot;: &quot;--brand-accent=#E84F3D&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;page-background&quot;,
+      &quot;source&quot;: &quot;http://127.0.0.1:50243/brand.css&quot;,
+      &quot;value&quot;: &quot;#F7F5EE&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;page-text&quot;,
+      &quot;source&quot;: &quot;http://127.0.0.1:50243/brand.css&quot;,
+      &quot;value&quot;: &quot;#171A18&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;font-family&quot;,
+      &quot;source&quot;: &quot;http://127.0.0.1:50243/brand.css&quot;,
+      &quot;value&quot;: &quot;Inter, Arial, sans-serif&quot;
+    }
+  ],
+  &quot;warnings&quot;: [],
+  &quot;confidence&quot;: 0.88,
+  &quot;extractorVersion&quot;: &quot;brand-extractor-v2&quot;,
+  &quot;fingerprint&quot;: &quot;f8324e4317f958967bd2ef12097cbba34a6a6cc76d497f454438a146437680b8&quot;
+}</pre>
+        <ul><li class="ok">PASS profile returned </li><li class="ok">PASS valid colors </li><li class="ok">PASS valid typography </li><li class="ok">PASS source type preserved url</li><li class="ok">PASS readable paper and ink 16.08:1</li><li class="ok">PASS evidence retained </li><li class="ok">PASS paper within tolerance distance 0.00, tolerance 0</li><li class="ok">PASS ink within tolerance distance 0.00, tolerance 0</li><li class="ok">PASS accent within tolerance distance 0.00, tolerance 0</li><li class="ok">PASS headline preset modern</li><li class="ok">PASS body preset clean</li></ul>
+      
+        <h3>Run 3 · deterministic-web-evidence</h3>
+        <pre>{
+  &quot;version&quot;: 1,
+  &quot;paper&quot;: &quot;#F7F5EE&quot;,
+  &quot;ink&quot;: &quot;#171A18&quot;,
+  &quot;accent&quot;: &quot;#E84F3D&quot;,
+  &quot;headline&quot;: &quot;modern&quot;,
+  &quot;body&quot;: &quot;clean&quot;,
+  &quot;sourceType&quot;: &quot;url&quot;,
+  &quot;evidence&quot;: [
+    {
+      &quot;kind&quot;: &quot;theme-color&quot;,
+      &quot;source&quot;: &quot;http://127.0.0.1:50243/brand-site/&quot;,
+      &quot;value&quot;: &quot;#E84F3D&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;stylesheet&quot;,
+      &quot;source&quot;: &quot;http://127.0.0.1:50243/brand.css&quot;,
+      &quot;value&quot;: &quot;http://127.0.0.1:50243/brand.css&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;css-variable-root&quot;,
+      &quot;source&quot;: &quot;http://127.0.0.1:50243/brand.css&quot;,
+      &quot;value&quot;: &quot;--brand-paper=#F7F5EE&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;css-variable-root&quot;,
+      &quot;source&quot;: &quot;http://127.0.0.1:50243/brand.css&quot;,
+      &quot;value&quot;: &quot;--brand-ink=#171A18&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;css-variable-root&quot;,
+      &quot;source&quot;: &quot;http://127.0.0.1:50243/brand.css&quot;,
+      &quot;value&quot;: &quot;--brand-accent=#E84F3D&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;css-variable&quot;,
+      &quot;source&quot;: &quot;http://127.0.0.1:50243/brand.css&quot;,
+      &quot;value&quot;: &quot;--brand-paper=#F7F5EE&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;css-variable&quot;,
+      &quot;source&quot;: &quot;http://127.0.0.1:50243/brand.css&quot;,
+      &quot;value&quot;: &quot;--brand-ink=#171A18&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;css-variable&quot;,
+      &quot;source&quot;: &quot;http://127.0.0.1:50243/brand.css&quot;,
+      &quot;value&quot;: &quot;--brand-accent=#E84F3D&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;page-background&quot;,
+      &quot;source&quot;: &quot;http://127.0.0.1:50243/brand.css&quot;,
+      &quot;value&quot;: &quot;#F7F5EE&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;page-text&quot;,
+      &quot;source&quot;: &quot;http://127.0.0.1:50243/brand.css&quot;,
+      &quot;value&quot;: &quot;#171A18&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;font-family&quot;,
+      &quot;source&quot;: &quot;http://127.0.0.1:50243/brand.css&quot;,
+      &quot;value&quot;: &quot;Inter, Arial, sans-serif&quot;
+    }
+  ],
+  &quot;warnings&quot;: [],
+  &quot;confidence&quot;: 0.88,
+  &quot;extractorVersion&quot;: &quot;brand-extractor-v2&quot;,
+  &quot;fingerprint&quot;: &quot;f8324e4317f958967bd2ef12097cbba34a6a6cc76d497f454438a146437680b8&quot;
+}</pre>
+        <ul><li class="ok">PASS profile returned </li><li class="ok">PASS valid colors </li><li class="ok">PASS valid typography </li><li class="ok">PASS source type preserved url</li><li class="ok">PASS readable paper and ink 16.08:1</li><li class="ok">PASS evidence retained </li><li class="ok">PASS paper within tolerance distance 0.00, tolerance 0</li><li class="ok">PASS ink within tolerance distance 0.00, tolerance 0</li><li class="ok">PASS accent within tolerance distance 0.00, tolerance 0</li><li class="ok">PASS headline preset modern</li><li class="ok">PASS body preset clean</li></ul>
+      
+    </section>
+  </body></html>

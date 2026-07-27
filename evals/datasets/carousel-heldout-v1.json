@@ -1,0 +1,34 @@
+[
+  {
+    "id": "manager-one-on-ones",
+    "category": "heldout-audience",
+    "input": "Create a carousel for new managers on running useful one-on-ones without turning them into status meetings.",
+    "expected_behavior": "Give new managers specific one-on-one practices, distinguish the meeting from status reporting, and preserve required slide roles.",
+    "expect": { "brandApply": false, "topicTerms": ["manager", "one-on-one", "status"] }
+  },
+  {
+    "id": "explicit-heldout-brand",
+    "category": "heldout-brand-explicit",
+    "input": "Make a carousel about onboarding a first operations hire. Use navy paper, cream typography, and a lime accent.",
+    "allowBrandUpdate": true,
+    "expected_behavior": "Create operations-hiring guidance and apply the explicitly requested navy, cream, and lime visual treatment.",
+    "expect": { "brandApply": true, "topicTerms": ["onboarding", "operations", "hire"] }
+  },
+  {
+    "id": "deep-work-myth",
+    "category": "heldout-myth",
+    "input": "Build a myth-busting carousel for knowledge workers about the belief that deep work requires an uninterrupted four-hour block.",
+    "flow": "myth",
+    "expected_behavior": "Use a myth-to-truth progression with practical alternatives for knowledge workers and a dedicated final CTA.",
+    "expect": { "brandApply": false, "topicTerms": ["deep work", "four-hour", "knowledge"] }
+  },
+  {
+    "id": "heldout-brand-only",
+    "category": "heldout-brand-only",
+    "input": "Update only the visual identity to sage paper, charcoal type, and a coral accent.",
+    "allowBrandUpdate": true,
+    "brandOnly": true,
+    "expected_behavior": "Return a valid brand patch with brand.apply true without treating carousel copy as part of the request.",
+    "expect": { "brandApply": true, "skipContentChecks": true }
+  }
+]

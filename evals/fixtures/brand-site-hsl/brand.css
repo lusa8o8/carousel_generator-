@@ -1,0 +1,13 @@
+:root {
+  --background: 0 0% 100%;
+  --foreground: 222.2 84% 4.9%;
+  --primary: 280 70% 57%;
+  --secondary: 18 100% 61%;
+  --accent: 35 100% 64%;
+}
+
+body {
+  background: hsl(var(--background));
+  color: hsl(var(--foreground));
+  font-family: Poppins, sans-serif;
+}

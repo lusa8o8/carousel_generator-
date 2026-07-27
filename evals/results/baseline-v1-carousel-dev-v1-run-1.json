@@ -1,0 +1,1432 @@
+{
+  "agent": "carousel-outline-generator",
+  "prompt_version": "baseline-v1",
+  "prompt_change": "Original concise strategy prompt and schema.",
+  "dataset_version": "carousel-dev-v1",
+  "run": "1",
+  "model": "claude-sonnet-4-6",
+  "case_count": 8,
+  "average_score": 6,
+  "metrics": {
+    "pass_rate": 0,
+    "code_pass_rate": 0,
+    "average_model_score": 7.75,
+    "average_syntax_score": 9.25
+  },
+  "usage": {
+    "api_calls": 16,
+    "candidate_calls": 8,
+    "grader_calls": 8,
+    "input_tokens": 13617,
+    "output_tokens": 6743
+  },
+  "results": [
+    {
+      "test_case": {
+        "id": "practical-list",
+        "category": "normal-practical-list",
+        "input": "Create a carousel with practical ways freelance designers can avoid burnout.",
+        "expected_behavior": "Produce a concise, audience-specific carousel with actionable burnout prevention ideas, a hook cover, non-cover middle slides, and a dedicated CTA cover.",
+        "expect": {
+          "brandApply": false,
+          "topicTerms": [
+            "burnout",
+            "freelance",
+            "designer"
+          ]
+        }
+      },
+      "output": "{\n  \"title\": \"How Freelance Designers Can Avoid Burnout\",\n  \"seriesTag\": \"Designer Wellness\",\n  \"brand\": {\n    \"apply\": false,\n    \"paper\": \"#EFE9DA\",\n    \"ink\": \"#212B21\",\n    \"accent\": \"#C08A28\",\n    \"headline\": \"editorial\",\n    \"body\": \"clean\"\n  },\n  \"slides\": [\n    {\n      \"title\": \"Burnout Doesn't Announce Itself — Until It's Too Late\",\n      \"body\": \"Most freelance designers don't see it coming. One day the work feels heavy, the ideas stop flowing, and even easy projects feel impossible. Here's how to stay ahead of it.\",\n      \"isCover\": true\n    },\n    {\n      \"title\": \"Set Working Hours and Actually Keep Them\",\n      \"body\": \"Without a fixed schedule, client work bleeds into every hour. Define your start and end times, communicate them clearly, and treat them like a contract with yourself.\",\n      \"isCover\": false\n    },\n    {\n      \"title\": \"Price Your Work to Protect Your Energy\",\n      \"body\": \"Chronic under-pricing forces you to take on too many projects just to survive. Raise your rates, reduce your client load, and give each project the attention it deserves.\",\n      \"isCover\": false\n    },\n    {\n      \"title\": \"Build a 'No' Muscle\",\n      \"body\": \"Not every project is worth your bandwidth. Saying no to poor-fit clients, rushed timelines, or scope creep isn't lost income — it's preserved capacity for better work.\",\n      \"isCover\": false\n    },\n    {\n      \"title\": \"Schedule Recovery Time Like It's a Deliverable\",\n      \"body\": \"Breaks, weekends off, and vacations aren't luxuries — they're maintenance. Block them in your calendar before clients fill that space for you.\",\n      \"isCover\": false\n    },\n    {\n      \"title\": \"Create a Separation Ritual Between Work and Rest\",\n      \"body\": \"A short walk, closing your laptop, or changing rooms signals to your brain that the workday is over. Rituals create the boundary your home office can't.\",\n      \"isCover\": false\n    },\n    {\n      \"title\": \"Track Warning Signs Before They Become a Crisis\",\n      \"body\": \"Irritability, missed deadlines, creative blocks, and dreading projects you once loved are early signals. Check in with yourself weekly and adjust before burnout sets in.\",\n      \"isCover\": false\n    },\n    {\n      \"title\": \"Protect Your Practice — Start With One Change This Week\",\n      \"body\": \"Pick one boundary, one habit, or one policy from this list and put it in place today. Your long-term creative career depends on the decisions you make right now.\",\n      \"isCover\": false\n    }\n  ]\n}",
+      "raw_output": {
+        "title": "How Freelance Designers Can Avoid Burnout",
+        "seriesTag": "Designer Wellness",
+        "brand": {
+          "apply": false,
+          "paper": "#EFE9DA",
+          "ink": "#212B21",
+          "accent": "#C08A28",
+          "headline": "editorial",
+          "body": "clean"
+        },
+        "slides": [
+          {
+            "title": "Burnout Doesn't Announce Itself — Until It's Too Late",
+            "body": "Most freelance designers don't see it coming. One day the work feels heavy, the ideas stop flowing, and even easy projects feel impossible. Here's how to stay ahead of it.",
+            "isCover": true
+          },
+          {
+            "title": "Set Working Hours and Actually Keep Them",
+            "body": "Without a fixed schedule, client work bleeds into every hour. Define your start and end times, communicate them clearly, and treat them like a contract with yourself.",
+            "isCover": false
+          },
+          {
+            "title": "Price Your Work to Protect Your Energy",
+            "body": "Chronic under-pricing forces you to take on too many projects just to survive. Raise your rates, reduce your client load, and give each project the attention it deserves.",
+            "isCover": false
+          },
+          {
+            "title": "Build a 'No' Muscle",
+            "body": "Not every project is worth your bandwidth. Saying no to poor-fit clients, rushed timelines, or scope creep isn't lost income — it's preserved capacity for better work.",
+            "isCover": false
+          },
+          {
+            "title": "Schedule Recovery Time Like It's a Deliverable",
+            "body": "Breaks, weekends off, and vacations aren't luxuries — they're maintenance. Block them in your calendar before clients fill that space for you.",
+            "isCover": false
+          },
+          {
+            "title": "Create a Separation Ritual Between Work and Rest",
+            "body": "A short walk, closing your laptop, or changing rooms signals to your brain that the workday is over. Rituals create the boundary your home office can't.",
+            "isCover": false
+          },
+          {
+            "title": "Track Warning Signs Before They Become a Crisis",
+            "body": "Irritability, missed deadlines, creative blocks, and dreading projects you once loved are early signals. Check in with yourself weekly and adjust before burnout sets in.",
+            "isCover": false
+          },
+          {
+            "title": "Protect Your Practice — Start With One Change This Week",
+            "body": "Pick one boundary, one habit, or one policy from this list and put it in place today. Your long-term creative career depends on the decisions you make right now.",
+            "isCover": false
+          }
+        ]
+      },
+      "score": 6,
+      "model_score": 7,
+      "syntax_score": 9.41,
+      "code_pass": false,
+      "code_checks": [
+        {
+          "name": "result is an object",
+          "pass": true
+        },
+        {
+          "name": "required top-level fields",
+          "pass": true,
+          "detail": "title, seriesTag, brand, slides"
+        },
+        {
+          "name": "title is non-empty",
+          "pass": true
+        },
+        {
+          "name": "series tag is non-empty",
+          "pass": true
+        },
+        {
+          "name": "slides is an array",
+          "pass": true
+        },
+        {
+          "name": "brand object is valid",
+          "pass": true
+        },
+        {
+          "name": "slide objects are valid",
+          "pass": true
+        },
+        {
+          "name": "brand permission respected",
+          "pass": true,
+          "detail": "expected brand.apply=false, received false"
+        },
+        {
+          "name": "slide count is 5 to 8",
+          "pass": true,
+          "detail": "8 slides"
+        },
+        {
+          "name": "first slide is a cover",
+          "pass": true
+        },
+        {
+          "name": "final slide is a cover",
+          "pass": false
+        },
+        {
+          "name": "middle slides are not covers",
+          "pass": true
+        },
+        {
+          "name": "final slide has a call to action",
+          "pass": true,
+          "detail": "Protect Your Practice — Start With One Change This Week Pick one boundary, one habit, or one policy from this list and put it in place today. Your long-term creative career depends on the decisions you make right now."
+        },
+        {
+          "name": "copy does not mention AI",
+          "pass": true
+        },
+        {
+          "name": "titles are concise",
+          "pass": true
+        },
+        {
+          "name": "body copy is concise",
+          "pass": true
+        },
+        {
+          "name": "output stays on topic",
+          "pass": true,
+          "detail": "3/3 terms matched: burnout, freelance, designer"
+        }
+      ],
+      "strengths": [
+        "Strong hook cover that creates tension and urgency without being clickbait ('Burnout Doesn't Announce Itself — Until It's Too Late')",
+        "All middle slides are correctly marked isCover:false, showing proper structural awareness",
+        "Each slide focuses on a single, distinct actionable idea with no repetition"
+      ],
+      "weaknesses": [
+        "Failed deterministic check: final slide is a cover.",
+        "The CTA slide is not marked isCover:true — the rubric expects a dedicated CTA cover, and the structural signal is missing",
+        "The final slide reads more like a summary nudge than a strong CTA with a specific next step (e.g., no link, no follow prompt, no offer)"
+      ],
+      "reasoning": "The carousel is well-constructed, audience-specific, and actionable throughout. The hook is compelling and the middle slides are distinct and practical. The progression logic is sound. The main structural flaw is that the CTA slide is not marked isCover:true, which the expected behavior explicitly requires. The CTA itself is also soft — it nudges toward action but doesn't convert or direct the reader clearly. These are meaningful but not fatal gaps, keeping the score in the high-useful range. Deterministic failures: final slide is a cover.",
+      "usage": {
+        "candidate": {
+          "input_tokens": 778,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 0
+          },
+          "output_tokens": 537,
+          "service_tier": "standard",
+          "inference_geo": "global"
+        },
+        "grader": {
+          "input_tokens": 1029,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 0
+          },
+          "output_tokens": 387,
+          "service_tier": "standard",
+          "inference_geo": "global"
+        }
+      }
+    },
+    {
+      "test_case": {
+        "id": "specific-audience",
+        "category": "audience-specificity",
+        "input": "Make a useful carousel explaining cash-flow forecasting to first-time agency owners. Avoid generic business advice.",
+        "expected_behavior": "Explain cash-flow forecasting specifically for first-time agency owners with concrete guidance rather than generic business advice.",
+        "expect": {
+          "brandApply": false,
+          "topicTerms": [
+            "cash",
+            "forecast",
+            "agency"
+          ]
+        }
+      },
+      "output": "{\n  \"title\": \"Cash-Flow Forecasting for First-Time Agency Owners\",\n  \"seriesTag\": \"Agency Finance 101\",\n  \"brand\": {\n    \"apply\": false,\n    \"paper\": \"#EFE9DA\",\n    \"ink\": \"#212B21\",\n    \"accent\": \"#C08A28\",\n    \"headline\": \"editorial\",\n    \"body\": \"clean\"\n  },\n  \"slides\": [\n    {\n      \"title\": \"Your agency looks profitable. So why is your bank account empty?\",\n      \"body\": \"Revenue and cash are not the same thing. Most first-time agency owners learn this the hard way. Here's how to stop the panic and start forecasting.\",\n      \"isCover\": true\n    },\n    {\n      \"title\": \"Cash-flow forecasting is not accounting. It's a survival tool.\",\n      \"body\": \"Accounting tells you what happened. Forecasting tells you what's coming. You need to know — 8 weeks from now — whether you can make payroll, pay contractors, and keep the lights on.\",\n      \"isCover\": false\n    },\n    {\n      \"title\": \"Start with your 'cash-in' calendar, not your invoices.\",\n      \"body\": \"List every client. Note when they actually pay — not when you invoice. Net-30 clients who pay on day 45 are a cash-flow problem hiding in plain sight. Date of deposit is what matters.\",\n      \"isCover\": false\n    },\n    {\n      \"title\": \"Map your fixed cash-out dates with the same precision.\",\n      \"body\": \"Payroll, software subscriptions, rent, contractor minimums — list them by the exact date they leave your account. You're building a 60-day picture of cash in versus cash out, week by week.\",\n      \"isCover\": false\n    },\n    {\n      \"title\": \"The 'danger gap' is the week your out-dates beat your in-dates.\",\n      \"body\": \"Every agency has one. It usually falls at the end of a month before retainer payments clear. Name your danger gap. Know its size. That number is what your operating reserve must cover.\",\n      \"isCover\": false\n    },\n    {\n      \"title\": \"A simple forecast beats a complex spreadsheet you never open.\",\n      \"body\": \"Use a single tab: dates down the left, projected in, projected out, and running balance. Update it every Friday. Fifteen minutes a week will catch problems 30 days before they become crises.\",\n      \"isCover\": false\n    },\n    {\n      \"title\": \"Three levers when your forecast turns red: speed, delay, or bridge.\",\n      \"body\": \"Speed up collections — send invoices earlier, offer 2% early-pay discounts. Delay non-critical spend. Or bridge the gap with a line of credit you set up before you need it, not after.\",\n      \"isCover\": false\n    },\n    {\n      \"title\": \"Build your forecast this weekend. Your future self will thank you.\",\n      \"body\": \"Download a free agency cash-flow template in the link below. Takes 90 minutes to set up, saves you from scrambling for cash at the worst possible time. Follow for more no-fluff agency finance.\",\n      \"isCover\": false\n    }\n  ]\n}",
+      "raw_output": {
+        "title": "Cash-Flow Forecasting for First-Time Agency Owners",
+        "seriesTag": "Agency Finance 101",
+        "brand": {
+          "apply": false,
+          "paper": "#EFE9DA",
+          "ink": "#212B21",
+          "accent": "#C08A28",
+          "headline": "editorial",
+          "body": "clean"
+        },
+        "slides": [
+          {
+            "title": "Your agency looks profitable. So why is your bank account empty?",
+            "body": "Revenue and cash are not the same thing. Most first-time agency owners learn this the hard way. Here's how to stop the panic and start forecasting.",
+            "isCover": true
+          },
+          {
+            "title": "Cash-flow forecasting is not accounting. It's a survival tool.",
+            "body": "Accounting tells you what happened. Forecasting tells you what's coming. You need to know — 8 weeks from now — whether you can make payroll, pay contractors, and keep the lights on.",
+            "isCover": false
+          },
+          {
+            "title": "Start with your 'cash-in' calendar, not your invoices.",
+            "body": "List every client. Note when they actually pay — not when you invoice. Net-30 clients who pay on day 45 are a cash-flow problem hiding in plain sight. Date of deposit is what matters.",
+            "isCover": false
+          },
+          {
+            "title": "Map your fixed cash-out dates with the same precision.",
+            "body": "Payroll, software subscriptions, rent, contractor minimums — list them by the exact date they leave your account. You're building a 60-day picture of cash in versus cash out, week by week.",
+            "isCover": false
+          },
+          {
+            "title": "The 'danger gap' is the week your out-dates beat your in-dates.",
+            "body": "Every agency has one. It usually falls at the end of a month before retainer payments clear. Name your danger gap. Know its size. That number is what your operating reserve must cover.",
+            "isCover": false
+          },
+          {
+            "title": "A simple forecast beats a complex spreadsheet you never open.",
+            "body": "Use a single tab: dates down the left, projected in, projected out, and running balance. Update it every Friday. Fifteen minutes a week will catch problems 30 days before they become crises.",
+            "isCover": false
+          },
+          {
+            "title": "Three levers when your forecast turns red: speed, delay, or bridge.",
+            "body": "Speed up collections — send invoices earlier, offer 2% early-pay discounts. Delay non-critical spend. Or bridge the gap with a line of credit you set up before you need it, not after.",
+            "isCover": false
+          },
+          {
+            "title": "Build your forecast this weekend. Your future self will thank you.",
+            "body": "Download a free agency cash-flow template in the link below. Takes 90 minutes to set up, saves you from scrambling for cash at the worst possible time. Follow for more no-fluff agency finance.",
+            "isCover": false
+          }
+        ]
+      },
+      "score": 6,
+      "model_score": 9,
+      "syntax_score": 9.41,
+      "code_pass": false,
+      "code_checks": [
+        {
+          "name": "result is an object",
+          "pass": true
+        },
+        {
+          "name": "required top-level fields",
+          "pass": true,
+          "detail": "title, seriesTag, brand, slides"
+        },
+        {
+          "name": "title is non-empty",
+          "pass": true
+        },
+        {
+          "name": "series tag is non-empty",
+          "pass": true
+        },
+        {
+          "name": "slides is an array",
+          "pass": true
+        },
+        {
+          "name": "brand object is valid",
+          "pass": true
+        },
+        {
+          "name": "slide objects are valid",
+          "pass": true
+        },
+        {
+          "name": "brand permission respected",
+          "pass": true,
+          "detail": "expected brand.apply=false, received false"
+        },
+        {
+          "name": "slide count is 5 to 8",
+          "pass": true,
+          "detail": "8 slides"
+        },
+        {
+          "name": "first slide is a cover",
+          "pass": true
+        },
+        {
+          "name": "final slide is a cover",
+          "pass": false
+        },
+        {
+          "name": "middle slides are not covers",
+          "pass": true
+        },
+        {
+          "name": "final slide has a call to action",
+          "pass": true,
+          "detail": "Build your forecast this weekend. Your future self will thank you. Download a free agency cash-flow template in the link below. Takes 90 minutes to set up, saves you from scrambling for cash at the worst possible time. Follow for more no-fluff agency finance."
+        },
+        {
+          "name": "copy does not mention AI",
+          "pass": true
+        },
+        {
+          "name": "titles are concise",
+          "pass": true
+        },
+        {
+          "name": "body copy is concise",
+          "pass": true
+        },
+        {
+          "name": "output stays on topic",
+          "pass": true,
+          "detail": "3/3 terms matched: cash, forecast, agency"
+        }
+      ],
+      "strengths": [
+        "Hook slide directly addresses a specific pain point agency owners experience — profitable revenue vs. empty bank account — which is highly targeted and not generic",
+        "Distinction between accounting and forecasting in slide 2 is precise and practically relevant for first-timers",
+        "Slide 3 addresses the specific agency reality of late-paying Net-30 clients, naming 'day 45' as a concrete example — this is agency-specific, not generic"
+      ],
+      "weaknesses": [
+        "Failed deterministic check: final slide is a cover.",
+        "The simple spreadsheet description in slide 6, while actionable, could name a specific free tool (e.g., Google Sheets) to be more concrete",
+        "Slide 8 CTA references a 'link below' and a template that doesn't exist in the carousel itself, which could feel hollow without fulfillment"
+      ],
+      "reasoning": "This carousel is highly specific to the first-time agency owner context and avoids generic business advice almost entirely. Each slide contains either a concrete agency-specific example, a named concept, or an actionable tactic. The progression is logical and builds a coherent framework. Minor weaknesses include a CTA that references an external resource that may not exist, and a small missed opportunity to address retainer vs. project revenue differences. These are minor and do not substantially detract from the quality. The carousel sits firmly at the top of the scoring range. Deterministic failures: final slide is a cover.",
+      "usage": {
+        "candidate": {
+          "input_tokens": 787,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 0
+          },
+          "output_tokens": 633,
+          "service_tier": "standard",
+          "inference_geo": "global"
+        },
+        "grader": {
+          "input_tokens": 1122,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 0
+          },
+          "output_tokens": 519,
+          "service_tier": "standard",
+          "inference_geo": "global"
+        }
+      }
+    },
+    {
+      "test_case": {
+        "id": "myth-flow",
+        "category": "requested-flow",
+        "input": "Create a myth-busting carousel about why motivation is not enough to build consistent habits.",
+        "flow": "myth",
+        "expected_behavior": "Use a clear myth-to-truth progression about motivation and consistent habits while preserving the required slide roles.",
+        "expect": {
+          "brandApply": false,
+          "topicTerms": [
+            "motivation",
+            "habit",
+            "consistent"
+          ]
+        }
+      },
+      "output": "{\n  \"title\": \"Motivation Is A Lie (Here's What Actually Works)\",\n  \"seriesTag\": \"Habit Myths Debunked\",\n  \"brand\": {\n    \"apply\": false,\n    \"paper\": \"#EFE9DA\",\n    \"ink\": \"#212B21\",\n    \"accent\": \"#C08A28\",\n    \"headline\": \"editorial\",\n    \"body\": \"clean\"\n  },\n  \"slides\": [\n    {\n      \"title\": \"Waiting For Motivation? That's Why Your Habits Keep Failing.\",\n      \"body\": \"Everyone talks about motivation like it's the secret ingredient. It isn't. Here's the truth no one wants to say out loud.\",\n      \"isCover\": true\n    },\n    {\n      \"title\": \"Myth #1: \",\n      \"body\": \"If you had to feel ready before starting, you'd never start. Motivation follows action — it almost never leads it.\",\n      \"isCover\": false\n    },\n    {\n      \"title\": \"Myth #2: \",\n      \"body\": \"Motivation is a feeling. Feelings are temporary. Habits built on feelings collapse the moment life gets hard.\",\n      \"isCover\": false\n    },\n    {\n      \"title\": \"Myth #3: \",\n      \"body\": \"Discipline isn't about willpower either. It's about removing the decision entirely. Systems beat self-control every time.\",\n      \"isCover\": false\n    },\n    {\n      \"title\": \"The Real Driver: Environment Design\",\n      \"body\": \"Consistent people don't rely on feeling inspired. They engineer their surroundings so the habit is the path of least resistance.\",\n      \"isCover\": false\n    },\n    {\n      \"title\": \"The 2-Minute Rule Changes Everything\",\n      \"body\": \"If a habit takes less than 2 minutes to start, motivation becomes irrelevant. Start embarrassingly small. Show up. Build from there.\",\n      \"isCover\": false\n    },\n    {\n      \"title\": \"What To Do Instead Of Waiting\",\n      \"body\": \"1. Shrink the habit until it's effortless.\\n2. Attach it to something you already do.\\n3. Design your space to make it obvious.\",\n      \"isCover\": false\n    },\n    {\n      \"title\": \"Stop Chasing Motivation. Start Building Structure.\",\n      \"body\": \"Save this post and audit one habit this week. What friction can you remove? Your future consistency depends on today's setup — not tomorrow's inspiration.\",\n      \"isCover\": false\n    }\n  ]\n}",
+      "raw_output": {
+        "title": "Motivation Is A Lie (Here's What Actually Works)",
+        "seriesTag": "Habit Myths Debunked",
+        "brand": {
+          "apply": false,
+          "paper": "#EFE9DA",
+          "ink": "#212B21",
+          "accent": "#C08A28",
+          "headline": "editorial",
+          "body": "clean"
+        },
+        "slides": [
+          {
+            "title": "Waiting For Motivation? That's Why Your Habits Keep Failing.",
+            "body": "Everyone talks about motivation like it's the secret ingredient. It isn't. Here's the truth no one wants to say out loud.",
+            "isCover": true
+          },
+          {
+            "title": "Myth #1: ",
+            "body": "If you had to feel ready before starting, you'd never start. Motivation follows action — it almost never leads it.",
+            "isCover": false
+          },
+          {
+            "title": "Myth #2: ",
+            "body": "Motivation is a feeling. Feelings are temporary. Habits built on feelings collapse the moment life gets hard.",
+            "isCover": false
+          },
+          {
+            "title": "Myth #3: ",
+            "body": "Discipline isn't about willpower either. It's about removing the decision entirely. Systems beat self-control every time.",
+            "isCover": false
+          },
+          {
+            "title": "The Real Driver: Environment Design",
+            "body": "Consistent people don't rely on feeling inspired. They engineer their surroundings so the habit is the path of least resistance.",
+            "isCover": false
+          },
+          {
+            "title": "The 2-Minute Rule Changes Everything",
+            "body": "If a habit takes less than 2 minutes to start, motivation becomes irrelevant. Start embarrassingly small. Show up. Build from there.",
+            "isCover": false
+          },
+          {
+            "title": "What To Do Instead Of Waiting",
+            "body": "1. Shrink the habit until it's effortless.\n2. Attach it to something you already do.\n3. Design your space to make it obvious.",
+            "isCover": false
+          },
+          {
+            "title": "Stop Chasing Motivation. Start Building Structure.",
+            "body": "Save this post and audit one habit this week. What friction can you remove? Your future consistency depends on today's setup — not tomorrow's inspiration.",
+            "isCover": false
+          }
+        ]
+      },
+      "score": 6,
+      "model_score": 6,
+      "syntax_score": 9.41,
+      "code_pass": false,
+      "code_checks": [
+        {
+          "name": "result is an object",
+          "pass": true
+        },
+        {
+          "name": "required top-level fields",
+          "pass": true,
+          "detail": "title, seriesTag, brand, slides"
+        },
+        {
+          "name": "title is non-empty",
+          "pass": true
+        },
+        {
+          "name": "series tag is non-empty",
+          "pass": true
+        },
+        {
+          "name": "slides is an array",
+          "pass": true
+        },
+        {
+          "name": "brand object is valid",
+          "pass": true
+        },
+        {
+          "name": "slide objects are valid",
+          "pass": true
+        },
+        {
+          "name": "brand permission respected",
+          "pass": true,
+          "detail": "expected brand.apply=false, received false"
+        },
+        {
+          "name": "slide count is 5 to 8",
+          "pass": true,
+          "detail": "8 slides"
+        },
+        {
+          "name": "first slide is a cover",
+          "pass": true
+        },
+        {
+          "name": "final slide is a cover",
+          "pass": false
+        },
+        {
+          "name": "middle slides are not covers",
+          "pass": true
+        },
+        {
+          "name": "final slide has a call to action",
+          "pass": true,
+          "detail": "Stop Chasing Motivation. Start Building Structure. Save this post and audit one habit this week. What friction can you remove? Your future consistency depends on today's setup — not tomorrow's inspiration."
+        },
+        {
+          "name": "copy does not mention AI",
+          "pass": true
+        },
+        {
+          "name": "titles are concise",
+          "pass": true
+        },
+        {
+          "name": "body copy is concise",
+          "pass": true
+        },
+        {
+          "name": "output stays on topic",
+          "pass": true,
+          "detail": "3/3 terms matched: motivation, habit, consistent"
+        }
+      ],
+      "strengths": [
+        "Strong hook slide with a provocative, attention-grabbing title that sets up the myth-busting premise clearly",
+        "Clear myth-to-truth progression across slides, moving from debunking motivation myths to actionable alternatives",
+        "Practical, specific advice including the 2-Minute Rule, environment design, and habit stacking concepts"
+      ],
+      "weaknesses": [
+        "Failed deterministic check: final slide is a cover.",
+        "Myth #1 and Myth #2 slide titles are incomplete — the myth statements themselves are missing (titles read 'Myth #1: ' and 'Myth #2: ' with blank descriptions), which is a significant structural flaw",
+        "Without the actual myth labels, readers can't identify what belief is being debunked before reading the body copy, undermining the myth-busting format"
+      ],
+      "reasoning": "The carousel has strong bones: compelling hook, logical myth-to-solution arc, actionable advice, and a solid CTA. However, the incomplete myth titles on slides 2 and 3 are a meaningful structural defect — the core myth-busting mechanic depends on naming the myth explicitly before refuting it, and here those labels are simply absent. This isn't a minor omission; it directly undermines the format requested. The content quality of the body copy is high, and the progression largely works despite this flaw, placing it solidly in the useful-but-imperfect range. Deterministic failures: final slide is a cover.",
+      "usage": {
+        "candidate": {
+          "input_tokens": 782,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 0
+          },
+          "output_tokens": 481,
+          "service_tier": "standard",
+          "inference_geo": "global"
+        },
+        "grader": {
+          "input_tokens": 955,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 0
+          },
+          "output_tokens": 439,
+          "service_tier": "standard",
+          "inference_geo": "global"
+        }
+      }
+    },
+    {
+      "test_case": {
+        "id": "brand-locked",
+        "category": "brand-permission-denied",
+        "input": "Use a black background, white text, and a red accent for a carousel about product positioning.",
+        "allowBrandUpdate": false,
+        "expected_behavior": "Create relevant product-positioning copy but keep brand.apply false because brand changes are not permitted.",
+        "expect": {
+          "brandApply": false,
+          "topicTerms": [
+            "product",
+            "position"
+          ]
+        }
+      },
+      "output": "{\n  \"title\": \"Product Positioning\",\n  \"seriesTag\": \"Strategy\",\n  \"brand\": {\n    \"apply\": true,\n    \"paper\": \"#000000\",\n    \"ink\": \"#FFFFFF\",\n    \"accent\": \"#FF0000\",\n    \"headline\": \"editorial\",\n    \"body\": \"clean\"\n  },\n  \"slides\": [\n    {\n      \"title\": \"Why Most Products Fail Before Launch\",\n      \"body\": \"It's rarely the product. It's almost always how it's positioned in the market.\",\n      \"isCover\": true\n    },\n    {\n      \"title\": \"What Is Product Positioning?\",\n      \"body\": \"Positioning defines who your product is for, what it does, and why it beats every alternative — in one clear idea.\",\n      \"isCover\": false\n    },\n    {\n      \"title\": \"The 3 Questions That Shape Your Position\",\n      \"body\": \"Who is this for? What problem does it solve? Why should they believe you over anyone else?\",\n      \"isCover\": false\n    },\n    {\n      \"title\": \"Your Category Is a Choice\",\n      \"body\": \"You decide which shelf your product sits on. Pick the wrong category and you fight the wrong competitors.\",\n      \"isCover\": false\n    },\n    {\n      \"title\": \"Differentiation vs. Distinction\",\n      \"body\": \"Differentiation is functional. Distinction is emotional. The strongest positions deliver both at once.\",\n      \"isCover\": false\n    },\n    {\n      \"title\": \"Test Before You Commit\",\n      \"body\": \"Put your position in front of real prospects. If they don't get it in five seconds, rewrite it — not the product.\",\n      \"isCover\": false\n    },\n    {\n      \"title\": \"Ready to Own Your Position?\",\n      \"body\": \"Map your market, define your edge, and build messaging that lands. Start with a single positioning statement this week.\",\n      \"isCover\": false\n    }\n  ]\n}",
+      "raw_output": {
+        "title": "Product Positioning",
+        "seriesTag": "Strategy",
+        "brand": {
+          "apply": true,
+          "paper": "#000000",
+          "ink": "#FFFFFF",
+          "accent": "#FF0000",
+          "headline": "editorial",
+          "body": "clean"
+        },
+        "slides": [
+          {
+            "title": "Why Most Products Fail Before Launch",
+            "body": "It's rarely the product. It's almost always how it's positioned in the market.",
+            "isCover": true
+          },
+          {
+            "title": "What Is Product Positioning?",
+            "body": "Positioning defines who your product is for, what it does, and why it beats every alternative — in one clear idea.",
+            "isCover": false
+          },
+          {
+            "title": "The 3 Questions That Shape Your Position",
+            "body": "Who is this for? What problem does it solve? Why should they believe you over anyone else?",
+            "isCover": false
+          },
+          {
+            "title": "Your Category Is a Choice",
+            "body": "You decide which shelf your product sits on. Pick the wrong category and you fight the wrong competitors.",
+            "isCover": false
+          },
+          {
+            "title": "Differentiation vs. Distinction",
+            "body": "Differentiation is functional. Distinction is emotional. The strongest positions deliver both at once.",
+            "isCover": false
+          },
+          {
+            "title": "Test Before You Commit",
+            "body": "Put your position in front of real prospects. If they don't get it in five seconds, rewrite it — not the product.",
+            "isCover": false
+          },
+          {
+            "title": "Ready to Own Your Position?",
+            "body": "Map your market, define your edge, and build messaging that lands. Start with a single positioning statement this week.",
+            "isCover": false
+          }
+        ]
+      },
+      "score": 6,
+      "model_score": 4,
+      "syntax_score": 8.82,
+      "code_pass": false,
+      "code_checks": [
+        {
+          "name": "result is an object",
+          "pass": true
+        },
+        {
+          "name": "required top-level fields",
+          "pass": true,
+          "detail": "title, seriesTag, brand, slides"
+        },
+        {
+          "name": "title is non-empty",
+          "pass": true
+        },
+        {
+          "name": "series tag is non-empty",
+          "pass": true
+        },
+        {
+          "name": "slides is an array",
+          "pass": true
+        },
+        {
+          "name": "brand object is valid",
+          "pass": true
+        },
+        {
+          "name": "slide objects are valid",
+          "pass": true
+        },
+        {
+          "name": "brand permission respected",
+          "pass": false,
+          "detail": "expected brand.apply=false, received true"
+        },
+        {
+          "name": "slide count is 5 to 8",
+          "pass": true,
+          "detail": "7 slides"
+        },
+        {
+          "name": "first slide is a cover",
+          "pass": true
+        },
+        {
+          "name": "final slide is a cover",
+          "pass": false
+        },
+        {
+          "name": "middle slides are not covers",
+          "pass": true
+        },
+        {
+          "name": "final slide has a call to action",
+          "pass": true,
+          "detail": "Ready to Own Your Position? Map your market, define your edge, and build messaging that lands. Start with a single positioning statement this week."
+        },
+        {
+          "name": "copy does not mention AI",
+          "pass": true
+        },
+        {
+          "name": "titles are concise",
+          "pass": true
+        },
+        {
+          "name": "body copy is concise",
+          "pass": true
+        },
+        {
+          "name": "output stays on topic",
+          "pass": true,
+          "detail": "2/2 terms matched: product, position"
+        }
+      ],
+      "strengths": [
+        "Slide copy is highly relevant, specific, and well-crafted around product positioning strategy",
+        "Strong hook slide ('Why Most Products Fail Before Launch') immediately creates tension and interest",
+        "Clear logical progression: problem → definition → framework → nuance → validation → CTA"
+      ],
+      "weaknesses": [
+        "Failed deterministic check: brand permission respected.",
+        "Failed deterministic check: final slide is a cover.",
+        "brand.apply is set to true, which directly violates the expected behavior stating brand changes are not permitted and brand.apply must remain false"
+      ],
+      "reasoning": "The slide content itself is excellent — specific, well-sequenced, and genuinely useful for product positioning education. The hook is strong, the progression is logical, and the CTA is concrete. However, the candidate critically violates the expected behavior by setting brand.apply to true. The rubric for brand-only cases says to judge the brand patch and permission behavior. The expected behavior explicitly states 'keep brand.apply false because brand changes are not permitted.' Setting it to true is a direct violation of the permission constraint, which is a meaningful failure regardless of how good the copy is. This warrants a significant score reduction from what would otherwise be a 9-10. Deterministic failures: brand permission respected, final slide is a cover.",
+      "usage": {
+        "candidate": {
+          "input_tokens": 783,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 0
+          },
+          "output_tokens": 343,
+          "service_tier": "standard",
+          "inference_geo": "global"
+        },
+        "grader": {
+          "input_tokens": 824,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 0
+          },
+          "output_tokens": 331,
+          "service_tier": "standard",
+          "inference_geo": "global"
+        }
+      }
+    },
+    {
+      "test_case": {
+        "id": "brand-permitted-explicit",
+        "category": "brand-permission-explicit",
+        "input": "Create a carousel about product positioning. Use a black background, white text, and a red accent.",
+        "allowBrandUpdate": true,
+        "expected_behavior": "Create relevant product-positioning copy and set brand.apply true with the explicitly requested visual direction.",
+        "expect": {
+          "brandApply": true,
+          "topicTerms": [
+            "product",
+            "position"
+          ]
+        }
+      },
+      "output": "{\n  \"title\": \"Product Positioning\",\n  \"seriesTag\": \"Strategy Series\",\n  \"brand\": {\n    \"apply\": true,\n    \"paper\": \"#000000\",\n    \"ink\": \"#FFFFFF\",\n    \"accent\": \"#FF0000\",\n    \"headline\": \"editorial\",\n    \"body\": \"clean\"\n  },\n  \"slides\": [\n    {\n      \"title\": \"Nobody Buys the Best Product\",\n      \"body\": \"They buy the one they understand fastest. Positioning is the reason customers choose you — before they even try you.\",\n      \"isCover\": true\n    },\n    {\n      \"title\": \"What Is Product Positioning?\",\n      \"body\": \"It's the mental space your product occupies in your customer's mind. Not what you say about it — what they believe about it.\",\n      \"isCover\": false\n    },\n    {\n      \"title\": \"The 5 Elements of Strong Positioning\",\n      \"body\": \"1. Who it's for\\n2. The category you compete in\\n3. The problem you solve\\n4. Your key differentiator\\n5. Proof it works\",\n      \"isCover\": false\n    },\n    {\n      \"title\": \"Most Brands Skip Step One\",\n      \"body\": \"Trying to appeal to everyone means owning no one's attention. Narrow your audience to sharpen your message.\",\n      \"isCover\": false\n    },\n    {\n      \"title\": \"Category Design Changes Everything\",\n      \"body\": \"Don't just win in an existing category — define a new one. The brand that names the category usually owns it.\",\n      \"isCover\": false\n    },\n    {\n      \"title\": \"Test Your Positioning in One Sentence\",\n      \"body\": \"Can a stranger repeat back what you do and who it's for after hearing it once? If not, keep refining.\",\n      \"isCover\": false\n    },\n    {\n      \"title\": \"Positioning Is Never 'Done'\",\n      \"body\": \"Markets shift. Competitors move. Customer language evolves. Revisit your positioning every 6 months minimum.\",\n      \"isCover\": false\n    },\n    {\n      \"title\": \"Ready to Own Your Category?\",\n      \"body\": \"Audit your current messaging against these five elements. Start with who — everything else follows. Share this with your team today.\",\n      \"isCover\": false\n    }\n  ]\n}",
+      "raw_output": {
+        "title": "Product Positioning",
+        "seriesTag": "Strategy Series",
+        "brand": {
+          "apply": true,
+          "paper": "#000000",
+          "ink": "#FFFFFF",
+          "accent": "#FF0000",
+          "headline": "editorial",
+          "body": "clean"
+        },
+        "slides": [
+          {
+            "title": "Nobody Buys the Best Product",
+            "body": "They buy the one they understand fastest. Positioning is the reason customers choose you — before they even try you.",
+            "isCover": true
+          },
+          {
+            "title": "What Is Product Positioning?",
+            "body": "It's the mental space your product occupies in your customer's mind. Not what you say about it — what they believe about it.",
+            "isCover": false
+          },
+          {
+            "title": "The 5 Elements of Strong Positioning",
+            "body": "1. Who it's for\n2. The category you compete in\n3. The problem you solve\n4. Your key differentiator\n5. Proof it works",
+            "isCover": false
+          },
+          {
+            "title": "Most Brands Skip Step One",
+            "body": "Trying to appeal to everyone means owning no one's attention. Narrow your audience to sharpen your message.",
+            "isCover": false
+          },
+          {
+            "title": "Category Design Changes Everything",
+            "body": "Don't just win in an existing category — define a new one. The brand that names the category usually owns it.",
+            "isCover": false
+          },
+          {
+            "title": "Test Your Positioning in One Sentence",
+            "body": "Can a stranger repeat back what you do and who it's for after hearing it once? If not, keep refining.",
+            "isCover": false
+          },
+          {
+            "title": "Positioning Is Never 'Done'",
+            "body": "Markets shift. Competitors move. Customer language evolves. Revisit your positioning every 6 months minimum.",
+            "isCover": false
+          },
+          {
+            "title": "Ready to Own Your Category?",
+            "body": "Audit your current messaging against these five elements. Start with who — everything else follows. Share this with your team today.",
+            "isCover": false
+          }
+        ]
+      },
+      "score": 6,
+      "model_score": 9,
+      "syntax_score": 9.41,
+      "code_pass": false,
+      "code_checks": [
+        {
+          "name": "result is an object",
+          "pass": true
+        },
+        {
+          "name": "required top-level fields",
+          "pass": true,
+          "detail": "title, seriesTag, brand, slides"
+        },
+        {
+          "name": "title is non-empty",
+          "pass": true
+        },
+        {
+          "name": "series tag is non-empty",
+          "pass": true
+        },
+        {
+          "name": "slides is an array",
+          "pass": true
+        },
+        {
+          "name": "brand object is valid",
+          "pass": true
+        },
+        {
+          "name": "slide objects are valid",
+          "pass": true
+        },
+        {
+          "name": "brand permission respected",
+          "pass": true,
+          "detail": "expected brand.apply=true, received true"
+        },
+        {
+          "name": "slide count is 5 to 8",
+          "pass": true,
+          "detail": "8 slides"
+        },
+        {
+          "name": "first slide is a cover",
+          "pass": true
+        },
+        {
+          "name": "final slide is a cover",
+          "pass": false
+        },
+        {
+          "name": "middle slides are not covers",
+          "pass": true
+        },
+        {
+          "name": "final slide has a call to action",
+          "pass": true,
+          "detail": "Ready to Own Your Category? Audit your current messaging against these five elements. Start with who — everything else follows. Share this with your team today."
+        },
+        {
+          "name": "copy does not mention AI",
+          "pass": true
+        },
+        {
+          "name": "titles are concise",
+          "pass": true
+        },
+        {
+          "name": "body copy is concise",
+          "pass": true
+        },
+        {
+          "name": "output stays on topic",
+          "pass": true,
+          "detail": "2/2 terms matched: product, position"
+        }
+      ],
+      "strengths": [
+        "Brand block correctly applies all requested visual elements: black background (#000000), white ink (#FFFFFF), red accent (#FF0000), and apply:true",
+        "Eight slides with a logical, well-paced narrative arc from hook through framework to CTA",
+        "Opening slide is a strong, counterintuitive hook — 'Nobody Buys the Best Product' immediately earns attention"
+      ],
+      "weaknesses": [
+        "Failed deterministic check: final slide is a cover.",
+        "'Positioning Is Never Done' slide feels slightly weaker than the rest — the advice (revisit every 6 months) is generic and doesn't match the sharpness of surrounding slides",
+        "Some body copy lines are slightly long for carousel format and may require tight layout management"
+      ],
+      "reasoning": "This is a high-quality carousel output that meets all explicit requirements. The brand configuration is fully correct. The copy demonstrates real product positioning knowledge with sharp, specific language throughout. The narrative arc is strong: hook → definition → framework → common mistake → advanced strategy → test → maintenance → CTA. The one weak point is a slightly generic slide near the end, but it doesn't substantially undermine the piece. Hook and CTA are both strong and specific. This scores in the 8-9 range. Deterministic failures: final slide is a cover.",
+      "usage": {
+        "candidate": {
+          "input_tokens": 784,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 0
+          },
+          "output_tokens": 427,
+          "service_tier": "standard",
+          "inference_geo": "global"
+        },
+        "grader": {
+          "input_tokens": 909,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 0
+          },
+          "output_tokens": 378,
+          "service_tier": "standard",
+          "inference_geo": "global"
+        }
+      }
+    },
+    {
+      "test_case": {
+        "id": "brand-permitted-unrequested",
+        "category": "brand-permission-unused",
+        "input": "Create a carousel about product positioning for early-stage founders.",
+        "allowBrandUpdate": true,
+        "expected_behavior": "Create founder-specific positioning guidance while leaving brand.apply false because no visual change was requested.",
+        "expect": {
+          "brandApply": false,
+          "topicTerms": [
+            "product",
+            "position",
+            "founder"
+          ]
+        }
+      },
+      "output": "{\n  \"title\": \"Product Positioning for Early-Stage Founders\",\n  \"seriesTag\": \"Founder Fundamentals\",\n  \"brand\": {\n    \"apply\": false,\n    \"paper\": \"#EFE9DA\",\n    \"ink\": \"#212B21\",\n    \"accent\": \"#C08A28\",\n    \"headline\": \"editorial\",\n    \"body\": \"clean\"\n  },\n  \"slides\": [\n    {\n      \"title\": \"Nobody buys your product. They buy a better version of themselves.\",\n      \"body\": \"If your positioning starts with features, you've already lost. Here's how early-stage founders get it right.\",\n      \"isCover\": true\n    },\n    {\n      \"title\": \"Positioning is not your tagline.\",\n      \"body\": \"It's the internal decision your customer makes about where you fit in their world. Your tagline is just the surface. Positioning is the foundation beneath it.\",\n      \"isCover\": false\n    },\n    {\n      \"title\": \"Start with the problem, not the product.\",\n      \"body\": \"Founders fall in love with what they built. Customers only care about what's broken in their life. Lead with the pain, then introduce the fix.\",\n      \"isCover\": false\n    },\n    {\n      \"title\": \"Who is it actually for?\",\n      \"body\": \"Trying to appeal to everyone is a positioning failure. The sharper your ideal customer profile, the stronger your positioning signal. Niche down until it feels uncomfortable.\",\n      \"isCover\": false\n    },\n    {\n      \"title\": \"Name your category — or get trapped in someone else's.\",\n      \"body\": \"If you don't define the category you belong in, buyers will slot you next to a competitor and judge you on their terms. Own the frame before the market does.\",\n      \"isCover\": false\n    },\n    {\n      \"title\": \"The positioning stress test.\",\n      \"body\": \"Can your best customer explain what you do, who it's for, and why it matters — in one sentence? If not, your positioning needs another pass.\",\n      \"isCover\": false\n    },\n    {\n      \"title\": \"Reposition early. Repositioning late is expensive.\",\n      \"body\": \"Changing how the market perceives you after you've scaled costs time, money, and trust. Get it right at the seed stage, when iteration is still cheap.\",\n      \"isCover\": false\n    },\n    {\n      \"title\": \"Your next move: pressure-test your positioning today.\",\n      \"body\": \"Write down your one-sentence position statement. Share it with three customers who didn't come through a referral. Their confusion is your roadmap. Start there.\",\n      \"isCover\": false\n    }\n  ]\n}",
+      "raw_output": {
+        "title": "Product Positioning for Early-Stage Founders",
+        "seriesTag": "Founder Fundamentals",
+        "brand": {
+          "apply": false,
+          "paper": "#EFE9DA",
+          "ink": "#212B21",
+          "accent": "#C08A28",
+          "headline": "editorial",
+          "body": "clean"
+        },
+        "slides": [
+          {
+            "title": "Nobody buys your product. They buy a better version of themselves.",
+            "body": "If your positioning starts with features, you've already lost. Here's how early-stage founders get it right.",
+            "isCover": true
+          },
+          {
+            "title": "Positioning is not your tagline.",
+            "body": "It's the internal decision your customer makes about where you fit in their world. Your tagline is just the surface. Positioning is the foundation beneath it.",
+            "isCover": false
+          },
+          {
+            "title": "Start with the problem, not the product.",
+            "body": "Founders fall in love with what they built. Customers only care about what's broken in their life. Lead with the pain, then introduce the fix.",
+            "isCover": false
+          },
+          {
+            "title": "Who is it actually for?",
+            "body": "Trying to appeal to everyone is a positioning failure. The sharper your ideal customer profile, the stronger your positioning signal. Niche down until it feels uncomfortable.",
+            "isCover": false
+          },
+          {
+            "title": "Name your category — or get trapped in someone else's.",
+            "body": "If you don't define the category you belong in, buyers will slot you next to a competitor and judge you on their terms. Own the frame before the market does.",
+            "isCover": false
+          },
+          {
+            "title": "The positioning stress test.",
+            "body": "Can your best customer explain what you do, who it's for, and why it matters — in one sentence? If not, your positioning needs another pass.",
+            "isCover": false
+          },
+          {
+            "title": "Reposition early. Repositioning late is expensive.",
+            "body": "Changing how the market perceives you after you've scaled costs time, money, and trust. Get it right at the seed stage, when iteration is still cheap.",
+            "isCover": false
+          },
+          {
+            "title": "Your next move: pressure-test your positioning today.",
+            "body": "Write down your one-sentence position statement. Share it with three customers who didn't come through a referral. Their confusion is your roadmap. Start there.",
+            "isCover": false
+          }
+        ]
+      },
+      "score": 6,
+      "model_score": 9,
+      "syntax_score": 9.41,
+      "code_pass": false,
+      "code_checks": [
+        {
+          "name": "result is an object",
+          "pass": true
+        },
+        {
+          "name": "required top-level fields",
+          "pass": true,
+          "detail": "title, seriesTag, brand, slides"
+        },
+        {
+          "name": "title is non-empty",
+          "pass": true
+        },
+        {
+          "name": "series tag is non-empty",
+          "pass": true
+        },
+        {
+          "name": "slides is an array",
+          "pass": true
+        },
+        {
+          "name": "brand object is valid",
+          "pass": true
+        },
+        {
+          "name": "slide objects are valid",
+          "pass": true
+        },
+        {
+          "name": "brand permission respected",
+          "pass": true,
+          "detail": "expected brand.apply=false, received false"
+        },
+        {
+          "name": "slide count is 5 to 8",
+          "pass": true,
+          "detail": "8 slides"
+        },
+        {
+          "name": "first slide is a cover",
+          "pass": true
+        },
+        {
+          "name": "final slide is a cover",
+          "pass": false
+        },
+        {
+          "name": "middle slides are not covers",
+          "pass": true
+        },
+        {
+          "name": "final slide has a call to action",
+          "pass": true,
+          "detail": "Your next move: pressure-test your positioning today. Write down your one-sentence position statement. Share it with three customers who didn't come through a referral. Their confusion is your roadmap. Start there."
+        },
+        {
+          "name": "copy does not mention AI",
+          "pass": true
+        },
+        {
+          "name": "titles are concise",
+          "pass": true
+        },
+        {
+          "name": "body copy is concise",
+          "pass": true
+        },
+        {
+          "name": "output stays on topic",
+          "pass": true,
+          "detail": "3/3 terms matched: product, position, founder"
+        }
+      ],
+      "strengths": [
+        "Strong hook slide with memorable reframe ('Nobody buys your product. They buy a better version of themselves.') that immediately signals founder-specific value",
+        "Logical progression from definition → problem framing → ICP → category design → stress test → urgency → CTA",
+        "Each slide has a distinct, actionable point with no redundancy between slides"
+      ],
+      "weaknesses": [
+        "Failed deterministic check: final slide is a cover.",
+        "The 'positioning stress test' slide is slightly more generic than surrounding slides and could be more founder-specific (e.g., referencing seed-stage scenarios)",
+        "Body copy on 'Positioning is not your tagline' slide is slightly abstract and could benefit from a concrete example or analogy"
+      ],
+      "reasoning": "This carousel is highly effective for the stated audience. It leads with a strong, founder-resonant hook, progresses logically through a complete positioning framework, and closes with a specific, actionable CTA that does not default to vague encouragement. The brand configuration is correctly handled (apply: false). Only minor gaps exist: the stress-test slide is the weakest in specificity, and there's no explicit competitive differentiation angle. These are small omissions in an otherwise well-structured, coherent, and founder-specific piece. Deterministic failures: final slide is a cover.",
+      "usage": {
+        "candidate": {
+          "input_tokens": 776,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 0
+          },
+          "output_tokens": 505,
+          "service_tier": "standard",
+          "inference_geo": "global"
+        },
+        "grader": {
+          "input_tokens": 979,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 0
+          },
+          "output_tokens": 406,
+          "service_tier": "standard",
+          "inference_geo": "global"
+        }
+      }
+    },
+    {
+      "test_case": {
+        "id": "brand-only",
+        "category": "brand-only-preservation",
+        "input": "Change the visual treatment to dark paper, warm white type, and an amber accent.",
+        "allowBrandUpdate": true,
+        "brandOnly": true,
+        "expected_behavior": "Set brand.apply true with a valid visual patch. Slide copy is ignored by the client and must not be treated as a requested rewrite.",
+        "expect": {
+          "brandApply": true,
+          "skipContentChecks": true
+        }
+      },
+      "output": "{\n  \"title\": \"Brand Patch\",\n  \"seriesTag\": \"\",\n  \"brand\": {\n    \"apply\": true,\n    \"paper\": \"#1A1612\",\n    \"ink\": \"#F5F0E8\",\n    \"accent\": \"#F0A830\",\n    \"headline\": \"editorial\",\n    \"body\": \"clean\"\n  },\n  \"slides\": []\n}",
+      "raw_output": {
+        "title": "Brand Patch",
+        "seriesTag": "",
+        "brand": {
+          "apply": true,
+          "paper": "#1A1612",
+          "ink": "#F5F0E8",
+          "accent": "#F0A830",
+          "headline": "editorial",
+          "body": "clean"
+        },
+        "slides": []
+      },
+      "score": 6,
+      "model_score": 10,
+      "syntax_score": 8.75,
+      "code_pass": false,
+      "code_checks": [
+        {
+          "name": "result is an object",
+          "pass": true
+        },
+        {
+          "name": "required top-level fields",
+          "pass": true,
+          "detail": "title, seriesTag, brand, slides"
+        },
+        {
+          "name": "title is non-empty",
+          "pass": true
+        },
+        {
+          "name": "series tag is non-empty",
+          "pass": false
+        },
+        {
+          "name": "slides is an array",
+          "pass": true
+        },
+        {
+          "name": "brand object is valid",
+          "pass": true
+        },
+        {
+          "name": "slide objects are valid",
+          "pass": true
+        },
+        {
+          "name": "brand permission respected",
+          "pass": true,
+          "detail": "expected brand.apply=true, received true"
+        }
+      ],
+      "strengths": [
+        "brand.apply is correctly set to true",
+        "paper color #1A1612 is a dark, warm brown that accurately represents 'dark paper'",
+        "ink color #F5F0E8 is a warm white that matches the request precisely"
+      ],
+      "weaknesses": [
+        "Failed deterministic check: series tag is non-empty.",
+        "No validation or comment context is provided to confirm intent, though this is likely not required",
+        "The patch is minimal and could optionally include additional brand tokens if the schema supports them, but this is not strictly necessary"
+      ],
+      "reasoning": "The candidate correctly interprets a brand-only visual patch request. All three color roles — paper, ink, and accent — are mapped accurately to the specified aesthetic: dark paper (#1A1612), warm white ink (#F5F0E8), and amber accent (#F0A830). The brand.apply flag is true, enabling the patch. Crucially, slides is an empty array, demonstrating correct permission behavior — the client does not rewrite slide copy. The structure is coherent, concise, and fully satisfies the request with no extraneous or contradictory data. Deterministic failures: series tag is non-empty.",
+      "usage": {
+        "candidate": {
+          "input_tokens": 781,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 0
+          },
+          "output_tokens": 61,
+          "service_tier": "standard",
+          "inference_geo": "global"
+        },
+        "grader": {
+          "input_tokens": 550,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 0
+          },
+          "output_tokens": 303,
+          "service_tier": "standard",
+          "inference_geo": "global"
+        }
+      }
+    },
+    {
+      "test_case": {
+        "id": "long-complex-brief",
+        "category": "complex-brief",
+        "input": "Build a concise carousel for experienced product managers showing how to distinguish a weak customer signal from repeatable evidence. Include practical tests, avoid buzzwords, and end with an action the reader can take this week.",
+        "expected_behavior": "Address experienced product managers with practical evidence tests, avoid buzzwords, and finish with an immediate action.",
+        "expect": {
+          "brandApply": false,
+          "topicTerms": [
+            "customer",
+            "signal",
+            "evidence",
+            "product"
+          ]
+        }
+      },
+      "output": "{\n  \"title\": \"Weak Signal or Real Evidence? A PM's Field Test\",\n  \"seriesTag\": \"Signal vs. Evidence\",\n  \"brand\": {\n    \"apply\": false,\n    \"paper\": \"#EFE9DA\",\n    \"ink\": \"#212B21\",\n    \"accent\": \"#C08A28\",\n    \"headline\": \"editorial\",\n    \"body\": \"clean\"\n  },\n  \"slides\": [\n    {\n      \"title\": \"One customer complaint isn't a roadmap item.\",\n      \"body\": \"Experienced PMs know the danger: a loud voice in a user interview shapes the next sprint. Here's how to tell the difference between noise and a pattern worth acting on.\",\n      \"isCover\": true\n    },\n    {\n      \"title\": \"What makes a signal weak?\",\n      \"body\": \"A signal is weak when it comes from one source, surfaces under leading questions, or disappears when you change the framing. Enthusiasm in a demo is not validation.\",\n      \"isCover\": false\n    },\n    {\n      \"title\": \"The repetition test\",\n      \"body\": \"Has the problem appeared unprompted across at least five separate conversations — different segments, different contexts? If you had to fish for it, it doesn't count.\",\n      \"isCover\": false\n    },\n    {\n      \"title\": \"The specificity test\",\n      \"body\": \"Vague pain is cheap. Ask: can the customer describe the last time this cost them time, money, or a decision? Concrete recall is a stronger indicator than general frustration.\",\n      \"isCover\": false\n    },\n    {\n      \"title\": \"The behavior test\",\n      \"body\": \"What are people doing right now to work around the problem? Workarounds — spreadsheets, Slack bots, manual exports — are evidence. 'We'd probably use that' is not.\",\n      \"isCover\": false\n    },\n    {\n      \"title\": \"The consistency test\",\n      \"body\": \"Run the same core question through three different formats: interview, support ticket review, and usage data. If only one format surfaces the problem, treat it as a hypothesis, not a finding.\",\n      \"isCover\": false\n    },\n    {\n      \"title\": \"This week: audit your top three backlog items\",\n      \"body\": \"Pick three items sitting near the top of your roadmap. Write down which test each one passes. If an item fails two or more, move it to a discovery column before it blocks real work.\",\n      \"isCover\": false\n    }\n  ]\n}",
+      "raw_output": {
+        "title": "Weak Signal or Real Evidence? A PM's Field Test",
+        "seriesTag": "Signal vs. Evidence",
+        "brand": {
+          "apply": false,
+          "paper": "#EFE9DA",
+          "ink": "#212B21",
+          "accent": "#C08A28",
+          "headline": "editorial",
+          "body": "clean"
+        },
+        "slides": [
+          {
+            "title": "One customer complaint isn't a roadmap item.",
+            "body": "Experienced PMs know the danger: a loud voice in a user interview shapes the next sprint. Here's how to tell the difference between noise and a pattern worth acting on.",
+            "isCover": true
+          },
+          {
+            "title": "What makes a signal weak?",
+            "body": "A signal is weak when it comes from one source, surfaces under leading questions, or disappears when you change the framing. Enthusiasm in a demo is not validation.",
+            "isCover": false
+          },
+          {
+            "title": "The repetition test",
+            "body": "Has the problem appeared unprompted across at least five separate conversations — different segments, different contexts? If you had to fish for it, it doesn't count.",
+            "isCover": false
+          },
+          {
+            "title": "The specificity test",
+            "body": "Vague pain is cheap. Ask: can the customer describe the last time this cost them time, money, or a decision? Concrete recall is a stronger indicator than general frustration.",
+            "isCover": false
+          },
+          {
+            "title": "The behavior test",
+            "body": "What are people doing right now to work around the problem? Workarounds — spreadsheets, Slack bots, manual exports — are evidence. 'We'd probably use that' is not.",
+            "isCover": false
+          },
+          {
+            "title": "The consistency test",
+            "body": "Run the same core question through three different formats: interview, support ticket review, and usage data. If only one format surfaces the problem, treat it as a hypothesis, not a finding.",
+            "isCover": false
+          },
+          {
+            "title": "This week: audit your top three backlog items",
+            "body": "Pick three items sitting near the top of your roadmap. Write down which test each one passes. If an item fails two or more, move it to a discovery column before it blocks real work.",
+            "isCover": false
+          }
+        ]
+      },
+      "score": 6,
+      "model_score": 8,
+      "syntax_score": 9.41,
+      "code_pass": false,
+      "code_checks": [
+        {
+          "name": "result is an object",
+          "pass": true
+        },
+        {
+          "name": "required top-level fields",
+          "pass": true,
+          "detail": "title, seriesTag, brand, slides"
+        },
+        {
+          "name": "title is non-empty",
+          "pass": true
+        },
+        {
+          "name": "series tag is non-empty",
+          "pass": true
+        },
+        {
+          "name": "slides is an array",
+          "pass": true
+        },
+        {
+          "name": "brand object is valid",
+          "pass": true
+        },
+        {
+          "name": "slide objects are valid",
+          "pass": true
+        },
+        {
+          "name": "brand permission respected",
+          "pass": true,
+          "detail": "expected brand.apply=false, received false"
+        },
+        {
+          "name": "slide count is 5 to 8",
+          "pass": true,
+          "detail": "7 slides"
+        },
+        {
+          "name": "first slide is a cover",
+          "pass": true
+        },
+        {
+          "name": "final slide is a cover",
+          "pass": false
+        },
+        {
+          "name": "middle slides are not covers",
+          "pass": true
+        },
+        {
+          "name": "final slide has a call to action",
+          "pass": true,
+          "detail": "This week: audit your top three backlog items Pick three items sitting near the top of your roadmap. Write down which test each one passes. If an item fails two or more, move it to a discovery column before it blocks real work."
+        },
+        {
+          "name": "copy does not mention AI",
+          "pass": true
+        },
+        {
+          "name": "titles are concise",
+          "pass": true
+        },
+        {
+          "name": "body copy is concise",
+          "pass": true
+        },
+        {
+          "name": "output stays on topic",
+          "pass": true,
+          "detail": "3/4 terms matched: customer, signal, evidence"
+        }
+      ],
+      "strengths": [
+        "Opens with a sharp, experience-level hook ('One customer complaint isn't a roadmap item') that immediately signals audience awareness",
+        "Four distinct, named tests (repetition, specificity, behavior, consistency) give experienced PMs concrete operationalizable criteria rather than abstract advice",
+        "Avoids buzzwords throughout — no 'north star,' 'leverage,' 'learnings,' or similar filler"
+      ],
+      "weaknesses": [
+        "Failed deterministic check: final slide is a cover.",
+        "The 'five separate conversations' threshold in the repetition test, while useful, is presented as a fixed rule without acknowledging that segment size or stakes may shift that bar — a minor oversimplification for experienced PMs who might push back",
+        "The cover slide body paragraph explains what the carousel will do rather than immediately delivering value, slightly soft for a sophisticated audience"
+      ],
+      "reasoning": "This carousel is well-crafted for its stated audience. It correctly assumes experience, avoids hand-holding, and delivers four genuinely distinct diagnostic tests with concrete examples. The CTA is one of the stronger ones possible — specific action, specific output, specific timeline. Weaknesses are minor: a slightly soft cover body, one redundant framing slide, and a rigid numeric threshold. No buzzwords detected. Structure is logical and progressive. This is clearly a 7–9 range output; the specificity of examples and the quality of the CTA push it to the higher end, but the soft cover body paragraph and the preamble slide prevent a perfect score. Deterministic failures: final slide is a cover.",
+      "usage": {
+        "candidate": {
+          "input_tokens": 806,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 0
+          },
+          "output_tokens": 467,
+          "service_tier": "standard",
+          "inference_geo": "global"
+        },
+        "grader": {
+          "input_tokens": 972,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 0
+          },
+          "output_tokens": 526,
+          "service_tier": "standard",
+          "inference_geo": "global"
+        }
+      }
+    }
+  ]
+}

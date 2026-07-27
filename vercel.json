@@ -1,0 +1,10 @@
+{
+  "functions": {
+    "api/index.mjs": {
+      "includeFiles": "outputs/**"
+    }
+  },
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/api/index.mjs" }
+  ]
+}

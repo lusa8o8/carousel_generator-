@@ -1,0 +1,58 @@
+﻿{
+  "agent": "carousel-outline-generator",
+  "baseline_version": "explicit-structure-v2",
+  "candidate_version": "contract-schema-v3",
+  "baseline_average": 8.75,
+  "candidate_average": 9.4,
+  "average_delta": 0.65,
+  "cases": [
+    {
+      "case": "audience-specificity",
+      "baseline": 9.2,
+      "candidate": 9.2,
+      "delta": 0.0
+    },
+    {
+      "case": "brand-only-preservation",
+      "baseline": 6.0,
+      "candidate": 10.0,
+      "delta": 4.0
+    },
+    {
+      "case": "brand-permission-denied",
+      "baseline": 8.4,
+      "candidate": 8.4,
+      "delta": 0.0
+    },
+    {
+      "case": "brand-permission-explicit",
+      "baseline": 9.6,
+      "candidate": 9.6,
+      "delta": 0.0
+    },
+    {
+      "case": "brand-permission-unused",
+      "baseline": 8.0,
+      "candidate": 9.6,
+      "delta": 1.6
+    },
+    {
+      "case": "complex-brief",
+      "baseline": 9.6,
+      "candidate": 9.6,
+      "delta": 0.0
+    },
+    {
+      "case": "normal-practical-list",
+      "baseline": 9.6,
+      "candidate": 9.6,
+      "delta": 0.0
+    },
+    {
+      "case": "requested-flow",
+      "baseline": 9.6,
+      "candidate": 9.2,
+      "delta": -0.4
+    }
+  ]
+}

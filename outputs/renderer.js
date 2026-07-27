@@ -1,0 +1,514 @@
+(function initializeCarouselRenderer(global) {
+  'use strict';
+
+  const SERIF = 'Georgia, "Iowan Old Style", "Palatino Linotype", serif';
+  const SANS = '-apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif';
+  const MONO = 'ui-monospace, SFMono-Regular, Menlo, Consolas, monospace';
+
+  const FONT_PRESETS = {
+    editorial: SERIF,
+    modern: SANS,
+    display: 'Palatino Linotype, Book Antiqua, Georgia, serif',
+    clean: SANS,
+    mono: MONO,
+    playfair: '"Playfair Display", serif',
+    merriweather: '"Merriweather", serif',
+    cormorant: '"Cormorant Garamond", serif',
+    lora: '"Lora", serif',
+    fraunces: '"Fraunces", serif',
+    bodoni: '"Bodoni Moda", serif',
+    inter: '"Inter", sans-serif',
+    montserrat: '"Montserrat", sans-serif',
+    oswald: '"Oswald", sans-serif',
+    syne: '"Syne", sans-serif',
+    outfit: '"Outfit", sans-serif',
+    dancing: '"Dancing Script", cursive',
+    great_vibes: '"Great Vibes", cursive',
+    playfair_italic: 'italic "Playfair Display", serif',
+    cormorant_italic: 'italic "Cormorant Garamond", serif',
+    editorial_italic: 'italic ' + SERIF
+  };
+
+  const FORMATS = {
+    ig_square:   { label: 'Instagram - Square',    dims: '1:1',    w: 1080, h: 1080 },
+    ig_portrait: { label: 'Instagram - Portrait',  dims: '4:5',    w: 1080, h: 1350 },
+    ig_story:    { label: 'Story / Reels',         dims: '9:16',   w: 1080, h: 1920 },
+    linkedin:    { label: 'LinkedIn - Landscape',  dims: '1.91:1', w: 1200, h: 628 },
+    pinterest:   { label: 'Pinterest',             dims: '2:3',    w: 1000, h: 1500 },
+    twitter:     { label: 'X / Twitter',           dims: '16:9',   w: 1200, h: 675 },
+    poster_a4:   { label: 'Poster - A4',           dims: '1:1.41', w: 1240, h: 1754 },
+    poster_letter: { label: 'Poster - Letter',     dims: '8.5:11', w: 1275, h: 1650 },
+    poster_18x24: { label: 'Poster - 18x24',       dims: '3:4',    w: 1350, h: 1800 }
+  };
+
+  const PALETTES = {
+    oat:  { name: 'Oat & Ochre', paper: '#EFE9DA', ink: '#212B21', accent: '#C08A28' },
+    ink:  { name: 'Ink & Amber', paper: '#202B24', ink: '#EEE7D6', accent: '#E3A94A' },
+    bone: { name: 'Bone & Sage', paper: '#ECE7DC', ink: '#26241F', accent: '#6F7F5A' }
+  };
+
+  function getTheme(settings) {
+    return settings.theme || settings;
+  }
+
+  function getSize(settings) {
+    return FORMATS[settings.format] || FORMATS.ig_square;
+  }
+
+  function getActivePalette(settings) {
+    const theme = getTheme(settings);
+    return theme.brand?.enabled ? theme.brand : (PALETTES[theme.palette] || PALETTES.oat);
+  }
+
+  function getFonts(settings) {
+    const brand = getTheme(settings).brand || {};
+    return {
+      headline: FONT_PRESETS[brand.headline] || SERIF,
+      body: FONT_PRESETS[brand.body] || SANS,
+      accent: FONT_PRESETS[brand.accentFont] || null,
+      label: MONO
+    };
+  }
+
+  function measureMixed(ctx, txt, baseFont, accentFont) {
+    if (!accentFont || !txt.includes('*')) return ctx.measureText(txt).width;
+    let w = 0;
+    const parts = txt.split('*');
+    for (let j = 0; j < parts.length; j++) {
+      ctx.font = (j % 2 === 1) ? accentFont : baseFont;
+      w += ctx.measureText(parts[j]).width;
+    }
+    ctx.font = baseFont;
+    return w;
+  }
+
+  function drawMixedText(ctx, txt, x, y, baseFont, accentFont, align) {
+    if (!accentFont || !txt.includes('*')) {
+      ctx.font = baseFont;
+      ctx.textAlign = align;
+      ctx.fillText(txt, x, y);
+      return;
+    }
+    
+    const totalW = measureMixed(ctx, txt, baseFont, accentFont);
+    let startX = x;
+    if (align === 'center') startX = x - totalW / 2;
+    else if (align === 'right') startX = x - totalW;
+    
+    ctx.textAlign = 'left';
+    const parts = txt.split('*');
+    for (let j = 0; j < parts.length; j++) {
+      ctx.font = (j % 2 === 1) ? accentFont : baseFont;
+      if (parts[j]) ctx.fillText(parts[j], startX, y);
+      startX += ctx.measureText(parts[j]).width;
+    }
+    ctx.font = baseFont;
+  }
+
+  function wrapLines(ctx, text, maxWidth, balance = false, accentFont = null) {
+    const rawLines = String(text || '').split('\n');
+    const finalLines = [];
+
+    for (let i = 0; i < rawLines.length; i++) {
+      const words = rawLines[i].split(/\s+/).filter(Boolean);
+      if (!words.length) {
+        if (i < rawLines.length - 1 || rawLines[i] === '\n') finalLines.push('');
+        continue;
+      }
+
+      function wrapAt(width) {
+        const lines = [];
+        let current = '';
+        for (const word of words) {
+          const test = current ? `${current} ${word}` : word;
+          if (measureMixed(ctx, test, ctx.font, accentFont) > width && current) {
+            lines.push(current);
+            current = word;
+          } else {
+            current = test;
+          }
+        }
+        if (current) lines.push(current);
+        return lines;
+      }
+
+      const unconstrained = wrapAt(maxWidth);
+      if (!balance || unconstrained.length <= 1) {
+        finalLines.push(...unconstrained);
+        continue;
+      }
+
+      const targetLines = unconstrained.length;
+      let minW = Math.max(...words.map(w => measureMixed(ctx, w, ctx.font, accentFont)));
+      let maxW = maxWidth;
+      let best = unconstrained;
+
+      while (maxW - minW > 2) {
+        const mid = minW + (maxW - minW) / 2;
+        const testLines = wrapAt(mid);
+        if (testLines.length <= targetLines) {
+          best = testLines;
+          maxW = mid;
+        } else {
+          minW = mid;
+        }
+      }
+      finalLines.push(...best);
+    }
+    
+    while (finalLines.length && finalLines[finalLines.length - 1] === '') {
+      finalLines.pop();
+    }
+    return finalLines;
+  }
+
+  function fitText(ctx, text, family, weight, maxWidth, maxLines, startSize, minSize, balance = false, accentFamily = null) {
+    let size = startSize;
+    let accentFontStr = null;
+    while (size >= minSize) {
+      ctx.font = `${weight} ${size}px ${family}`;
+      if (accentFamily) {
+        const isItalic = accentFamily.startsWith('italic ');
+        const aFam = isItalic ? accentFamily.replace('italic ', '') : accentFamily;
+        accentFontStr = `${isItalic ? 'italic ' : ''}400 ${size * 1.15}px ${aFam}`;
+      }
+      const lines = wrapLines(ctx, text, maxWidth, balance, accentFontStr);
+      if (lines.length <= maxLines) return { size, lines, truncated: false, naturalLineCount: lines.length, accentFontStr };
+      size -= 2;
+    }
+
+    ctx.font = `${weight} ${minSize}px ${family}`;
+    if (accentFamily) {
+        const isItalic = accentFamily.startsWith('italic ');
+        const aFam = isItalic ? accentFamily.replace('italic ', '') : accentFamily;
+        accentFontStr = `${isItalic ? 'italic ' : ''}400 ${minSize * 1.15}px ${aFam}`;
+    }
+    const naturalLines = wrapLines(ctx, text, maxWidth, balance, accentFontStr);
+    const lines = naturalLines.slice(0, maxLines);
+    if (naturalLines.length > maxLines) {
+      lines[maxLines - 1] = `${lines[maxLines - 1].replace(/\s*\S*$/, '')}\u2026`;
+    }
+    return {
+      size: minSize,
+      lines,
+      truncated: naturalLines.length > maxLines,
+      naturalLineCount: naturalLines.length,
+      accentFontStr
+    };
+  }
+
+  function drawTracked(ctx, text, x, y, tracking) {
+    let currentX = x;
+    for (const character of text) {
+      ctx.fillText(character, currentX, y);
+      currentX += ctx.measureText(character).width + tracking;
+    }
+  }
+
+  function drawSlide(ctx, slide, index, total, settings) {
+    const issues = [];
+    const palette = getActivePalette(settings);
+    const fonts = getFonts(settings);
+    const size = getSize(settings);
+    const theme = getTheme(settings);
+    const width = size.w;
+    const height = size.h;
+    const unit = Math.min(width, height) / 1080;
+    const margin = Math.round(84 * unit);
+    const small = Math.max(12, Math.round(20 * unit));
+    const contentInset = Math.round(66 * unit);
+    const footerInset = Math.round(34 * unit);
+    const footerY = height - margin - footerInset;
+
+    ctx.clearRect(0, 0, width, height);
+    ctx.textAlign = 'left';
+    ctx.fillStyle = palette.paper;
+    ctx.fillRect(0, 0, width, height);
+
+    if (slide.bgImageObj) {
+      const img = slide.bgImageObj;
+      const imgRatio = img.width / img.height;
+      const targetRatio = width / height;
+      let sx, sy, sWidth, sHeight;
+      if (imgRatio > targetRatio) {
+        sHeight = img.height;
+        sWidth = img.height * targetRatio;
+        sy = 0;
+        sx = (img.width - sWidth) / 2;
+      } else {
+        sWidth = img.width;
+        sHeight = img.width / targetRatio;
+        sx = 0;
+        sy = (img.height - sHeight) / 2;
+      }
+      
+      const b = slide.bgSettings?.brightness ?? 100;
+      const c = slide.bgSettings?.contrast ?? 100;
+      ctx.filter = `brightness(${b}%) contrast(${c}%)`;
+      ctx.drawImage(img, sx, sy, sWidth, sHeight, 0, 0, width, height);
+      ctx.filter = 'none';
+    } else if (slide.bgGradient) {
+      const g = slide.bgGradient;
+      const angle = (g.angle - 90) * (Math.PI / 180);
+      const cx = width / 2;
+      const cy = height / 2;
+      const radius = Math.sqrt(width * width + height * height) / 2;
+      
+      const x1 = cx + Math.cos(angle + Math.PI) * radius;
+      const y1 = cy + Math.sin(angle + Math.PI) * radius;
+      const x2 = cx + Math.cos(angle) * radius;
+      const y2 = cy + Math.sin(angle) * radius;
+      
+      const grad = ctx.createLinearGradient(x1, y1, x2, y2);
+      grad.addColorStop(0, g.color1);
+      grad.addColorStop(1, g.color2);
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, width, height);
+    }
+
+
+
+    if (theme.showMargin) {
+      ctx.strokeStyle = palette.ink;
+      ctx.globalAlpha = 0.5;
+      ctx.lineWidth = 1.5;
+      ctx.strokeRect(margin, margin, width - margin * 2, height - margin * 2);
+      ctx.globalAlpha = 1;
+    }
+
+    if (settings.category !== 'poster') {
+      ctx.font = `600 ${small}px ${fonts.label}`;
+      ctx.fillStyle = palette.accent;
+      ctx.textBaseline = 'middle';
+      ctx.save();
+      ctx.translate(margin + 24 * unit, margin + 30 * unit);
+      const tag = String(settings.seriesTag || '').toUpperCase() + (slide.isCover ? '' : '  -  TIP');
+      drawTracked(ctx, tag, 0, 0, 2.4);
+      ctx.restore();
+    }
+
+    const contentLeft = margin + contentInset;
+    const contentRight = width - margin - Math.round(56 * unit);
+    const contentWidth = contentRight - contentLeft;
+    const textAlign = slide.layout?.align === 'center' ? 'center' : 'left';
+    const textX = textAlign === 'center' ? contentLeft + contentWidth / 2 : contentLeft;
+    const titleScale = Math.max(0.5, Math.min(1.8, slide.layout?.titleScale || 1));
+    const bodyScale = Math.max(0.5, Math.min(1.8, slide.layout?.bodyScale || 1));
+    let contentBottom = 0;
+    ctx.textAlign = textAlign;
+
+    if (settings.category === 'poster') {
+      const maxLines = 8;
+      // Posters get a wider effective content area to let text breathe
+      const posterContentWidth = width - (margin * 2); 
+      const titleFit = fitText(
+        ctx,
+        slide.title,
+        fonts.headline,
+        '700',
+        posterContentWidth,
+        maxLines,
+        Math.max(64 * unit, Math.round(Math.min(width, height) * 0.1)) * titleScale,
+        40 * unit,
+        true, // Enable text balancing for poster headlines
+        fonts.accent
+      );
+      reportTruncation(issues, slide, 'title', titleFit);
+      
+      const lineHeight = titleFit.size * 1.15;
+      const totalTitleHeight = lineHeight * titleFit.lines.length;
+      
+      let bodyFit = null;
+      let totalBodyHeight = 0;
+      if (slide.body) {
+         bodyFit = fitText(ctx, slide.body, fonts.body, '400', posterContentWidth * 0.8, 8, 36 * unit * bodyScale, 20 * unit, true);
+         reportTruncation(issues, slide, 'body', bodyFit);
+         totalBodyHeight = bodyFit.size * 1.4 * bodyFit.lines.length;
+      }
+      
+      const totalContentHeight = totalTitleHeight + (bodyFit ? 40 * unit + totalBodyHeight : 0);
+      const centerX = width / 2;
+      let textY = height / 2 - totalContentHeight / 2 + titleFit.size * 0.8;
+      
+      // Draw Supertitle (seriesTag)
+      if (settings.seriesTag) {
+        ctx.font = `600 ${small * 1.2}px ${fonts.label}`;
+        ctx.fillStyle = palette.accent;
+        ctx.textBaseline = 'middle';
+        ctx.textAlign = 'center';
+        ctx.save();
+        ctx.translate(centerX, textY - titleFit.size * 1.2);
+        drawTracked(ctx, String(settings.seriesTag).toUpperCase(), -ctx.measureText(settings.seriesTag).width / 2, 0, 3);
+        ctx.restore();
+      }
+
+      // Draw Headline
+      ctx.fillStyle = palette.ink;
+      ctx.textBaseline = 'alphabetic';
+      const baseFontStr = `700 ${titleFit.size}px ${fonts.headline}`;
+      titleFit.lines.forEach((line) => {
+        drawMixedText(ctx, line, centerX, textY, baseFontStr, titleFit.accentFontStr, 'center');
+        textY += lineHeight;
+      });
+      contentBottom = textY;
+      
+      // Draw Subheadline
+      if (bodyFit) {
+        ctx.font = `400 ${bodyFit.size}px ${fonts.body}`;
+        ctx.fillStyle = palette.ink;
+        ctx.globalAlpha = 0.8;
+        let bodyY = textY + 20 * unit;
+        bodyFit.lines.forEach((line) => {
+          ctx.fillText(line, centerX, bodyY);
+          bodyY += bodyFit.size * 1.4;
+        });
+        contentBottom = bodyY;
+        ctx.globalAlpha = 1;
+      }
+
+      // Draw Details / Footer (handle)
+      if (settings.handle) {
+        ctx.font = `500 ${small * 1.2}px ${fonts.body}`;
+        ctx.fillStyle = palette.ink;
+        ctx.globalAlpha = 0.9;
+        ctx.textAlign = 'center';
+        ctx.fillText(settings.handle, centerX, height - margin - 40 * unit);
+        ctx.globalAlpha = 1;
+      }
+
+    } else if (slide.isCover) {
+      const maxLines = width > height ? 4 : height > width * 1.3 ? 6 : 5;
+      const titleFit = fitText(
+        ctx,
+        slide.title,
+        fonts.headline,
+        '700',
+        contentWidth,
+        maxLines,
+        Math.max(44 * unit, Math.round(Math.min(width, height) * 0.07)) * titleScale,
+        32 * unit,
+        false,
+        fonts.accent
+      );
+      reportTruncation(issues, slide, 'title', titleFit);
+      ctx.fillStyle = palette.ink;
+      ctx.textBaseline = 'alphabetic';
+      const lineHeight = titleFit.size * 1.16;
+      const totalHeight = lineHeight * titleFit.lines.length;
+      let textY = height / 2 - totalHeight / 2 + titleFit.size * 0.8;
+      const baseFontStr = `700 ${titleFit.size}px ${fonts.headline}`;
+      titleFit.lines.forEach((line) => {
+        drawMixedText(ctx, line, textX, textY, baseFontStr, titleFit.accentFontStr, textAlign);
+        textY += lineHeight;
+      });
+      contentBottom = textY;
+
+      if (slide.body) {
+        const bodyFit = fitText(ctx, slide.body, fonts.body, '400', contentWidth, 3, 30 * unit * bodyScale, 18 * unit);
+        reportTruncation(issues, slide, 'body', bodyFit);
+        ctx.font = `400 ${bodyFit.size}px ${fonts.body}`;
+        ctx.fillStyle = palette.ink;
+        ctx.globalAlpha = 0.75;
+        let bodyY = textY + 20 * unit;
+        bodyFit.lines.forEach((line) => {
+          ctx.fillText(line, textX, bodyY);
+          bodyY += bodyFit.size * 1.4;
+        });
+        contentBottom = bodyY;
+        ctx.globalAlpha = 1;
+      }
+    } else {
+      const titleFit = fitText(
+        ctx,
+        slide.title,
+        fonts.headline,
+        '700',
+        contentWidth,
+        width > height ? 3 : 4,
+        64 * unit * titleScale,
+        30 * unit,
+        false,
+        fonts.accent
+      );
+      reportTruncation(issues, slide, 'title', titleFit);
+      ctx.fillStyle = palette.ink;
+      const lineHeight = titleFit.size * 1.18;
+      let textY = height / 2 - (lineHeight * titleFit.lines.length) / 2 - (slide.body ? 30 * unit : 0);
+      const baseFontStr = `700 ${titleFit.size}px ${fonts.headline}`;
+      titleFit.lines.forEach((line) => {
+        drawMixedText(ctx, line, textX, textY, baseFontStr, titleFit.accentFontStr, textAlign);
+        textY += lineHeight;
+      });
+      textY += 34 * unit;
+      contentBottom = textY;
+
+      if (slide.body) {
+        const bodyFit = fitText(ctx, slide.body, fonts.body, '400', contentWidth, 4, 30 * unit * bodyScale, 17 * unit);
+        reportTruncation(issues, slide, 'body', bodyFit);
+        ctx.font = `400 ${bodyFit.size}px ${fonts.body}`;
+        ctx.fillStyle = palette.ink;
+        ctx.globalAlpha = 0.78;
+        bodyFit.lines.forEach((line) => {
+          ctx.fillText(line, textX, textY);
+          textY += bodyFit.size * 1.46;
+        });
+        contentBottom = textY;
+        ctx.globalAlpha = 1;
+      }
+    }
+
+    const footerClearance = Math.round(38 * unit);
+    if (contentBottom > footerY - footerClearance) {
+      issues.push({
+        path: `slides[${index}]`,
+        slideId: slide.id,
+        code: 'footer_overlap',
+        message: 'Slide content reaches the reserved footer area.',
+        severity: 'error',
+        measured: { contentBottom: Math.round(contentBottom), footerTop: Math.round(footerY - footerClearance) }
+      });
+    }
+
+    if (settings.category !== 'poster') {
+      ctx.font = `500 ${small}px ${fonts.label}`;
+      ctx.fillStyle = palette.ink;
+      ctx.globalAlpha = 0.7;
+      ctx.textAlign = 'left';
+      ctx.fillText(settings.handle || '', contentLeft, footerY);
+      ctx.globalAlpha = 1;
+    }
+
+    return {
+      slideId: slide.id,
+      index,
+      issues,
+      measurements: {
+        width,
+        height,
+        contentLeft,
+        contentRight,
+        contentBottom: Math.round(contentBottom),
+        footerY: Math.round(footerY)
+      }
+    };
+  }
+
+  function reportTruncation(issues, slide, field, fit) {
+    if (!fit.truncated) return;
+    issues.push({
+      path: `slides.${slide.id}.${field}`,
+      slideId: slide.id,
+      code: 'text_truncated',
+      message: `${field === 'title' ? 'Title' : 'Body'} text requires ${fit.naturalLineCount} lines but only ${fit.lines.length} fit.`,
+      severity: 'error',
+      measured: { naturalLineCount: fit.naturalLineCount, renderedLineCount: fit.lines.length }
+    });
+  }
+
+  global.CarouselRenderer = Object.freeze({
+    FORMATS,
+    PALETTES,
+    getSize,
+    drawSlide
+  });
+}(window));

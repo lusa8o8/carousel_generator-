@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>carousel-outline-generator prompt evaluation</title>
+<style>
+:root{--ink:#17241f;--muted:#65716c;--paper:#f4efe5;--card:#fffdf7;--line:#d7cfbf;--accent:#bd492b;--green:#176b4d;--amber:#9b610f;--red:#a83232}
+*{box-sizing:border-box} body{margin:0;color:var(--ink);background:radial-gradient(circle at 8% 0,#ead8b9 0,transparent 30rem),var(--paper);font-family:Aptos,Calibri,sans-serif}
+main{width:min(1120px,calc(100% - 32px));margin:auto;padding:48px 0 80px}
+header{padding:34px;color:#fffaf0;background:var(--ink);border-radius:24px 24px 8px;box-shadow:0 18px 50px #1d29252e}
+h1,h2{font-family:Georgia,serif} h1{margin:0 0 8px;font-size:clamp(2.2rem,6vw,4.8rem);line-height:.95} h2{margin:0;font-size:clamp(1.35rem,3vw,2rem)}
+.subtitle{margin:0;color:#cbd4ce} .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:28px}
+.stat{padding:16px;background:#ffffff14;border:1px solid #ffffff24;border-radius:12px} .stat span{display:block;color:#bcc8c1;font-size:.75rem;text-transform:uppercase;letter-spacing:.12em} .stat strong{display:block;margin-top:6px;font:700 1.7rem Georgia,serif}
+.case{margin-top:24px;padding:28px;background:var(--card);border:1px solid var(--line);border-radius:8px 22px 22px;box-shadow:0 12px 32px #1d292514}
+.case-head{display:flex;justify-content:space-between;gap:24px;align-items:flex-start} .eyebrow{margin:0 0 8px;color:var(--accent);font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.14em}
+.score{min-width:86px;padding:12px;color:#fff;border-radius:14px 14px 4px;text-align:center;font:700 1.65rem Georgia,serif} .score small{font:400 .75rem Aptos,sans-serif} .high{background:var(--green)} .medium{background:var(--amber)} .low{background:var(--red)}
+.component-scores{display:flex;gap:8px;margin:14px 0} .component-scores span{padding:5px 9px;background:#eee8db;border-radius:999px;font-size:.78rem}
+.metadata{display:flex;flex-wrap:wrap;gap:16px;margin-top:16px;color:#cbd4ce;font-size:.88rem} .summary-details{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:24px} .summary-detail{padding:18px;background:var(--card);border:1px solid var(--line);border-radius:12px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px} section{padding-top:18px;border-top:1px solid var(--line)} h3{margin:0 0 8px;color:var(--muted);font-size:.78rem;text-transform:uppercase;letter-spacing:.1em}
+p,li,pre{line-height:1.6} pre{max-height:380px;margin:0;padding:16px;overflow:auto;white-space:pre-wrap;background:#eee8db;border-radius:10px;font-family:Consolas,monospace;font-size:.88rem} .feedback{display:grid;grid-template-columns:1fr 1fr;gap:18px} ul{margin:0;padding-left:20px}
+@media(max-width:720px){main{padding-top:16px}header,.case{padding:22px}.stats,.grid,.feedback,.summary-details{grid-template-columns:1fr}.case-head{flex-direction:column}}
+</style></head><body><main>
+<header><p class="eyebrow">Prompt evaluation report</p><h1>carousel-outline-generator</h1><p class="subtitle">Prompt version: contract-schema-v3</p>
+<div class="stats"><div class="stat"><span>Cases</span><strong>4</strong></div><div class="stat"><span>Average</span><strong>9.4/10</strong></div><div class="stat"><span>Pass rate</span><strong>100%</strong></div></div>
+<div class="metadata"><span><strong>Dataset:</strong> carousel-heldout-v1</span><span><strong>Model:</strong> claude-sonnet-4-6</span></div></header><div class="summary-details"><section class="summary-detail"><h3>Metrics</h3><pre>{
+  &quot;pass_rate&quot;: 1,
+  &quot;code_pass_rate&quot;: 1,
+  &quot;average_model_score&quot;: 8.5,
+  &quot;average_syntax_score&quot;: 10
+}</pre></section><section class="summary-detail"><h3>Usage and cost</h3><pre>{
+  &quot;api_calls&quot;: 8,
+  &quot;candidate_calls&quot;: 4,
+  &quot;grader_calls&quot;: 4,
+  &quot;input_tokens&quot;: 6960,
+  &quot;output_tokens&quot;: 3230
+}</pre></section></div>
+
+<article class="case">
+  <div class="case-head">
+    <div><p class="eyebrow">heldout-audience</p>
+    <h2>Create a carousel for new managers on running useful one-on-ones without turning them into status meetings.</h2></div>
+    <div class="score high">9.6<small>/10</small></div>
+  </div>
+  <div class="component-scores"><span>Model: 9</span><span>Syntax: 10</span></div>
+  <div class="grid">
+    <section><h3>Expected</h3><pre>Give new managers specific one-on-one practices, distinguish the meeting from status reporting, and preserve required slide roles.</pre></section>
+    <section><h3>Output</h3><pre>{
+  &quot;title&quot;: &quot;Run One-on-Ones That Actually Matter&quot;,
+  &quot;seriesTag&quot;: &quot;Management 101&quot;,
+  &quot;brand&quot;: {
+    &quot;apply&quot;: false,
+    &quot;paper&quot;: &quot;#EFE9DA&quot;,
+    &quot;ink&quot;: &quot;#212B21&quot;,
+    &quot;accent&quot;: &quot;#C08A28&quot;,
+    &quot;headline&quot;: &quot;editorial&quot;,
+    &quot;body&quot;: &quot;clean&quot;
+  },
+  &quot;slides&quot;: [
+    {
+      &quot;title&quot;: &quot;Your 1-on-1s Are Probably Status Meetings in Disguise&quot;,
+      &quot;body&quot;: &quot;If your team member is mostly giving you project updates, something has gone wrong. Here&#x27;s how to fix it.&quot;,
+      &quot;isCover&quot;: true
+    },
+    {
+      &quot;title&quot;: &quot;The Purpose Is the Relationship, Not the Report&quot;,
+      &quot;body&quot;: &quot;One-on-ones exist so your direct report feels heard, supported, and unblocked — not so you can track what they finished last week.&quot;,
+      &quot;isCover&quot;: false
+    },
+    {
+      &quot;title&quot;: &quot;Stop Asking &#x27;What Did You Work On?&#x27;&quot;,
+      &quot;body&quot;: &quot;That question belongs in a standup. Instead ask: &#x27;What&#x27;s been hardest this week?&#x27; or &#x27;What do you need from me right now?&#x27;&quot;,
+      &quot;isCover&quot;: false
+    },
+    {
+      &quot;title&quot;: &quot;Let Them Set the Agenda&quot;,
+      &quot;body&quot;: &quot;Ask your report to send two or three topics before the meeting. It signals that the time belongs to them — and you show up prepared to help.&quot;,
+      &quot;isCover&quot;: false
+    },
+    {
+      &quot;title&quot;: &quot;Your Job Is to Listen, Then Remove Obstacles&quot;,
+      &quot;body&quot;: &quot;Resist the urge to fill silence or jump to solutions. Ask a follow-up question first. The real issue is rarely the first thing they mention.&quot;,
+      &quot;isCover&quot;: false
+    },
+    {
+      &quot;title&quot;: &quot;Keep a Shared Running Doc&quot;,
+      &quot;body&quot;: &quot;One living document with both your names on it. Topics, decisions, and commitments go there so nothing falls through the cracks between meetings.&quot;,
+      &quot;isCover&quot;: false
+    },
+    {
+      &quot;title&quot;: &quot;Save This and Run a Better 1-on-1 This Week&quot;,
+      &quot;body&quot;: &quot;Pick one question from slide 3, let your report set the agenda, and listen before you advise. That single shift changes everything.&quot;,
+      &quot;isCover&quot;: true
+    }
+  ]
+}</pre></section>
+    <section><h3>Reasoning</h3><p>The carousel is well-structured, specific, and directly addresses the brief: new managers, one-on-ones, avoiding status meeting pitfalls. It opens with a strong diagnostic hook, maintains a clear throughline distinguishing relationship-focused meetings from reporting, provides specific question replacements, and closes with a concrete CTA referencing earlier slide content. Required slide roles (cover and CTA) are properly marked. Minor deductions for a slight dip in depth on the running doc slide and missing cadence/length guidance, but overall this is a high-quality, actionable piece.</p></section>
+    <section class="feedback">
+      <div><h3>Strengths</h3><ul><li>All deterministic contract checks passed.</li><li>Clear hook slide that immediately identifies the core problem (status meetings in disguise) in relatable terms</li><li>Strong distinction between status reporting and genuine one-on-ones is maintained throughout the carousel</li></ul></div>
+      <div><h3>Weaknesses</h3><ul><li>The shared running doc slide (slide 6) is useful but slightly more operational/logistical compared to the relational depth of earlier slides — minor tonal dip</li><li>Could have addressed cadence or length of 1-on-1s, which is a common new manager confusion</li><li>&#x27;The real issue is rarely the first thing they mention&#x27; is a solid insight but could be supported with a brief example or follow-up question suggestion to make it more immediately actionable</li></ul></div>
+    </section>
+  </div>
+</article>
+<article class="case">
+  <div class="case-head">
+    <div><p class="eyebrow">heldout-brand-explicit</p>
+    <h2>Make a carousel about onboarding a first operations hire. Use navy paper, cream typography, and a lime accent.</h2></div>
+    <div class="score high">9.2<small>/10</small></div>
+  </div>
+  <div class="component-scores"><span>Model: 8</span><span>Syntax: 10</span></div>
+  <div class="grid">
+    <section><h3>Expected</h3><pre>Create operations-hiring guidance and apply the explicitly requested navy, cream, and lime visual treatment.</pre></section>
+    <section><h3>Output</h3><pre>{
+  &quot;title&quot;: &quot;Onboarding Your First Operations Hire&quot;,
+  &quot;seriesTag&quot;: &quot;Ops Playbook&quot;,
+  &quot;brand&quot;: {
+    &quot;apply&quot;: true,
+    &quot;paper&quot;: &quot;#0A1628&quot;,
+    &quot;ink&quot;: &quot;#F5F0E8&quot;,
+    &quot;accent&quot;: &quot;#C8F400&quot;,
+    &quot;headline&quot;: &quot;editorial&quot;,
+    &quot;body&quot;: &quot;clean&quot;
+  },
+  &quot;slides&quot;: [
+    {
+      &quot;title&quot;: &quot;Your First Ops Hire Will Make or Break Your Scaling&quot;,
+      &quot;body&quot;: &quot;Hiring for operations is the highest-leverage move an early team can make — if you onboard them right. Here&#x27;s how.&quot;,
+      &quot;isCover&quot;: true
+    },
+    {
+      &quot;title&quot;: &quot;Hire for Systems Thinking, Not Just Experience&quot;,
+      &quot;body&quot;: &quot;Your first ops hire needs to build the plane while flying it. Look for people who instinctively document, automate, and simplify — not just execute.&quot;,
+      &quot;isCover&quot;: false
+    },
+    {
+      &quot;title&quot;: &quot;Give Them a 30-Day Listening Tour&quot;,
+      &quot;body&quot;: &quot;Before they fix anything, they should map everything. Have them shadow every team, audit every workflow, and hold their recommendations until week five.&quot;,
+      &quot;isCover&quot;: false
+    },
+    {
+      &quot;title&quot;: &quot;Define Their North Star Metric on Day One&quot;,
+      &quot;body&quot;: &quot;Ops without a clear success metric drifts into busywork. Agree upfront: are they reducing cost, increasing throughput, or cutting time-to-close? One thing first.&quot;,
+      &quot;isCover&quot;: false
+    },
+    {
+      &quot;title&quot;: &quot;Grant Access Before You Need To&quot;,
+      &quot;body&quot;: &quot;Slow access requests kill momentum. Pre-provision tools, accounts, and documentation on day one. Trust them with the keys — that&#x27;s why you hired them.&quot;,
+      &quot;isCover&quot;: false
+    },
+    {
+      &quot;title&quot;: &quot;Schedule a Weekly Ops Review From Week Two&quot;,
+      &quot;body&quot;: &quot;A standing 30-minute sync keeps priorities aligned and surfaces blockers early. This ritual compounds — the best ops leaders will eventually own this meeting.&quot;,
+      &quot;isCover&quot;: false
+    },
+    {
+      &quot;title&quot;: &quot;Save This Before Your Next Ops Hire&quot;,
+      &quot;body&quot;: &quot;Screenshot this carousel and share it with your founding team. A strong onboarding sets your ops hire — and your whole company — up to scale.&quot;,
+      &quot;isCover&quot;: true
+    }
+  ]
+}</pre></section>
+    <section><h3>Reasoning</h3><p>This carousel excels across nearly all dimensions: brand fidelity is exact, the content is specific and actionable, slide progression is logical, and both the hook and CTA are strong. The only meaningful weakness is a minor internal timeline inconsistency between the listening tour timeline and the north star/weekly sync recommendations, which could confuse practitioners trying to apply the advice literally. Everything else — voice, specificity, structure, and visual design — is well-executed and directly responsive to the request.</p></section>
+    <section class="feedback">
+      <div><h3>Strengths</h3><ul><li>All deterministic contract checks passed.</li><li>Navy paper (#0A1628), cream ink (#F5F0E8), and lime accent (#C8F400) all precisely match the requested color scheme</li><li>Series tag &#x27;Ops Playbook&#x27; adds professional context and branding cohesion</li></ul></div>
+      <div><h3>Weaknesses</h3><ul><li>The 30-day listening tour advice in slide 3 slightly conflicts with the day-one north star metric advice in slide 4 — these could create confusion about sequencing</li><li>Slide 6 mentions &#x27;week two&#x27; for a standing sync, but the listening tour runs through week five per slide 3 — minor internal inconsistency</li><li>Could benefit from one slide addressing common failure modes or red flags to watch for, adding more depth to the playbook framing</li></ul></div>
+    </section>
+  </div>
+</article>
+<article class="case">
+  <div class="case-head">
+    <div><p class="eyebrow">heldout-myth</p>
+    <h2>Build a myth-busting carousel for knowledge workers about the belief that deep work requires an uninterrupted four-hour block.</h2></div>
+    <div class="score high">9.6<small>/10</small></div>
+  </div>
+  <div class="component-scores"><span>Model: 9</span><span>Syntax: 10</span></div>
+  <div class="grid">
+    <section><h3>Expected</h3><pre>Use a myth-to-truth progression with practical alternatives for knowledge workers and a dedicated final CTA.</pre></section>
+    <section><h3>Output</h3><pre>{
+  &quot;title&quot;: &quot;Deep Work Doesn&#x27;t Need 4 Hours&quot;,
+  &quot;seriesTag&quot;: &quot;Myth Busted&quot;,
+  &quot;brand&quot;: {
+    &quot;apply&quot;: false,
+    &quot;paper&quot;: &quot;#EFE9DA&quot;,
+    &quot;ink&quot;: &quot;#212B21&quot;,
+    &quot;accent&quot;: &quot;#C08A28&quot;,
+    &quot;headline&quot;: &quot;editorial&quot;,
+    &quot;body&quot;: &quot;clean&quot;
+  },
+  &quot;slides&quot;: [
+    {
+      &quot;title&quot;: &quot;You Don&#x27;t Need a 4-Hour Block to Do Deep Work&quot;,
+      &quot;body&quot;: &quot;Most knowledge workers believe deep focus is impossible without a half-day of silence. That belief is quietly destroying your productivity. Let&#x27;s break it down.&quot;,
+      &quot;isCover&quot;: true
+    },
+    {
+      &quot;title&quot;: &quot;The Myth: Deep Work = Long, Uninterrupted Time&quot;,
+      &quot;body&quot;: &quot;The idea that deep work requires 4+ hour blocks comes from a misreading of Cal Newport&#x27;s research. It describes an ideal — not a requirement.&quot;,
+      &quot;isCover&quot;: false
+    },
+    {
+      &quot;title&quot;: &quot;The Reality: Your Brain Can&#x27;t Sustain 4 Hours Anyway&quot;,
+      &quot;body&quot;: &quot;Cognitive performance peaks at 90–120 minutes, then drops sharply. Pushing through doesn&#x27;t create depth — it creates exhaustion and diminishing returns.&quot;,
+      &quot;isCover&quot;: false
+    },
+    {
+      &quot;title&quot;: &quot;Even 45 Minutes Done Right Counts as Deep Work&quot;,
+      &quot;body&quot;: &quot;Deep work is defined by intensity and intentionality, not duration. A focused 45-minute session with a clear goal outperforms a distracted 3-hour stretch every time.&quot;,
+      &quot;isCover&quot;: false
+    },
+    {
+      &quot;title&quot;: &quot;The Real Enemy Isn&#x27;t a Short Schedule — It&#x27;s Context Switching&quot;,
+      &quot;body&quot;: &quot;What kills deep work is toggling between tasks, not the clock. Protect a single-threaded focus window, however long you have, and you&#x27;re doing it right.&quot;,
+      &quot;isCover&quot;: false
+    },
+    {
+      &quot;title&quot;: &quot;High Performers Use Shorter, Stacked Sessions&quot;,
+      &quot;body&quot;: &quot;Many elite researchers and writers work in 60–90 minute focused sprints with deliberate breaks in between. Frequency builds the skill. Duration is just the container.&quot;,
+      &quot;isCover&quot;: false
+    },
+    {
+      &quot;title&quot;: &quot;Start Your Next Deep Work Session Today — Not When Your Calendar Clears&quot;,
+      &quot;body&quot;: &quot;Block 60 minutes. Close the tabs. Pick one output. That&#x27;s it. Save this post so you remember: depth is a practice, not a perfect schedule.&quot;,
+      &quot;isCover&quot;: true
+    }
+  ]
+}</pre></section>
+    <section><h3>Reasoning</h3><p>This carousel closely follows the requested myth-to-truth progression with practical alternatives tailored to knowledge workers and ends with a dedicated, actionable CTA. Each slide advances the argument logically: myth stated, cognitive reality established, duration redefined, true enemy identified, expert behavior cited, and a clear call to action delivered. The copy is specific, avoids generic platitudes, and gives knowledge workers concrete reframes and actions. Small weaknesses are missing source citations and one abrupt transition, but these are minor. Overall this is a high-quality, fully compliant carousel output.</p></section>
+    <section class="feedback">
+      <div><h3>Strengths</h3><ul><li>All deterministic contract checks passed.</li><li>Clear myth-to-truth progression across all seven slides, directly matching the expected behavior</li><li>Slide 2 correctly names the myth with specificity (Cal Newport misreading), adding credibility</li></ul></div>
+      <div><h3>Weaknesses</h3><ul><li>Slide 3 could name a source for the 90–120 minute cognitive performance claim (e.g., ultradian rhythms) to strengthen credibility</li><li>The transition from Slide 5 to Slide 6 is slightly abrupt — a bridging phrase would smooth the logical flow</li><li>&#x27;Stacked Sessions&#x27; in Slide 6 is introduced without brief explanation of what stacking means in practice</li></ul></div>
+    </section>
+  </div>
+</article>
+<article class="case">
+  <div class="case-head">
+    <div><p class="eyebrow">heldout-brand-only</p>
+    <h2>Update only the visual identity to sage paper, charcoal type, and a coral accent.</h2></div>
+    <div class="score high">9.2<small>/10</small></div>
+  </div>
+  <div class="component-scores"><span>Model: 8</span><span>Syntax: 10</span></div>
+  <div class="grid">
+    <section><h3>Expected</h3><pre>Return a valid brand patch with brand.apply true without treating carousel copy as part of the request.</pre></section>
+    <section><h3>Output</h3><pre>{
+  &quot;title&quot;: &quot;Visual Identity Update&quot;,
+  &quot;seriesTag&quot;: &quot;Brand Refresh&quot;,
+  &quot;brand&quot;: {
+    &quot;apply&quot;: true,
+    &quot;paper&quot;: &quot;#B2C4A8&quot;,
+    &quot;ink&quot;: &quot;#36454F&quot;,
+    &quot;accent&quot;: &quot;#FF6B6B&quot;,
+    &quot;headline&quot;: &quot;editorial&quot;,
+    &quot;body&quot;: &quot;clean&quot;
+  },
+  &quot;slides&quot;: [
+    {
+      &quot;title&quot;: &quot;Hook Slide&quot;,
+      &quot;body&quot;: &quot;Your existing hook slide content goes here.&quot;,
+      &quot;isCover&quot;: true
+    },
+    {
+      &quot;title&quot;: &quot;Middle Slide 1&quot;,
+      &quot;body&quot;: &quot;Your existing middle slide content goes here.&quot;,
+      &quot;isCover&quot;: false
+    },
+    {
+      &quot;title&quot;: &quot;Middle Slide 2&quot;,
+      &quot;body&quot;: &quot;Your existing middle slide content goes here.&quot;,
+      &quot;isCover&quot;: false
+    },
+    {
+      &quot;title&quot;: &quot;Call to Action&quot;,
+      &quot;body&quot;: &quot;Your existing call-to-action content goes here.&quot;,
+      &quot;isCover&quot;: true
+    }
+  ]
+}</pre></section>
+    <section><h3>Reasoning</h3><p>The candidate correctly interprets this as a brand-only visual identity update. It sets brand.apply to true, maps the three color tokens (sage paper, charcoal ink, coral accent) to plausible hex values, and does not treat the carousel slide copy as real content or instructions. The color choices are directionally correct though not perfectly precise. The brand patch structure is coherent and usable. Minor deductions for color imprecision and the fully generic slide placeholders, though those are secondary concerns for a brand patch task.</p></section>
+    <section class="feedback">
+      <div><h3>Strengths</h3><ul><li>All deterministic contract checks passed.</li><li>brand.apply is correctly set to true</li><li>paper color #B2C4A8 is a reasonable sage green approximation</li></ul></div>
+      <div><h3>Weaknesses</h3><ul><li>sage paper color #B2C4A8 leans more green than the warmer sage-gray typically implied by &#x27;sage paper&#x27;; a slightly more neutral sage like #C1C9B0 or #D4DBCA might be more accurate</li><li>coral accent #FF6B6B is slightly more of a hot pink-coral; a truer coral might be closer to #FF6F61 or #E8735A</li><li>slide body text is entirely generic placeholder content rather than meaningful structural examples, though for a brand-only patch this is largely acceptable</li></ul></div>
+    </section>
+  </div>
+</article></main></body></html>

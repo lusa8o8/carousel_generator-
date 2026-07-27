@@ -1,0 +1,67 @@
+[
+  {
+    "id": "prompt-named-roles",
+    "category": "prompt-exact",
+    "sourceType": "prompt",
+    "prompt": "Use a black background, white text, and a red accent with a modern sans headline.",
+    "expected": { "paper": "#000000", "ink": "#FFFFFF", "accent": "#E53935", "headline": "modern", "body": "clean" },
+    "tolerance": 0,
+    "runs": 3
+  },
+  {
+    "id": "prompt-hex-roles",
+    "category": "prompt-exact",
+    "sourceType": "prompt",
+    "prompt": "Paper #F8F4EA, ink #182018, accent #EF5B3F, with an editorial serif headline and monospace body.",
+    "expected": { "paper": "#F8F4EA", "ink": "#182018", "accent": "#EF5B3F", "headline": "editorial", "body": "mono" },
+    "tolerance": 0,
+    "runs": 3
+  },
+  {
+    "id": "prompt-partial-preservation",
+    "category": "prompt-partial",
+    "sourceType": "prompt",
+    "prompt": "Change only the accent to #00AA88.",
+    "expected": { "paper": "#EFE9DA", "ink": "#212B21", "accent": "#00AA88", "headline": "editorial", "body": "clean" },
+    "tolerance": 0,
+    "runs": 3
+  },
+  {
+    "id": "prompt-semantic",
+    "category": "prompt-semantic",
+    "sourceType": "prompt",
+    "prompt": "A restrained luxury finance identity: near-black paper, warm ivory type, muted gold accent, editorial headline, clean body.",
+    "expected": { "paper": "#15130F", "ink": "#F4EFE3", "accent": "#B89445", "headline": "editorial", "body": "clean" },
+    "tolerance": 70,
+    "runs": 3
+  },
+  {
+    "id": "image-light-coral",
+    "category": "vision",
+    "sourceType": "image",
+    "fixture": "brand-light-coral.png",
+    "prompt": "The large field is paper, the dark block represents ink, and the small coral block is the accent. Use a modern sans headline and clean body.",
+    "expected": { "paper": "#FAFAF5", "ink": "#151515", "accent": "#FF5533", "headline": "modern", "body": "clean" },
+    "tolerance": 45,
+    "runs": 3
+  },
+  {
+    "id": "image-dark-lime",
+    "category": "vision",
+    "sourceType": "image",
+    "fixture": "brand-dark-lime.png",
+    "prompt": "The large dark field is paper, the cream block represents ink, and the small lime block is the accent. Use a modern sans headline and clean body.",
+    "expected": { "paper": "#121820", "ink": "#F4F0E6", "accent": "#B8E51A", "headline": "modern", "body": "clean" },
+    "tolerance": 45,
+    "runs": 3
+  },
+  {
+    "id": "url-css-contract",
+    "category": "website",
+    "sourceType": "url",
+    "fixtureSite": "brand-site",
+    "expected": { "paper": "#F7F5EE", "ink": "#171A18", "accent": "#E84F3D", "headline": "modern", "body": "clean" },
+    "tolerance": 0,
+    "runs": 3
+  }
+]
