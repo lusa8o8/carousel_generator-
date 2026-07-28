@@ -1823,6 +1823,8 @@ let syncTimer = null;
 let previewTimer = null;
 let applyingRemoteDocument = false;
 let lastPublishedDocument = '';
+let isPublishing = false;
+let pendingPublish = false;
 
 function stateToDocument(){
   return {
@@ -1877,10 +1879,18 @@ function scheduleDocumentSync(){
 }
 
 async function publishDocument(){
+  if (isPublishing) {
+    pendingPublish = true;
+    return;
+  }
+  isPublishing = true;
+  pendingPublish = false;
+
   const document = stateToDocument();
   state.documentId = document.id;
   const fingerprint = JSON.stringify(document);
   if (fingerprint === lastPublishedDocument) {
+    isPublishing = false;
     schedulePreviewPublish();
     return;
   }
@@ -1909,11 +1919,16 @@ async function publishDocument(){
     schedulePreviewPublish();
   } catch (error) {
     console.error(error);
+  } finally {
+    isPublishing = false;
+    if (pendingPublish) {
+      scheduleDocumentSync();
+    }
   }
 }
 
 async function pullDocument(){
-  if (!DOCUMENT_ENDPOINT) return;
+  if (!DOCUMENT_ENDPOINT || isPublishing || applyingRemoteDocument) return;
   try {
     const response = await fetch(DOCUMENT_ENDPOINT, { cache: 'no-store' });
     if (!response.ok) return;
