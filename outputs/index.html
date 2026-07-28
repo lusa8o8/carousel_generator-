@@ -1239,7 +1239,7 @@ function renderPalette(){
   Object.entries(PALETTES).forEach(([key, p]) => {
     const sw = document.createElement('div');
     sw.className = 'swatch' + (state.palette === key ? ' active' : '');
-    sw.onclick = () => { state.palette = key; renderAll(); };
+    sw.onclick = () => { state.palette = key; shuffleIndex = 0; shuffleBase = null; renderAll(); };
     const dot = document.createElement('div');
     dot.className = 'dot';
     dot.style.background = p.paper;
@@ -1474,8 +1474,16 @@ function readableSwatchText(color){
 }
 
 let shuffleIndex = 0;
+let shuffleBase = null;
 document.getElementById('shuffleBrandBtn').onclick = () => {
-  const base = PALETTES[state.palette] || PALETTES.oat;
+  if (shuffleIndex === 0 || !shuffleBase) {
+    shuffleBase = {
+      paper: state.brand.paper || PALETTES[state.palette]?.paper || '#ffffff',
+      ink: state.brand.ink || PALETTES[state.palette]?.ink || '#000000',
+      accent: state.brand.accent || PALETTES[state.palette]?.accent || '#000000'
+    };
+  }
+  const base = shuffleBase;
   shuffleIndex = (shuffleIndex + 1) % 4;
   
   let newPaper, newInk, newAccent;
@@ -1581,6 +1589,8 @@ function applyBrandCandidate(){
   document.getElementById('headlineFont').value = state.brand.headline;
   document.getElementById('bodyFont').value = state.brand.body;
   document.getElementById('brandStatus').textContent = 'Brand applied to the versioned carousel.';
+  shuffleIndex = 0;
+  shuffleBase = null;
   renderAll();
 }
 
@@ -1667,9 +1677,9 @@ document.getElementById('previewBrandBtn').onclick = previewBrand;
 document.getElementById('applyBrandBtn').onclick = applyBrandCandidate;
 document.getElementById('revertBrandBtn').onclick = revertBrandCandidate;
 document.getElementById('brandEnabled').onchange = (e) => { state.brand.enabled = e.target.checked; renderPreview(); };
-document.getElementById('brandPaper').oninput = (e) => { state.brand.paper = e.target.value; renderPreview(); };
-document.getElementById('brandInk').oninput = (e) => { state.brand.ink = e.target.value; renderPreview(); };
-document.getElementById('brandAccent').oninput = (e) => { state.brand.accent = e.target.value; renderPreview(); };
+document.getElementById('brandPaper').oninput = (e) => { state.brand.paper = e.target.value; shuffleIndex = 0; shuffleBase = null; renderPreview(); };
+document.getElementById('brandInk').oninput = (e) => { state.brand.ink = e.target.value; shuffleIndex = 0; shuffleBase = null; renderPreview(); };
+document.getElementById('brandAccent').oninput = (e) => { state.brand.accent = e.target.value; shuffleIndex = 0; shuffleBase = null; renderPreview(); };
 document.getElementById('headlineFont').onchange = (e) => { state.brand.headline = e.target.value; renderPreview(); };
 document.getElementById('bodyFont').onchange = (e) => { state.brand.body = e.target.value; renderPreview(); };
 document.getElementById('showMargin').onchange = (e) => { state.showMargin = e.target.checked; renderPreview(); };
