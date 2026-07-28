@@ -528,9 +528,12 @@ export async function requestHandler(req, res) {
       res.end(configured);
       return;
     }
-    if (req.method === 'GET' && req.url === '/renderer.js') {
+    if (req.method === 'GET' && req.url.startsWith('/renderer.js')) {
       const renderer = await readFile(rendererPath, 'utf8');
-      res.writeHead(200, { 'Content-Type': 'text/javascript; charset=utf-8' });
+      res.writeHead(200, { 
+        'Content-Type': 'text/javascript; charset=utf-8',
+        'Cache-Control': 'no-cache, no-store, must-revalidate'
+      });
       res.end(renderer);
       return;
     }
