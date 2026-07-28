@@ -404,7 +404,7 @@
       contentBottom = textY;
 
       if (slide.body) {
-        const bodyFit = fitText(ctx, slide.body, fonts.body, '400', contentWidth, 3, 30 * unit * bodyScale, 18 * unit);
+        const bodyFit = fitText(ctx, slide.body, fonts.body, '400', contentWidth, 12, 30 * unit * bodyScale, 17 * unit);
         reportTruncation(issues, slide, 'body', bodyFit);
         ctx.font = `400 ${bodyFit.size}px ${fonts.body}`;
         ctx.fillStyle = palette.ink;
