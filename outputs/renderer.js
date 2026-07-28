@@ -321,7 +321,7 @@
       let bodyFit = null;
       let totalBodyHeight = 0;
       if (slide.body) {
-         bodyFit = fitText(ctx, slide.body, fonts.body, '400', posterContentWidth * 0.8, 8, 36 * unit * bodyScale, 20 * unit, true);
+         bodyFit = fitText(ctx, slide.body, fonts.body, '400', posterContentWidth * 0.8, 12, 36 * unit * bodyScale, 20 * unit, true);
          reportTruncation(issues, slide, 'body', bodyFit);
          totalBodyHeight = bodyFit.size * 1.4 * bodyFit.lines.length;
       }
@@ -443,7 +443,7 @@
       contentBottom = textY;
 
       if (slide.body) {
-        const bodyFit = fitText(ctx, slide.body, fonts.body, '400', contentWidth, 4, 30 * unit * bodyScale, 17 * unit);
+        const bodyFit = fitText(ctx, slide.body, fonts.body, '400', contentWidth, 12, 30 * unit * bodyScale, 17 * unit);
         reportTruncation(issues, slide, 'body', bodyFit);
         ctx.font = `400 ${bodyFit.size}px ${fonts.body}`;
         ctx.fillStyle = palette.ink;
