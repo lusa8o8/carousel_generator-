@@ -795,6 +795,27 @@ function createTypographyControls(slide) {
   wrap.appendChild(makeScaleSlider('HEADLINE', 'titleScale'));
   wrap.appendChild(makeScaleSlider('BODY', 'bodyScale'));
   
+  const applyBtn = document.createElement('button');
+  applyBtn.className = 'btn';
+  applyBtn.style.width = '100%';
+  applyBtn.style.marginTop = '4px';
+  applyBtn.style.padding = '6px';
+  applyBtn.style.fontSize = '11px';
+  applyBtn.textContent = 'Apply scale to all';
+  applyBtn.onmousedown = (e) => e.stopPropagation();
+  applyBtn.onclick = (e) => {
+    e.stopPropagation();
+    const titleScale = slide.layout?.titleScale || 1;
+    const bodyScale = slide.layout?.bodyScale || 1;
+    state.slides.forEach(s => {
+      if (!s.layout) s.layout = { titleScale: 1, bodyScale: 1, align: 'left' };
+      s.layout.titleScale = titleScale;
+      s.layout.bodyScale = bodyScale;
+    });
+    renderAll();
+  };
+  wrap.appendChild(applyBtn);
+  
   return wrap;
 }
 
