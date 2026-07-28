@@ -495,7 +495,10 @@
           <button type="button" class="btn" id="revertBrandBtn">Revert</button>
         </div>
       </div>
-      <label class="toggle-option" style="margin-bottom:9px;"><input type="checkbox" id="brandEnabled"> Use custom brand colors</label>
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:9px;">
+        <label class="toggle-option" style="margin-bottom:0;"><input type="checkbox" id="brandEnabled"> Custom brand colors</label>
+        <button type="button" class="btn" id="shuffleBrandBtn" style="font-size:10px; padding:2px 6px;" title="Shuffle colors">Shuffle</button>
+      </div>
       <div class="brand-kit">
         <label class="color-control">PAPER<input type="color" id="brandPaper" value="#efe9da"></label>
         <label class="color-control">INK<input type="color" id="brandInk" value="#212b21"></label>
@@ -1464,10 +1467,56 @@ function showBrandCandidate(profile, method, cached){
 }
 
 function readableSwatchText(color){
+  if (!color || typeof color !== 'string' || color.length < 7) return '#111111';
   const channels = [1, 3, 5].map((index) => parseInt(color.slice(index, index + 2), 16));
   const brightness = 0.299 * channels[0] + 0.587 * channels[1] + 0.114 * channels[2];
   return brightness > 165 ? '#111111' : '#FFFFFF';
 }
+
+let shuffleIndex = 0;
+document.getElementById('shuffleBrandBtn').onclick = () => {
+  const base = PALETTES[state.palette] || PALETTES.oat;
+  shuffleIndex = (shuffleIndex + 1) % 4;
+  
+  let newPaper, newInk, newAccent;
+  
+  if (shuffleIndex === 0) {
+    // Default
+    newPaper = base.paper;
+    newInk = base.ink;
+    newAccent = base.accent;
+  } else if (shuffleIndex === 1) {
+    // Dark mode (ink as bg, white text)
+    newPaper = base.ink;
+    newInk = '#FFFFFF';
+    newAccent = base.accent;
+  } else if (shuffleIndex === 2) {
+    // Accent mode (accent as bg)
+    newPaper = base.accent;
+    newInk = readableSwatchText(base.accent);
+    newAccent = base.ink;
+  } else if (shuffleIndex === 3) {
+    // White mode (white bg, ink text)
+    newPaper = '#FFFFFF';
+    newInk = base.ink;
+    newAccent = base.accent;
+    if (readableSwatchText(newPaper) === '#FFFFFF') {
+      newInk = '#111111'; // fallback if ink is too light
+    }
+  }
+
+  state.brand.enabled = true;
+  document.getElementById('brandEnabled').checked = true;
+  document.getElementById('brandPaper').value = newPaper;
+  document.getElementById('brandInk').value = newInk;
+  document.getElementById('brandAccent').value = newAccent;
+  
+  state.brand.paper = newPaper;
+  state.brand.ink = newInk;
+  state.brand.accent = newAccent;
+  
+  renderAll();
+};
 
 async function extractBrand(){
   if (!BRAND_ENDPOINT) {
