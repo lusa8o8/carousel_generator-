@@ -7,6 +7,57 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Lora:ital,wght@0,400..700;1,400..700&family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Great+Vibes&family=Dancing+Script:wght@400..700&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Oswald:wght@200..700&family=Syne:wght@400..800&family=Outfit:wght@100..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js";
+  import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-auth.js";
+  import { getFirestore, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCd-wJ2Adx2OX2tV2tLwWB5O93KrWv2_Y8",
+    authDomain: "carousel-generator-d9f49.firebaseapp.com",
+    projectId: "carousel-generator-d9f49",
+    storageBucket: "carousel-generator-d9f49.firebasestorage.app",
+    messagingSenderId: "104399265251",
+    appId: "1:104399265251:web:4de54991e4d474485a54d6"
+  };
+
+  let app, auth, db, provider;
+  try {
+    app = initializeApp(firebaseConfig);
+    auth = getAuth(app);
+    db = getFirestore(app);
+    provider = new GoogleAuthProvider();
+  } catch(e) {
+    console.warn("Firebase not configured. Replace placeholders in firebaseConfig.");
+  }
+
+  window.firebaseAuth = { auth, provider, signInWithPopup, onAuthStateChanged, db, doc, setDoc, onSnapshot };
+
+  if (auth) {
+    onAuthStateChanged(auth, (user) => {
+      const signOutBtn = document.getElementById('signOutBtn');
+      if (signOutBtn) {
+        if (user) {
+          signOutBtn.style.display = 'block';
+          signOutBtn.onclick = () => auth.signOut();
+        } else {
+          signOutBtn.style.display = 'none';
+        }
+      }
+      
+      if (user) {
+        const unsubscribe = onSnapshot(doc(db, 'carousels', user.uid), (snapshot) => {
+          if (snapshot.exists()) {
+             if (!localStorage.getItem('carousel_state') && typeof window.applyDocumentToState === 'function') {
+                window.applyDocumentToState(snapshot.data());
+                if (typeof window.renderAll === 'function') window.renderAll();
+             }
+          }
+        });
+      }
+    });
+  }
+</script>
 <style>
   :root{
     --chrome-bg: #1b1c1a;
@@ -464,7 +515,10 @@
 <body>
 <div id="sidebar">
   <div id="sidebar-scroll">
-    <div class="brand">Carousel Maker</div>
+    <div class="brand" style="display:flex; align-items:center;">
+      Carousel Maker
+      <button id="signOutBtn" style="display:none; font-size:10px; background:none; border:1px solid var(--chrome-border); color:var(--chrome-dim); border-radius:4px; padding:3px 6px; cursor:pointer; margin-left:auto;">Sign out</button>
+    </div>
     <div class="brand-source-tabs" id="categoryTabs" style="margin: 10px 0 16px 0;">
       <button type="button" class="brand-source-tab active" data-category="carousel">Carousel</button>
       <button type="button" class="brand-source-tab" data-category="poster">Poster</button>
@@ -655,6 +709,17 @@ function makeSlideId(){
 }
 
 function normalizeClientSlide(slide){
+  let bgImageObj = null;
+  if (slide.bgImageObj instanceof HTMLImageElement) {
+    bgImageObj = slide.bgImageObj;
+  } else if (slide.bgImage) {
+    bgImageObj = new Image();
+    bgImageObj.onload = () => {
+      if (typeof renderAll === 'function') renderAll();
+    };
+    bgImageObj.src = slide.bgImage;
+  }
+
   return {
     id: slide.id || makeSlideId(),
     title: String(slide.title || 'Untitled slide'),
@@ -666,7 +731,7 @@ function normalizeClientSlide(slide){
       align: ['left', 'center'].includes(slide.layout?.align) ? slide.layout.align : 'left'
     },
     bgImage: slide.bgImage || null,
-    bgImageObj: slide.bgImageObj || null,
+    bgImageObj,
     bgSettings: slide.bgSettings || { brightness: 100, contrast: 100 }
   };
 }
@@ -1688,6 +1753,15 @@ document.getElementById('shuffleBrandBtn').onclick = () => {
   renderAll();
 };
 
+async function requireAuthToken() {
+  if (!window.firebaseAuth || !window.firebaseAuth.auth) throw new Error("Authentication not configured.");
+  if (window.firebaseAuth.auth.currentUser) {
+    return await window.firebaseAuth.auth.currentUser.getIdToken();
+  }
+  const result = await window.firebaseAuth.signInWithPopup(window.firebaseAuth.auth, window.firebaseAuth.provider);
+  return await result.user.getIdToken();
+}
+
 async function extractBrand(){
   if (!BRAND_ENDPOINT) {
     document.getElementById('brandStatus').textContent = 'Run the local server to extract a brand.';
@@ -1697,6 +1771,17 @@ async function extractBrand(){
   const status = document.getElementById('brandStatus');
   button.disabled = true;
   button.textContent = 'Extracting...';
+  
+  let token = '';
+  try {
+    token = await requireAuthToken();
+  } catch (err) {
+    status.textContent = 'Sign in with Google is required to use AI features.';
+    button.disabled = false;
+    button.textContent = 'Extract brand';
+    return;
+  }
+
   try {
     const payload = { sourceType: brandSource, currentBrand: state.brand };
     if (brandSource === 'prompt') payload.prompt = document.getElementById('brandDescription').value.trim();
@@ -1710,7 +1795,7 @@ async function extractBrand(){
 
     const response = await fetch(`${BRAND_ENDPOINT}/extract`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
       body: JSON.stringify(payload)
     });
     const result = await response.json();
@@ -1775,12 +1860,23 @@ async function generateOutline(){
   }
   button.disabled = true;
   button.textContent = 'Building outline...';
+  
+  let token = '';
+  try {
+    token = await requireAuthToken();
+  } catch (err) {
+    status.textContent = 'Sign in with Google is required to use AI features.';
+    button.disabled = false;
+    button.textContent = 'Generate editable outline';
+    return;
+  }
+
   try {
     if (AI_ENDPOINT) {
       status.textContent = 'Asking the connected AI service for a structured outline...';
       const response = await fetch(AI_ENDPOINT, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
         body: JSON.stringify({
           prompt, flow, styles: Object.keys(STYLES), formats: FORMATS, images: [], research: false,
           allowBrandUpdate: false, brandOnly: false, brand: state.brand, category: state.category
@@ -2002,7 +2098,11 @@ function stateToDocument(){
       showMargin: state.showMargin,
       brand: { ...state.brand }
     },
-    slides: state.slides.map(normalizeClientSlide)
+    slides: state.slides.map(slide => {
+      const s = normalizeClientSlide(slide);
+      delete s.bgImageObj;
+      return s;
+    })
   };
 }
 
@@ -2034,160 +2134,67 @@ function applyDocumentToState(carouselDocument){
   applyingRemoteDocument = false;
 }
 
-function scheduleDocumentSync(){
-  if (!DOCUMENT_ENDPOINT || applyingRemoteDocument || brandPreviewActive) return;
-  clearTimeout(syncTimer);
-  syncTimer = setTimeout(publishDocument, 450);
-}
+let localHistory = [];
+let localHistoryIndex = -1;
 
-async function publishDocument(){
-  if (isPublishing) {
-    pendingPublish = true;
-    return;
-  }
-  isPublishing = true;
-  pendingPublish = false;
-
-  const document = stateToDocument();
-  state.documentId = document.id;
-  const fingerprint = JSON.stringify(document);
-  if (fingerprint === lastPublishedDocument) {
-    isPublishing = false;
-    schedulePreviewPublish();
-    return;
-  }
-
-  try {
-    const response = await fetch(DOCUMENT_ENDPOINT, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        baseRevision: remoteRevision,
-        description: 'Edited in browser',
-        document
-      })
-    });
-    const result = await response.json();
-    if (response.status === 409 && result.current) {
-      // The backend revision is ahead. Since this is a single-user app, we trust the local state.
-      // We will just update our remoteRevision so the next save succeeds without a 409,
-      // and DO NOT overwrite the local state with the outdated server document.
-      remoteRevision = result.current.revision;
-      pendingPublish = true;
-      return;
-    }
-    if (!response.ok) throw new Error(result.error || 'Could not save carousel.');
-    remoteRevision = result.revision;
-    lastPublishedDocument = JSON.stringify(result.document);
-    updateHistoryButtons();
-    schedulePreviewPublish();
-  } catch (error) {
-    console.error(error);
-  } finally {
-    isPublishing = false;
-    if (pendingPublish) {
-      scheduleDocumentSync();
-    }
-  }
-}
-
-async function pullDocument(){
-  if (!DOCUMENT_ENDPOINT || isPublishing || applyingRemoteDocument) return;
-  try {
-    const response = await fetch(DOCUMENT_ENDPOINT, { cache: 'no-store' });
-    if (!response.ok) return;
-    const snapshot = await response.json();
-    if (lastPublishedDocument && snapshot.revision <= remoteRevision) return;
-    remoteRevision = snapshot.revision;
-    lastPublishedDocument = JSON.stringify(snapshot.document);
-    applyDocumentToState(snapshot.document);
-    updateHistoryButtons();
-    schedulePreviewPublish();
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-function schedulePreviewPublish(){
-  if (!DOCUMENT_ENDPOINT) return;
-  clearTimeout(previewTimer);
-  previewTimer = setTimeout(publishPreviews, 500);
-}
-
-async function publishPreviews(){
-  if (isPublishing) {
-    schedulePreviewPublish();
-    return;
-  }
+function saveLocalState() {
+  const doc = stateToDocument();
+  const serialized = JSON.stringify(doc);
   
-  const artifacts = [];
-  for (let i = 0; i < state.slides.length; i++) {
-    // Render as highly compressed WebP specifically for the backend previews to avoid Vercel 413 limit
-    artifacts.push({ slide: state.slides[i], ...renderSlideArtifact(i, 'image/webp', 0.85) });
-    await new Promise(r => setTimeout(r, 0));
-  }
+  if (localHistoryIndex >= 0 && localHistory[localHistoryIndex] === serialized) return;
   
-  const previews = artifacts.map(({ slide, dataUrl }) => ({ slideId: slide.id, dataUrl }));
-  const diagnostics = artifacts.map(({ diagnostic }) => diagnostic);
+  localHistory = localHistory.slice(0, localHistoryIndex + 1);
+  localHistory.push(serialized);
+  if (localHistory.length > 50) localHistory.shift();
+  localHistoryIndex = localHistory.length - 1;
   
-  try {
-    const response = await fetch(`${DOCUMENT_ENDPOINT}/previews`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ revision: remoteRevision, previews, diagnostics })
-    });
-    
-    if (response.status === 409) {
-      // Out of sync, pull latest
-      pullDocument();
-    }
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-async function applyHistoryAction(action){
-  if (!DOCUMENT_ENDPOINT) return;
-  const response = await fetch(`${DOCUMENT_ENDPOINT}/${action}`, { method: 'POST' });
-  if (!response.ok) return;
-  const snapshot = await response.json();
-  remoteRevision = snapshot.revision;
-  lastPublishedDocument = JSON.stringify(snapshot.document);
-  applyDocumentToState(snapshot.document);
+  localStorage.setItem('carousel_state', serialized);
   updateHistoryButtons();
-  schedulePreviewPublish();
+
+  if (window.firebaseAuth && window.firebaseAuth.auth.currentUser) {
+    const { db, doc: fbDoc, setDoc, auth } = window.firebaseAuth;
+    setDoc(fbDoc(db, 'carousels', auth.currentUser.uid), doc, { merge: true }).catch(console.error);
+  }
 }
 
-async function updateHistoryButtons(){
+function scheduleDocumentSync(){
+  if (brandPreviewActive) return;
+  clearTimeout(syncTimer);
+  syncTimer = setTimeout(saveLocalState, 450);
+}
+
+function applyHistoryAction(action) {
+  if (action === 'undo' && localHistoryIndex > 0) {
+    localHistoryIndex--;
+  } else if (action === 'redo' && localHistoryIndex < localHistory.length - 1) {
+    localHistoryIndex++;
+  } else {
+    return;
+  }
+  const serialized = localHistory[localHistoryIndex];
+  localStorage.setItem('carousel_state', serialized);
+  applyDocumentToState(JSON.parse(serialized));
+  updateHistoryButtons();
+}
+
+function updateHistoryButtons() {
   const undoButton = document.getElementById('undoBtn');
   const redoButton = document.getElementById('redoBtn');
-  if (!DOCUMENT_ENDPOINT) {
-    undoButton.disabled = true;
-    redoButton.disabled = true;
-    return;
-  }
-  try {
-    const response = await fetch(`${DOCUMENT_ENDPOINT}/versions`, { cache: 'no-store' });
-    if (!response.ok) return;
-    const { versions } = await response.json();
-    const currentIndex = versions.findIndex((version) => version.current);
-    undoButton.disabled = currentIndex <= 0;
-    redoButton.disabled = currentIndex === -1 || currentIndex >= versions.length - 1;
-  } catch (error) {
-    console.error(error);
-  }
+  undoButton.disabled = localHistoryIndex <= 0;
+  redoButton.disabled = localHistoryIndex >= localHistory.length - 1;
 }
 
 async function initializeDocumentSync(){
-  if (!DOCUMENT_ENDPOINT) {
-    renderAll();
-    updateHistoryButtons();
-    return;
+  const saved = localStorage.getItem('carousel_state');
+  if (saved) {
+    applyDocumentToState(JSON.parse(saved));
+    localHistory.push(saved);
+    localHistoryIndex = 0;
   }
-  await pullDocument();
-  if (!lastPublishedDocument) renderAll();
+  renderAll();
   updateHistoryButtons();
-  setInterval(pullDocument, 1200);
+
+  // Firebase auth state listener moved to module script to prevent race conditions.
 }
 
 document.getElementById('undoBtn').onclick = () => applyHistoryAction('undo');

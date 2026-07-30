@@ -1,3 +1,4 @@
 .env
 .carousel/
 work/
+node_modules/

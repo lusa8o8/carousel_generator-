@@ -19,6 +19,8 @@ import { extractPngPalette } from '../core/png-palette.mjs';
 import { CarouselStore } from '../core/store.mjs';
 import { BRAND_EXTRACTION_SCHEMA, BRAND_EXTRACTION_SYSTEM_PROMPT, buildBrandExtractionBrief } from './brand-contract.mjs';
 import { buildGenerationBrief, GENERATION_SYSTEM_PROMPT, OUTLINE_SCHEMA } from './prompt-contract.mjs';
+import { initializeApp, cert } from 'firebase-admin/app';
+import { getAuth } from 'firebase-admin/auth';
 
 function loadLocalEnv() {
   const envPath = fileURLToPath(new URL('../.env', import.meta.url));
@@ -47,6 +49,40 @@ function loadLocalEnv() {
 }
 
 loadLocalEnv();
+
+if (process.env.FIREBASE_PROJECT_ID) {
+  try {
+    initializeApp({
+      credential: cert({
+        projectId: process.env.FIREBASE_PROJECT_ID,
+        clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+        privateKey: (process.env.FIREBASE_PRIVATE_KEY || '').replace(/\\n/g, '\n'),
+      })
+    });
+  } catch (error) {
+    console.error('Failed to initialize Firebase Admin:', error.message);
+  }
+}
+
+async function requireAuth(req) {
+  const authHeader = req.headers.authorization || '';
+  if (!authHeader.startsWith('Bearer ')) {
+    const error = new Error('Unauthorized. Sign in to use this feature.');
+    error.code = 'UNAUTHORIZED';
+    throw error;
+  }
+  const idToken = authHeader.split('Bearer ')[1];
+  try {
+    const decodedToken = await getAuth().verifyIdToken(idToken);
+    return decodedToken;
+  } catch (err) {
+    console.error('requireAuth failed:', err);
+    import('fs').then(fs => fs.appendFileSync('.auth_error.log', err.stack + '\n'));
+    const error = new Error('Invalid or expired token. Please sign in again.');
+    error.code = 'UNAUTHORIZED';
+    throw error;
+  }
+}
 
 const portArgument = process.argv.find((argument) => argument.startsWith('--port='));
 const PORT = Number(portArgument?.split('=')[1] || process.env.PORT || 3000);
@@ -138,6 +174,7 @@ function errorStatus(error) {
   if (error.code === 'REVISION_CONFLICT') return 409;
   if (error.code === 'VERSION_NOT_FOUND') return 404;
   if (error.code === 'INVALID_OPERATION' || error.code === 'INVALID_CAROUSEL' || error.code === 'INVALID_BRAND_PROFILE' || error.code === 'INVALID_BRAND_SOURCE') return 400;
+  if (error.code === 'UNAUTHORIZED') return 401;
   if (error.code === 'BRAND_SOURCE_UNAVAILABLE') return 502;
   return 500;
 }
@@ -524,7 +561,11 @@ export async function requestHandler(req, res) {
         '</head>',
         '<script>window.CAROUSEL_API_URL = "/api/generate-carousel";window.CAROUSEL_DOCUMENT_API_URL = "/api/carousel";window.CAROUSEL_BRAND_API_URL = "/api/brand";</script></head>'
       );
-      res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
+      res.writeHead(200, { 
+        'Content-Type': 'text/html; charset=utf-8',
+        'Cross-Origin-Opener-Policy': 'same-origin-allow-popups',
+        'Cache-Control': 'no-cache, no-store, must-revalidate'
+      });
       res.end(configured);
       return;
     }
@@ -589,6 +630,7 @@ export async function requestHandler(req, res) {
       return sendJson(res, 200, carouselStore.restore(payload.versionId));
     }
     if (req.method === 'POST' && req.url === '/api/brand/extract') {
+      await requireAuth(req);
       const payload = await readJson(req);
       return sendJson(res, 200, await extractBrand(payload));
     }
@@ -635,6 +677,7 @@ export async function requestHandler(req, res) {
       });
     }
     if (req.method === 'POST' && req.url === '/api/generate-carousel') {
+      await requireAuth(req);
       if (!API_KEY) return sendJson(res, 503, { error: 'Set ANTHROPIC_API_KEY before using AI generation.' });
       const payload = await readJson(req);
       if (typeof payload.prompt !== 'string' || !payload.prompt.trim()) return sendJson(res, 400, { error: 'A prompt is required.' });
