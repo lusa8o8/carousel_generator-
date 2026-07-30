@@ -1306,11 +1306,25 @@ function createFormattingToolbar(textareaEl) {
   sizeUpBtn.title = 'Increase Size';
   sizeUpBtn.onclick = (e) => { e.preventDefault(); wrapText('^', '^'); };
 
+  const sizeUpBtn2 = document.createElement('button');
+  sizeUpBtn2.className = 'fmt-btn';
+  sizeUpBtn2.textContent = 'A++';
+  sizeUpBtn2.title = 'Increase Size (Extra)';
+  sizeUpBtn2.style.fontSize = '10px';
+  sizeUpBtn2.onclick = (e) => { e.preventDefault(); wrapText('^^', '^^'); };
+
   const sizeDownBtn = document.createElement('button');
   sizeDownBtn.className = 'fmt-btn';
   sizeDownBtn.textContent = 'A-';
   sizeDownBtn.title = 'Decrease Size';
   sizeDownBtn.onclick = (e) => { e.preventDefault(); wrapText('_', '_'); };
+
+  const sizeDownBtn2 = document.createElement('button');
+  sizeDownBtn2.className = 'fmt-btn';
+  sizeDownBtn2.textContent = 'A--';
+  sizeDownBtn2.title = 'Decrease Size (Extra)';
+  sizeDownBtn2.style.fontSize = '10px';
+  sizeDownBtn2.onclick = (e) => { e.preventDefault(); wrapText('__', '__'); };
 
   const sep2 = document.createElement('div');
   sep2.className = 'fmt-sep';
@@ -1319,7 +1333,9 @@ function createFormattingToolbar(textareaEl) {
   tb.appendChild(accentBtn);
   tb.appendChild(sep);
   tb.appendChild(sizeUpBtn);
+  tb.appendChild(sizeUpBtn2);
   tb.appendChild(sizeDownBtn);
+  tb.appendChild(sizeDownBtn2);
   tb.appendChild(sep2);
   tb.appendChild(colorWrap);
 

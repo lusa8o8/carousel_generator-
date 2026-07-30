@@ -101,14 +101,24 @@
       }
       if (text[i] === '^') {
         flush();
-        sizeToken = sizeToken === 'l' ? null : 'l';
-        i += 1;
+        if (i + 1 < text.length && text[i + 1] === '^') {
+          sizeToken = sizeToken === 'xl' ? null : 'xl';
+          i += 2;
+        } else {
+          sizeToken = sizeToken === 'l' ? null : 'l';
+          i += 1;
+        }
         continue;
       }
       if (text[i] === '_') {
         flush();
-        sizeToken = sizeToken === 's' ? null : 's';
-        i += 1;
+        if (i + 1 < text.length && text[i + 1] === '_') {
+          sizeToken = sizeToken === 'xs' ? null : 'xs';
+          i += 2;
+        } else {
+          sizeToken = sizeToken === 's' ? null : 's';
+          i += 1;
+        }
         continue;
       }
       if (text[i] === '~') {
@@ -148,8 +158,10 @@
     
     font = font.replace(/(\d+)(px)/, (_, sizeStr, unit) => {
       let size = parseInt(sizeStr, 10);
+      if (seg.size === 'xl') size = Math.round(size * 1.5);
       if (seg.size === 'l') size = Math.round(size * 1.25);
       if (seg.size === 's') size = Math.round(size * 0.8);
+      if (seg.size === 'xs') size = Math.round(size * 0.6);
       return size + unit;
     });
 
@@ -216,8 +228,10 @@
       if (bold) prefix += '**';
       if (accent) prefix += '*';
       if (colorOpen) prefix += colorOpen;
+      if (sz === 'xl') prefix += '^^';
       if (sz === 'l') prefix += '^';
       if (sz === 's') prefix += '_';
+      if (sz === 'xs') prefix += '__';
       line = prefix + line;
 
       let b = false, a = false, col = null, s = null;
@@ -240,15 +254,19 @@
           }
           continue;
         }
+        if (line[ci] === '^' && line[ci + 1] === '^') { s = s === 'xl' ? null : 'xl'; ci += 2; continue; }
         if (line[ci] === '^') { s = s === 'l' ? null : 'l'; ci++; continue; }
+        if (line[ci] === '_' && line[ci + 1] === '_') { s = s === 'xs' ? null : 'xs'; ci += 2; continue; }
         if (line[ci] === '_') { s = s === 's' ? null : 's'; ci++; continue; }
         ci++;
       }
 
       let suffix = '';
       if (col) suffix += '~';
+      if (s === 'xl') suffix += '^^';
       if (s === 'l') suffix += '^';
       if (s === 's') suffix += '_';
+      if (s === 'xs') suffix += '__';
       if (a) suffix += '*';
       if (b) suffix += '**';
       line = line + suffix;
