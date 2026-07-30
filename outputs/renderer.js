@@ -77,10 +77,11 @@
     let bold = false;
     let accent = false;
     let colorToken = null;
+    let sizeToken = null;
 
     function flush() {
       if (current) {
-        segments.push({ text: current, bold, accent, color: colorToken });
+        segments.push({ text: current, bold, accent, color: colorToken, size: sizeToken });
         current = '';
       }
     }
@@ -95,6 +96,18 @@
       if (text[i] === '*') {
         flush();
         accent = !accent;
+        i += 1;
+        continue;
+      }
+      if (text[i] === '^') {
+        flush();
+        sizeToken = sizeToken === 'l' ? null : 'l';
+        i += 1;
+        continue;
+      }
+      if (text[i] === '_') {
+        flush();
+        sizeToken = sizeToken === 's' ? null : 's';
         i += 1;
         continue;
       }
@@ -132,12 +145,22 @@
 
   function segmentFont(seg, baseFont, accentFont) {
     let font = seg.accent && accentFont ? accentFont : baseFont;
-    if (seg.bold) font = font.replace(/(\d+)(px)/, (_, size, unit) => size + unit).replace(/^(italic\s+)?(\d+)\s/, (_, it, w) => (it || '') + '700 ');
+    
+    font = font.replace(/(\d+)(px)/, (_, sizeStr, unit) => {
+      let size = parseInt(sizeStr, 10);
+      if (seg.size === 'l') size = Math.round(size * 1.25);
+      if (seg.size === 's') size = Math.round(size * 0.8);
+      return size + unit;
+    });
+
+    if (seg.bold) {
+      font = font.replace(/^(italic\s+)?(\d+)\s/, (_, it, w) => (it || '') + '700 ');
+    }
     return font;
   }
 
   function hasMarkers(txt) {
-    return txt.includes('*') || txt.includes('~');
+    return txt.includes('*') || txt.includes('~') || txt.includes('^') || txt.includes('_');
   }
 
   function measureMixed(ctx, txt, baseFont, accentFont) {
@@ -184,6 +207,7 @@
     let bold = false;
     let accent = false;
     let colorOpen = null;
+    let sz = null;
     const fixed = [];
 
     for (let li = 0; li < lines.length; li++) {
@@ -192,9 +216,11 @@
       if (bold) prefix += '**';
       if (accent) prefix += '*';
       if (colorOpen) prefix += colorOpen;
+      if (sz === 'l') prefix += '^';
+      if (sz === 's') prefix += '_';
       line = prefix + line;
 
-      let b = false, a = false, col = null;
+      let b = false, a = false, col = null, s = null;
       let ci = 0;
       while (ci < line.length) {
         if (line[ci] === '*' && line[ci + 1] === '*') { b = !b; ci += 2; continue; }
@@ -214,11 +240,15 @@
           }
           continue;
         }
+        if (line[ci] === '^') { s = s === 'l' ? null : 'l'; ci++; continue; }
+        if (line[ci] === '_') { s = s === 's' ? null : 's'; ci++; continue; }
         ci++;
       }
 
       let suffix = '';
       if (col) suffix += '~';
+      if (s === 'l') suffix += '^';
+      if (s === 's') suffix += '_';
       if (a) suffix += '*';
       if (b) suffix += '**';
       line = line + suffix;
@@ -226,6 +256,7 @@
       bold = b;
       accent = a;
       colorOpen = col;
+      sz = s;
       fixed.push(line);
     }
     return fixed;

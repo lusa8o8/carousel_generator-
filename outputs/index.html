@@ -1300,9 +1300,27 @@ function createFormattingToolbar(textareaEl) {
   const sep = document.createElement('div');
   sep.className = 'fmt-sep';
 
+  const sizeUpBtn = document.createElement('button');
+  sizeUpBtn.className = 'fmt-btn';
+  sizeUpBtn.textContent = 'A+';
+  sizeUpBtn.title = 'Increase Size';
+  sizeUpBtn.onclick = (e) => { e.preventDefault(); wrapText('^', '^'); };
+
+  const sizeDownBtn = document.createElement('button');
+  sizeDownBtn.className = 'fmt-btn';
+  sizeDownBtn.textContent = 'A-';
+  sizeDownBtn.title = 'Decrease Size';
+  sizeDownBtn.onclick = (e) => { e.preventDefault(); wrapText('_', '_'); };
+
+  const sep2 = document.createElement('div');
+  sep2.className = 'fmt-sep';
+
   tb.appendChild(boldBtn);
   tb.appendChild(accentBtn);
   tb.appendChild(sep);
+  tb.appendChild(sizeUpBtn);
+  tb.appendChild(sizeDownBtn);
+  tb.appendChild(sep2);
   tb.appendChild(colorWrap);
 
   return tb;
