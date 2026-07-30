@@ -2079,18 +2079,31 @@ function schedulePreviewPublish(){
 }
 
 async function publishPreviews(){
-  const artifacts = state.slides.map((slide, index) => ({
-    slide,
-    ...renderSlideArtifact(index)
-  }));
+  if (isPublishing) {
+    schedulePreviewPublish();
+    return;
+  }
+  
+  const artifacts = [];
+  for (let i = 0; i < state.slides.length; i++) {
+    artifacts.push({ slide: state.slides[i], ...renderSlideArtifact(i) });
+    await new Promise(r => setTimeout(r, 0));
+  }
+  
   const previews = artifacts.map(({ slide, dataUrl }) => ({ slideId: slide.id, dataUrl }));
   const diagnostics = artifacts.map(({ diagnostic }) => diagnostic);
+  
   try {
-    await fetch(`${DOCUMENT_ENDPOINT}/previews`, {
+    const response = await fetch(`${DOCUMENT_ENDPOINT}/previews`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ revision: remoteRevision, previews, diagnostics })
     });
+    
+    if (response.status === 409) {
+      // Out of sync, pull latest
+      pullDocument();
+    }
   } catch (error) {
     console.error(error);
   }

@@ -65,7 +65,7 @@
     return {
       headline: FONT_PRESETS[brand.headline] || SERIF,
       body: FONT_PRESETS[brand.body] || SANS,
-      accent: FONT_PRESETS[brand.accentFont] || null,
+      accent: FONT_PRESETS[brand.accentFont] || FONT_PRESETS.playfair_italic,
       label: MONO
     };
   }
