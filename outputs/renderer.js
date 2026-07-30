@@ -70,39 +70,165 @@
     };
   }
 
-  function measureMixed(ctx, txt, baseFont, accentFont) {
-    if (!accentFont || !txt.includes('*')) return ctx.measureText(txt).width;
-    let w = 0;
-    const parts = txt.split('*');
-    for (let j = 0; j < parts.length; j++) {
-      ctx.font = (j % 2 === 1) ? accentFont : baseFont;
-      w += ctx.measureText(parts[j]).width;
+  function parseSegments(text) {
+    const segments = [];
+    let i = 0;
+    let current = '';
+    let bold = false;
+    let accent = false;
+    let colorToken = null;
+
+    function flush() {
+      if (current) {
+        segments.push({ text: current, bold, accent, color: colorToken });
+        current = '';
+      }
     }
-    ctx.font = baseFont;
+
+    while (i < text.length) {
+      if (text[i] === '*' && text[i + 1] === '*') {
+        flush();
+        bold = !bold;
+        i += 2;
+        continue;
+      }
+      if (text[i] === '*') {
+        flush();
+        accent = !accent;
+        i += 1;
+        continue;
+      }
+      if (text[i] === '~') {
+        flush();
+        if (colorToken === null) {
+          i += 1;
+          if (i < text.length - 1 && 'pwk'.includes(text[i]) && text[i + 1] === ':') {
+            colorToken = text[i];
+            i += 2;
+          } else {
+            colorToken = 'a';
+          }
+        } else {
+          colorToken = null;
+          i += 1;
+        }
+        continue;
+      }
+      current += text[i];
+      i++;
+    }
+    flush();
+    return segments;
+  }
+
+  function resolveColor(token, palette) {
+    if (!token) return null;
+    if (token === 'a') return palette.accent;
+    if (token === 'p') return palette.paper;
+    if (token === 'w') return '#FFFFFF';
+    if (token === 'k') return '#000000';
+    return null;
+  }
+
+  function segmentFont(seg, baseFont, accentFont) {
+    let font = seg.accent && accentFont ? accentFont : baseFont;
+    if (seg.bold) font = font.replace(/(\d+)(px)/, (_, size, unit) => size + unit).replace(/^(italic\s+)?(\d+)\s/, (_, it, w) => (it || '') + '700 ');
+    return font;
+  }
+
+  function hasMarkers(txt) {
+    return txt.includes('*') || txt.includes('~');
+  }
+
+  function measureMixed(ctx, txt, baseFont, accentFont) {
+    if (!hasMarkers(txt)) return ctx.measureText(txt).width;
+    const segments = parseSegments(txt);
+    let w = 0;
+    const origFont = ctx.font;
+    for (const seg of segments) {
+      ctx.font = segmentFont(seg, baseFont, accentFont);
+      w += ctx.measureText(seg.text).width;
+    }
+    ctx.font = origFont;
     return w;
   }
 
-  function drawMixedText(ctx, txt, x, y, baseFont, accentFont, align) {
-    if (!accentFont || !txt.includes('*')) {
+  function drawMixedText(ctx, txt, x, y, baseFont, accentFont, align, palette) {
+    if (!hasMarkers(txt)) {
       ctx.font = baseFont;
       ctx.textAlign = align;
       ctx.fillText(txt, x, y);
       return;
     }
-    
+
     const totalW = measureMixed(ctx, txt, baseFont, accentFont);
     let startX = x;
     if (align === 'center') startX = x - totalW / 2;
     else if (align === 'right') startX = x - totalW;
-    
+
     ctx.textAlign = 'left';
-    const parts = txt.split('*');
-    for (let j = 0; j < parts.length; j++) {
-      ctx.font = (j % 2 === 1) ? accentFont : baseFont;
-      if (parts[j]) ctx.fillText(parts[j], startX, y);
-      startX += ctx.measureText(parts[j]).width;
+    const origColor = ctx.fillStyle;
+    const segments = parseSegments(txt);
+    for (const seg of segments) {
+      ctx.font = segmentFont(seg, baseFont, accentFont);
+      const resolved = resolveColor(seg.color, palette);
+      ctx.fillStyle = resolved || origColor;
+      if (seg.text) ctx.fillText(seg.text, startX, y);
+      startX += ctx.measureText(seg.text).width;
     }
+    ctx.fillStyle = origColor;
     ctx.font = baseFont;
+  }
+
+  function fixMarkersAcrossLines(lines) {
+    let bold = false;
+    let accent = false;
+    let colorOpen = null;
+    const fixed = [];
+
+    for (let li = 0; li < lines.length; li++) {
+      let line = lines[li];
+      let prefix = '';
+      if (bold) prefix += '**';
+      if (accent) prefix += '*';
+      if (colorOpen) prefix += colorOpen;
+      line = prefix + line;
+
+      let b = false, a = false, col = null;
+      let ci = 0;
+      while (ci < line.length) {
+        if (line[ci] === '*' && line[ci + 1] === '*') { b = !b; ci += 2; continue; }
+        if (line[ci] === '*') { a = !a; ci += 1; continue; }
+        if (line[ci] === '~') {
+          if (col === null) {
+            ci += 1;
+            if (ci < line.length - 1 && 'pwk'.includes(line[ci]) && line[ci + 1] === ':') {
+              col = '~' + line[ci] + ':';
+              ci += 2;
+            } else {
+              col = '~';
+            }
+          } else {
+            col = null;
+            ci += 1;
+          }
+          continue;
+        }
+        ci++;
+      }
+
+      let suffix = '';
+      if (col) suffix += '~';
+      if (a) suffix += '*';
+      if (b) suffix += '**';
+      line = line + suffix;
+
+      bold = b;
+      accent = a;
+      colorOpen = col;
+      fixed.push(line);
+    }
+    return fixed;
   }
 
   function wrapLines(ctx, text, maxWidth, balance = false, accentFont = null) {
@@ -159,7 +285,7 @@
     while (finalLines.length && finalLines[finalLines.length - 1] === '') {
       finalLines.pop();
     }
-    return finalLines;
+    return hasMarkers(text) ? fixMarkersAcrossLines(finalLines) : finalLines;
   }
 
   function fitText(ctx, text, family, weight, maxWidth, maxLines, startSize, minSize, balance = false, accentFamily = null) {
@@ -347,7 +473,7 @@
       ctx.textBaseline = 'alphabetic';
       const baseFontStr = `700 ${titleFit.size}px ${fonts.headline}`;
       titleFit.lines.forEach((line) => {
-        drawMixedText(ctx, line, centerX, textY, baseFontStr, titleFit.accentFontStr, 'center');
+        drawMixedText(ctx, line, centerX, textY, baseFontStr, titleFit.accentFontStr, 'center', palette);
         textY += lineHeight;
       });
       contentBottom = textY;
@@ -358,8 +484,9 @@
         ctx.fillStyle = palette.ink;
         ctx.globalAlpha = 0.8;
         let bodyY = textY + 20 * unit;
+        const bodyBaseFontStr = `400 ${bodyFit.size}px ${fonts.body}`;
         bodyFit.lines.forEach((line) => {
-          ctx.fillText(line, centerX, bodyY);
+          drawMixedText(ctx, line, centerX, bodyY, bodyBaseFontStr, null, 'center', palette);
           bodyY += bodyFit.size * 1.4;
         });
         contentBottom = bodyY;
@@ -398,7 +525,7 @@
       let textY = height / 2 - totalHeight / 2 + titleFit.size * 0.8;
       const baseFontStr = `700 ${titleFit.size}px ${fonts.headline}`;
       titleFit.lines.forEach((line) => {
-        drawMixedText(ctx, line, textX, textY, baseFontStr, titleFit.accentFontStr, textAlign);
+        drawMixedText(ctx, line, textX, textY, baseFontStr, titleFit.accentFontStr, textAlign, palette);
         textY += lineHeight;
       });
       contentBottom = textY;
@@ -410,8 +537,9 @@
         ctx.fillStyle = palette.ink;
         ctx.globalAlpha = 0.75;
         let bodyY = textY + 20 * unit;
+        const bodyBaseFontStr = `400 ${bodyFit.size}px ${fonts.body}`;
         bodyFit.lines.forEach((line) => {
-          ctx.fillText(line, textX, bodyY);
+          drawMixedText(ctx, line, textX, bodyY, bodyBaseFontStr, null, textAlign, palette);
           bodyY += bodyFit.size * 1.4;
         });
         contentBottom = bodyY;
@@ -436,7 +564,7 @@
       let textY = height / 2 - (lineHeight * titleFit.lines.length) / 2 - (slide.body ? 30 * unit : 0);
       const baseFontStr = `700 ${titleFit.size}px ${fonts.headline}`;
       titleFit.lines.forEach((line) => {
-        drawMixedText(ctx, line, textX, textY, baseFontStr, titleFit.accentFontStr, textAlign);
+        drawMixedText(ctx, line, textX, textY, baseFontStr, titleFit.accentFontStr, textAlign, palette);
         textY += lineHeight;
       });
       textY += 34 * unit;
@@ -448,8 +576,9 @@
         ctx.font = `400 ${bodyFit.size}px ${fonts.body}`;
         ctx.fillStyle = palette.ink;
         ctx.globalAlpha = 0.78;
+        const bodyBaseFontStr = `400 ${bodyFit.size}px ${fonts.body}`;
         bodyFit.lines.forEach((line) => {
-          ctx.fillText(line, textX, textY);
+          drawMixedText(ctx, line, textX, textY, bodyBaseFontStr, null, textAlign, palette);
           textY += bodyFit.size * 1.46;
         });
         contentBottom = textY;
