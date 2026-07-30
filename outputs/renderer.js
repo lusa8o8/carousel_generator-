@@ -102,7 +102,7 @@
         flush();
         if (colorToken === null) {
           i += 1;
-          if (i < text.length - 1 && 'pwk'.includes(text[i]) && text[i + 1] === ':') {
+          if (i < text.length - 1 && 'apwk'.includes(text[i]) && text[i + 1] === ':') {
             colorToken = text[i];
             i += 2;
           } else {
@@ -202,7 +202,7 @@
         if (line[ci] === '~') {
           if (col === null) {
             ci += 1;
-            if (ci < line.length - 1 && 'pwk'.includes(line[ci]) && line[ci + 1] === ':') {
+            if (ci < line.length - 1 && 'apwk'.includes(line[ci]) && line[ci + 1] === ':') {
               col = '~' + line[ci] + ':';
               ci += 2;
             } else {
@@ -479,14 +479,16 @@
       contentBottom = textY;
       
       // Draw Subheadline
-      if (bodyFit) {
+      if (slide.body) {
+        const bodyFit = fitText(ctx, slide.body, fonts.body, '400', contentWidth, 12, 30 * unit * bodyScale, 17 * unit, false, fonts.accent);
+        reportTruncation(issues, slide, 'body', bodyFit);
         ctx.font = `400 ${bodyFit.size}px ${fonts.body}`;
         ctx.fillStyle = palette.ink;
         ctx.globalAlpha = 0.8;
         let bodyY = textY + 20 * unit;
         const bodyBaseFontStr = `400 ${bodyFit.size}px ${fonts.body}`;
         bodyFit.lines.forEach((line) => {
-          drawMixedText(ctx, line, centerX, bodyY, bodyBaseFontStr, null, 'center', palette);
+          drawMixedText(ctx, line, centerX, bodyY, bodyBaseFontStr, bodyFit.accentFontStr, 'center', palette);
           bodyY += bodyFit.size * 1.4;
         });
         contentBottom = bodyY;
@@ -531,7 +533,7 @@
       contentBottom = textY;
 
       if (slide.body) {
-        const bodyFit = fitText(ctx, slide.body, fonts.body, '400', contentWidth, 12, 30 * unit * bodyScale, 17 * unit);
+        const bodyFit = fitText(ctx, slide.body, fonts.body, '400', contentWidth, 12, 30 * unit * bodyScale, 17 * unit, false, fonts.accent);
         reportTruncation(issues, slide, 'body', bodyFit);
         ctx.font = `400 ${bodyFit.size}px ${fonts.body}`;
         ctx.fillStyle = palette.ink;
@@ -539,7 +541,7 @@
         let bodyY = textY + 20 * unit;
         const bodyBaseFontStr = `400 ${bodyFit.size}px ${fonts.body}`;
         bodyFit.lines.forEach((line) => {
-          drawMixedText(ctx, line, textX, bodyY, bodyBaseFontStr, null, textAlign, palette);
+          drawMixedText(ctx, line, textX, bodyY, bodyBaseFontStr, bodyFit.accentFontStr, textAlign, palette);
           bodyY += bodyFit.size * 1.4;
         });
         contentBottom = bodyY;
@@ -571,14 +573,14 @@
       contentBottom = textY;
 
       if (slide.body) {
-        const bodyFit = fitText(ctx, slide.body, fonts.body, '400', contentWidth, 12, 30 * unit * bodyScale, 17 * unit);
+        const bodyFit = fitText(ctx, slide.body, fonts.body, '400', contentWidth, 12, 30 * unit * bodyScale, 17 * unit, false, fonts.accent);
         reportTruncation(issues, slide, 'body', bodyFit);
         ctx.font = `400 ${bodyFit.size}px ${fonts.body}`;
         ctx.fillStyle = palette.ink;
         ctx.globalAlpha = 0.78;
         const bodyBaseFontStr = `400 ${bodyFit.size}px ${fonts.body}`;
         bodyFit.lines.forEach((line) => {
-          drawMixedText(ctx, line, textX, textY, bodyBaseFontStr, null, textAlign, palette);
+          drawMixedText(ctx, line, textX, textY, bodyBaseFontStr, bodyFit.accentFontStr, textAlign, palette);
           textY += bodyFit.size * 1.46;
         });
         contentBottom = textY;
