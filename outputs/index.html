@@ -1879,14 +1879,14 @@ function slug(str){
   return String(str).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') || 'carousel';
 }
 
-function renderSlideArtifact(index){
+function renderSlideArtifact(index, mimeType = 'image/png', quality = 1.0){
   const size = getSize();
   const off = document.createElement('canvas');
   off.width = size.w;
   off.height = size.h;
   const octx = off.getContext('2d');
   const diagnostic = drawSlide(octx, state.slides[index], index, state.slides.length, getRenderSettings());
-  return { dataUrl: off.toDataURL('image/png'), diagnostic };
+  return { dataUrl: off.toDataURL(mimeType, quality), diagnostic };
 }
 
 function renderSlideDataURL(index){
@@ -2069,9 +2069,11 @@ async function publishDocument(){
     });
     const result = await response.json();
     if (response.status === 409 && result.current) {
+      // The backend revision is ahead. Since this is a single-user app, we trust the local state.
+      // We will just update our remoteRevision so the next save succeeds without a 409,
+      // and DO NOT overwrite the local state with the outdated server document.
       remoteRevision = result.current.revision;
-      lastPublishedDocument = JSON.stringify(result.current.document);
-      applyDocumentToState(result.current.document);
+      pendingPublish = true;
       return;
     }
     if (!response.ok) throw new Error(result.error || 'Could not save carousel.');
@@ -2120,7 +2122,8 @@ async function publishPreviews(){
   
   const artifacts = [];
   for (let i = 0; i < state.slides.length; i++) {
-    artifacts.push({ slide: state.slides[i], ...renderSlideArtifact(i) });
+    // Render as highly compressed WebP specifically for the backend previews to avoid Vercel 413 limit
+    artifacts.push({ slide: state.slides[i], ...renderSlideArtifact(i, 'image/webp', 0.85) });
     await new Promise(r => setTimeout(r, 0));
   }
   
