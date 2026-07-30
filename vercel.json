@@ -1,7 +1,7 @@
 {
   "functions": {
     "api/index.mjs": {
-      "includeFiles": "outputs/**"
+      "includeFiles": "{outputs/**,core/**}"
     }
   },
   "rewrites": [
