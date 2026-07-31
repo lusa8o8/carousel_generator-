@@ -1,0 +1,11 @@
+await import('../core/brand.test.mjs');
+await import('../core/core.test.mjs');
+await import('../core/entitlements.test.mjs');
+await import('../core/png-palette.test.mjs');
+await import('../evals/brand-evaluator.test.mjs');
+await import('../evals/evaluator.test.mjs');
+await import('../outputs/renderer.test.mjs');
+await import('../outputs/server.test.mjs');
+await import('./carousel-repository.test.mjs');
+await import('./cloud-ui-contract.test.mjs');
+await import('./security-config.test.mjs');
