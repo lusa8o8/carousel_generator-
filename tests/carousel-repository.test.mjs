@@ -45,3 +45,18 @@ test('repository metadata tracks active document and migrations', async () => {
   assert.equal(await repository.getMeta('activeCarouselId'), 'carousel-1');
   assert.deepEqual(await repository.getMeta('legacyMigration'), { completed: true });
 });
+
+test('repository scopes cloud caches while keeping local drafts visible', async () => {
+  const repository = new MemoryCarouselRepository();
+  await repository.save(document('local'), { scope: 'local', updatedAt: '2026-01-01T00:00:00.000Z' });
+  await repository.save(document('workspace-a'), { scope: 'workspace:a', updatedAt: '2026-02-01T00:00:00.000Z' });
+  await repository.save(document('workspace-b'), { scope: 'workspace:b', updatedAt: '2026-03-01T00:00:00.000Z' });
+  assert.deepEqual(
+    (await repository.list({ scopes: ['local', 'workspace:a'] })).map((record) => record.id),
+    ['workspace-a', 'local']
+  );
+  assert.deepEqual(
+    (await repository.list({ scopes: ['local'] })).map((record) => record.id),
+    ['local']
+  );
+});

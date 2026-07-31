@@ -27,6 +27,7 @@
       createdAt: existing?.createdAt || metadata.createdAt || timestamp,
       updatedAt: metadata.updatedAt || timestamp,
       source: metadata.source || existing?.source || 'local',
+      scope: metadata.scope || existing?.scope || 'local',
       document: clone(document)
     };
   }
@@ -94,12 +95,15 @@
       return this.databasePromise;
     }
 
-    async list() {
+    async list(options = {}) {
       const database = await this.database();
       const transaction = database.transaction(CAROUSEL_STORE, 'readonly');
       const records = await requestResult(transaction.objectStore(CAROUSEL_STORE).getAll());
       await transactionDone(transaction);
-      return records.sort((left, right) => String(right.updatedAt).localeCompare(String(left.updatedAt)));
+      const scopes = Array.isArray(options.scopes) ? new Set(options.scopes) : null;
+      return records
+        .filter((record) => !scopes || scopes.has(record.scope || 'local'))
+        .sort((left, right) => String(right.updatedAt).localeCompare(String(left.updatedAt)));
     }
 
     async get(id) {
@@ -150,8 +154,10 @@
       this.metadata = new Map();
     }
 
-    async list() {
+    async list(options = {}) {
+      const scopes = Array.isArray(options.scopes) ? new Set(options.scopes) : null;
       return [...this.records.values()]
+        .filter((record) => !scopes || scopes.has(record.scope || 'local'))
         .map(clone)
         .sort((left, right) => String(right.updatedAt).localeCompare(String(left.updatedAt)));
     }
