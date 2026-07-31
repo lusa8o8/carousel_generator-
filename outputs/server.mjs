@@ -104,6 +104,8 @@ async function requireAuth(req) {
 const portArgument = process.argv.find((argument) => argument.startsWith('--port='));
 const PORT = Number(portArgument?.split('=')[1] || process.env.PORT || 3000);
 const ALLOW_PRIVATE_URLS = process.argv.includes('--allow-private-urls') || process.env.CAROUSEL_ALLOW_PRIVATE_URLS === '1';
+const ENABLE_SHARED_DOCUMENT_API = process.env.CAROUSEL_ENABLE_SHARED_DOCUMENT_API === '1'
+  || (!process.env.VERCEL && process.env.NODE_ENV !== 'production');
 const API_KEY = process.env.ANTHROPIC_API_KEY;
 const indexPath = fileURLToPath(new URL('./index.html', import.meta.url));
 const rendererPath = fileURLToPath(new URL('./renderer.js', import.meta.url));
@@ -169,6 +171,12 @@ function runtimeConfigurationScript() {
     `window.FIREBASE_CONFIG=${config};`,
     '</script>'
   ].join('');
+}
+
+function isSharedDocumentRoute(url) {
+  return url === '/api/carousel'
+    || url.startsWith('/api/carousel/')
+    || url === '/api/brand/apply';
 }
 
 function carouselSnapshot() {
@@ -625,6 +633,9 @@ export async function requestHandler(req, res) {
       });
       res.end(renderer);
       return;
+    }
+    if (!ENABLE_SHARED_DOCUMENT_API && isSharedDocumentRoute(req.url)) {
+      return sendJson(res, 404, { error: 'Not found.' });
     }
     if (req.method === 'GET' && req.url === '/api/carousel') {
       return sendJson(res, 200, carouselSnapshot());

@@ -1,0 +1,99 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function workspacePath(workspaceId) {
+      return /databases/$(database)/documents/workspaces/$(workspaceId);
+    }
+
+    function memberPath(workspaceId, userId) {
+      return /databases/$(database)/documents/workspaces/$(workspaceId)/members/$(userId);
+    }
+
+    function isWorkspaceOwner(workspaceId) {
+      return signedIn()
+        && exists(workspacePath(workspaceId))
+        && get(workspacePath(workspaceId)).data.ownerUid == request.auth.uid;
+    }
+
+    function isWorkspaceMember(workspaceId) {
+      return signedIn()
+        && (isWorkspaceOwner(workspaceId) || exists(memberPath(workspaceId, request.auth.uid)));
+    }
+
+    match /users/{userId} {
+      allow create: if signedIn()
+        && request.auth.uid == userId
+        && request.resource.data.uid == userId;
+      allow read, delete: if signedIn() && request.auth.uid == userId;
+      allow update: if signedIn()
+        && request.auth.uid == userId
+        && request.resource.data.uid == resource.data.uid;
+    }
+
+    match /workspaces/{workspaceId} {
+      allow create: if signedIn()
+        && request.resource.data.ownerUid == request.auth.uid
+        && request.resource.data.kind == 'personal';
+      allow read: if isWorkspaceMember(workspaceId);
+      allow update: if isWorkspaceOwner(workspaceId)
+        && request.resource.data.ownerUid == resource.data.ownerUid
+        && request.resource.data.kind == resource.data.kind;
+      allow delete: if false;
+
+      match /members/{userId} {
+        allow read: if isWorkspaceMember(workspaceId);
+        allow create: if isWorkspaceOwner(workspaceId)
+          && userId == request.auth.uid
+          && request.resource.data.uid == request.auth.uid
+          && request.resource.data.role == 'owner';
+        allow update, delete: if isWorkspaceOwner(workspaceId)
+          && request.resource.data.uid == resource.data.uid;
+      }
+
+      match /carousels/{carouselId} {
+        allow read, delete: if isWorkspaceMember(workspaceId);
+        allow create: if isWorkspaceMember(workspaceId)
+          && request.resource.data.workspaceId == workspaceId
+          && request.resource.data.createdBy == request.auth.uid;
+        allow update: if isWorkspaceMember(workspaceId)
+          && request.resource.data.workspaceId == resource.data.workspaceId
+          && request.resource.data.createdBy == resource.data.createdBy;
+      }
+
+      match /entitlements/{entitlementId} {
+        allow read: if isWorkspaceMember(workspaceId);
+        allow write: if false;
+      }
+
+      match /usage/{periodId} {
+        allow read: if isWorkspaceMember(workspaceId);
+        allow write: if false;
+      }
+
+      match /subscriptions/{subscriptionId} {
+        allow read: if isWorkspaceMember(workspaceId);
+        allow write: if false;
+      }
+    }
+
+    // One-release migration path for the former carousels/{uid} document.
+    // New writes are forbidden; owners may read or remove only their own document.
+    match /carousels/{userId} {
+      allow read, delete: if signedIn() && request.auth.uid == userId;
+      allow create, update: if false;
+    }
+
+    match /paymentEvents/{eventId} {
+      allow read, write: if false;
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

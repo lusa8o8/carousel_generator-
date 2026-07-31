@@ -5,7 +5,7 @@ process.env.VERCEL = '1';
 
 const { requestHandler } = await import('./server.mjs');
 
-function request(path) {
+function request(path, method = 'GET') {
   const headers = new Map();
   const response = {
     status: null,
@@ -18,7 +18,7 @@ function request(path) {
       this.body += value;
     }
   };
-  return requestHandler({ method: 'GET', url: path, headers: {} }, response).then(() => ({ response, headers }));
+  return requestHandler({ method, url: path, headers: {} }, response).then(() => ({ response, headers }));
 }
 
 test('serves the editor without eagerly initializing Firebase Admin', async () => {
@@ -33,5 +33,16 @@ test('answers favicon requests without invoking the application', async () => {
     const { response } = await request(path);
     assert.equal(response.status, 204);
     assert.equal(response.body, '');
+  }
+});
+
+test('does not expose the process-global carousel API on Vercel', async () => {
+  for (const [path, method] of [
+    ['/api/carousel', 'GET'],
+    ['/api/carousel/operations', 'POST'],
+    ['/api/brand/apply', 'POST']
+  ]) {
+    const { response } = await request(path, method);
+    assert.equal(response.status, 404);
   }
 });
