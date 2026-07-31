@@ -10,7 +10,7 @@
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js";
   import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-auth.js";
-  import { getFirestore, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-firestore.js";
+  import { getFirestore } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-firestore.js";
 
   const firebaseConfig = window.FIREBASE_CONFIG;
 
@@ -28,7 +28,7 @@
     console.warn("Firebase web configuration is unavailable. AI sign-in and cloud sync are disabled.");
   }
 
-  window.firebaseAuth = { auth, provider, signInWithPopup, onAuthStateChanged, db, doc, setDoc, onSnapshot };
+  window.firebaseAuth = { auth, provider, signInWithPopup, onAuthStateChanged, db };
 
   if (auth) {
     onAuthStateChanged(auth, (user) => {
@@ -40,17 +40,6 @@
         } else {
           signOutBtn.style.display = 'none';
         }
-      }
-      
-      if (user) {
-        const unsubscribe = onSnapshot(doc(db, 'carousels', user.uid), (snapshot) => {
-          if (snapshot.exists()) {
-             if (!localStorage.getItem('carousel_state') && typeof window.applyDocumentToState === 'function') {
-                window.applyDocumentToState(snapshot.data());
-                if (typeof window.renderAll === 'function') window.renderAll();
-             }
-          }
-        });
       }
     });
   }
@@ -112,6 +101,10 @@
     margin-bottom:6px;
   }
   .field{margin-bottom:16px;}
+  .library-select{width:100%;margin-bottom:7px;}
+  .library-actions{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:7px;}
+  .library-actions .btn{padding:7px 5px;font-size:10px;}
+  .save-status{min-height:15px;margin-top:6px;color:var(--chrome-dim);font:10px ui-monospace,monospace;}
   input[type=text], textarea{
     width:100%;
     background:#171815;
@@ -520,6 +513,17 @@
       <button type="button" class="brand-source-tab active" data-category="carousel">Carousel</button>
       <button type="button" class="brand-source-tab" data-category="poster">Poster</button>
     </div>
+    <div class="field" id="carouselLibraryField">
+      <label class="field-label" for="carouselLibrary">My carousels</label>
+      <select id="carouselLibrary" class="flow-select library-select" aria-label="Open a carousel"></select>
+      <input id="carouselName" type="text" value="Untitled carousel" aria-label="Carousel name">
+      <div class="library-actions">
+        <button type="button" class="btn" id="newCarouselBtn">New</button>
+        <button type="button" class="btn" id="duplicateCarouselBtn">Duplicate</button>
+        <button type="button" class="btn" id="deleteCarouselBtn">Delete</button>
+      </div>
+      <div class="save-status" id="saveStatus">Opening local library...</div>
+    </div>
     <h1>Index</h1>
     <div class="field">
       <label class="field-label">Create from a prompt</label>
@@ -679,6 +683,7 @@
   </div>
 </div>
 <script src="./renderer.js?v=3"></script>
+<script src="./carousel-repository.js?v=1"></script>
 <script>
 const { FORMATS, PALETTES, getSize: getRendererSize, drawSlide } = window.CarouselRenderer;
 
@@ -734,6 +739,8 @@ function normalizeClientSlide(slide){
 }
 
 let state = {
+  documentId: null,
+  documentTitle: 'Untitled carousel',
   category: 'carousel',
   seriesTag: 'FOCUS NOTES',
   handle: '@yourhandle',
@@ -2080,12 +2087,23 @@ let applyingRemoteDocument = false;
 let lastPublishedDocument = '';
 let isPublishing = false;
 let pendingPublish = false;
+let localRepository = null;
+let activeCarouselId = null;
+let documentPersistenceReady = false;
+let localPersistenceQueue = Promise.resolve();
+let localRepositoryDurable = true;
+
+function makeCarouselId(){
+  return `carousel-${crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random().toString(16).slice(2)}`}`;
+}
 
 function stateToDocument(){
+  if (!state.documentId) state.documentId = makeCarouselId();
   return {
     version: 1,
-    id: state.documentId || `carousel-${crypto.randomUUID ? crypto.randomUUID() : Date.now()}`,
-    title: state.slides[0]?.title || 'Untitled carousel',
+    id: state.documentId,
+    title: state.documentTitle || state.slides[0]?.title || 'Untitled carousel',
+    category: state.category,
     seriesTag: state.seriesTag,
     handle: state.handle,
     format: state.format,
@@ -2107,16 +2125,29 @@ function applyDocumentToState(carouselDocument){
   applyingRemoteDocument = true;
   brandPreviewActive = false;
   state.documentId = carouselDocument.id;
-  state.seriesTag = carouselDocument.seriesTag;
-  state.handle = carouselDocument.handle;
-  state.format = carouselDocument.format;
-  state.palette = carouselDocument.theme.palette;
+  state.documentTitle = carouselDocument.title || carouselDocument.slides?.[0]?.title || 'Untitled carousel';
+  state.category = carouselDocument.category || 'carousel';
+  state.seriesTag = carouselDocument.seriesTag || 'FOCUS NOTES';
+  state.handle = carouselDocument.handle || '@yourhandle';
+  state.format = carouselDocument.format || 'ig_square';
+  state.palette = carouselDocument.theme?.palette || 'oat';
   state.style = 'editorial';
-  state.showMargin = carouselDocument.theme.showMargin;
-  state.brand = { ...carouselDocument.theme.brand };
-  state.slides = carouselDocument.slides.map(normalizeClientSlide);
+  state.showMargin = carouselDocument.theme?.showMargin !== false;
+  state.brand = {
+    enabled: false,
+    paper: '#EFE9DA',
+    ink: '#212B21',
+    accent: '#C08A28',
+    headline: 'editorial',
+    body: 'clean',
+    accentFont: 'none',
+    ...(carouselDocument.theme?.brand || {})
+  };
+  state.slides = (carouselDocument.slides || []).map(normalizeClientSlide);
+  if (!state.slides.length) state.slides = [normalizeClientSlide({ title: 'Untitled carousel', isCover: true })];
   state.current = Math.max(0, Math.min(state.current, state.slides.length - 1));
 
+  document.getElementById('carouselName').value = state.documentTitle;
   document.getElementById('seriesTag').value = state.seriesTag;
   document.getElementById('handle').value = state.handle;
   document.getElementById('brandEnabled').checked = state.brand.enabled;
@@ -2134,28 +2165,71 @@ function applyDocumentToState(carouselDocument){
 let localHistory = [];
 let localHistoryIndex = -1;
 
-function saveLocalState() {
+function setSaveStatus(message) {
+  document.getElementById('saveStatus').textContent = message;
+}
+
+function resetLocalHistory(carouselDocument) {
+  const serialized = JSON.stringify(carouselDocument);
+  localHistory = [serialized];
+  localHistoryIndex = 0;
+  updateHistoryButtons();
+}
+
+async function renderCarouselLibrary() {
+  if (!localRepository) return;
+  const records = await localRepository.list();
+  const select = document.getElementById('carouselLibrary');
+  select.innerHTML = '';
+  records.forEach((record) => {
+    const option = document.createElement('option');
+    option.value = record.id;
+    option.textContent = record.name;
+    option.selected = record.id === activeCarouselId;
+    select.appendChild(option);
+  });
+  document.getElementById('deleteCarouselBtn').disabled = records.length === 0;
+  document.getElementById('duplicateCarouselBtn').disabled = !activeCarouselId;
+}
+
+function queueLocalDocumentSave(carouselDocument) {
+  if (!localRepository) return;
+  const documentCopy = JSON.parse(JSON.stringify(carouselDocument));
+  setSaveStatus('Saving locally...');
+  localPersistenceQueue = localPersistenceQueue
+    .then(async () => {
+      await localRepository.save(documentCopy, { name: documentCopy.title });
+      await localRepository.setMeta('activeCarouselId', documentCopy.id);
+      activeCarouselId = documentCopy.id;
+      await renderCarouselLibrary();
+      setSaveStatus(localRepositoryDurable ? 'Saved locally' : 'Saved in this tab');
+    })
+    .catch((error) => {
+      console.error('Local save failed:', error);
+      setSaveStatus('Local save failed');
+    });
+}
+
+function saveLocalState(options = {}) {
+  if (!documentPersistenceReady || applyingRemoteDocument) return;
   const doc = stateToDocument();
   const serialized = JSON.stringify(doc);
   
-  if (localHistoryIndex >= 0 && localHistory[localHistoryIndex] === serialized) return;
+  const changed = localHistoryIndex < 0 || localHistory[localHistoryIndex] !== serialized;
+  if (!changed && !options.force) return;
   
-  localHistory = localHistory.slice(0, localHistoryIndex + 1);
-  localHistory.push(serialized);
-  if (localHistory.length > 50) localHistory.shift();
-  localHistoryIndex = localHistory.length - 1;
-  
-  localStorage.setItem('carousel_state', serialized);
-  updateHistoryButtons();
-
-  if (window.firebaseAuth && window.firebaseAuth.auth.currentUser) {
-    const { db, doc: fbDoc, setDoc, auth } = window.firebaseAuth;
-    setDoc(fbDoc(db, 'carousels', auth.currentUser.uid), doc, { merge: true }).catch(console.error);
+  if (changed && options.recordHistory !== false) {
+    localHistory = localHistory.slice(0, localHistoryIndex + 1);
+    localHistory.push(serialized);
+    if (localHistory.length > 50) localHistory.shift();
+    localHistoryIndex = localHistory.length - 1;
   }
+  updateHistoryButtons();
+  queueLocalDocumentSave(doc);
 }
 
 function scheduleDocumentSync(){
-  if (brandPreviewActive) return;
+  if (brandPreviewActive || applyingRemoteDocument || !documentPersistenceReady) return;
   clearTimeout(syncTimer);
   syncTimer = setTimeout(saveLocalState, 450);
 }
@@ -2169,8 +2243,8 @@ function applyHistoryAction(action) {
     return;
   }
   const serialized = localHistory[localHistoryIndex];
-  localStorage.setItem('carousel_state', serialized);
   applyDocumentToState(JSON.parse(serialized));
+  saveLocalState({ force: true, recordHistory: false });
   updateHistoryButtons();
 }
 
@@ -2181,19 +2255,136 @@ function updateHistoryButtons() {
   redoButton.disabled = localHistoryIndex >= localHistory.length - 1;
 }
 
-async function initializeDocumentSync(){
+async function migrateLegacyCarousel() {
+  const migration = await localRepository.getMeta('legacyLocalStorageMigrationV1');
+  if (migration?.completed) return migration.carouselId || null;
   const saved = localStorage.getItem('carousel_state');
+  let carouselId = null;
   if (saved) {
-    applyDocumentToState(JSON.parse(saved));
-    localHistory.push(saved);
-    localHistoryIndex = 0;
+    try {
+      const carouselDocument = JSON.parse(saved);
+      if (!carouselDocument.id) carouselDocument.id = makeCarouselId();
+      if (!carouselDocument.title) carouselDocument.title = carouselDocument.slides?.[0]?.title || 'Imported carousel';
+      await localRepository.save(carouselDocument, {
+        name: carouselDocument.title,
+        source: 'legacy-localStorage'
+      });
+      carouselId = carouselDocument.id;
+      if (localRepositoryDurable) localStorage.removeItem('carousel_state');
+    } catch (error) {
+      console.warn('Could not migrate legacy carousel_state.', error);
+    }
   }
-  renderAll();
-  updateHistoryButtons();
-
-  // Firebase auth state listener moved to module script to prevent race conditions.
+  await localRepository.setMeta('legacyLocalStorageMigrationV1', {
+    completed: true,
+    carouselId,
+    completedAt: new Date().toISOString()
+  });
+  return carouselId;
 }
 
+function createNewCarouselDocument(name = 'Untitled carousel') {
+  const slide = normalizeClientSlide({ title: name, body: '', isCover: true });
+  delete slide.bgImageObj;
+  return {
+    version: 1,
+    id: makeCarouselId(),
+    title: name,
+    category: 'carousel',
+    seriesTag: 'FOCUS NOTES',
+    handle: '@yourhandle',
+    format: 'ig_square',
+    theme: {
+      palette: 'oat',
+      style: 'editorial',
+      showMargin: true,
+      brand: { enabled:false, paper:'#EFE9DA', ink:'#212B21', accent:'#C08A28', headline:'editorial', body:'clean', accentFont:'none' }
+    },
+    slides: [slide]
+  };
+}
+
+async function openLocalCarousel(id, options = {}) {
+  if (!id || !localRepository) return;
+  if (documentPersistenceReady && !options.skipCurrentSave) {
+    saveLocalState({ force: true });
+    await localPersistenceQueue;
+  }
+  const record = await localRepository.get(id);
+  if (!record) return;
+  documentPersistenceReady = false;
+  activeCarouselId = record.id;
+  await localRepository.setMeta('activeCarouselId', record.id);
+  resetLocalHistory(record.document);
+  applyDocumentToState(record.document);
+  documentPersistenceReady = true;
+  await renderCarouselLibrary();
+  setSaveStatus(localRepositoryDurable ? 'Saved locally' : 'Saved in this tab');
+}
+
+async function createLocalCarousel(name = 'Untitled carousel') {
+  if (documentPersistenceReady) {
+    saveLocalState({ force: true });
+    await localPersistenceQueue;
+  }
+  const carouselDocument = createNewCarouselDocument(name);
+  await localRepository.save(carouselDocument, { name });
+  await openLocalCarousel(carouselDocument.id, { skipCurrentSave: true });
+}
+
+async function initializeDocumentSync(){
+  const { IndexedDbCarouselRepository, MemoryCarouselRepository } = window.CarouselPersistence;
+  try {
+    localRepository = new IndexedDbCarouselRepository();
+    await localRepository.database();
+  } catch (error) {
+    console.warn('IndexedDB is unavailable; drafts will last only for this tab.', error);
+    localRepository = new MemoryCarouselRepository();
+    localRepositoryDurable = false;
+    setSaveStatus('Temporary local session');
+  }
+
+  const migratedId = await migrateLegacyCarousel();
+  const preferredId = migratedId || await localRepository.getMeta('activeCarouselId');
+  const records = await localRepository.list();
+  const initialId = records.some((record) => record.id === preferredId) ? preferredId : records[0]?.id;
+  if (initialId) {
+    await openLocalCarousel(initialId, { skipCurrentSave: true });
+  } else {
+    await createLocalCarousel();
+  }
+}
+
+document.getElementById('carouselLibrary').onchange = (event) => openLocalCarousel(event.target.value);
+document.getElementById('carouselName').oninput = (event) => {
+  state.documentTitle = event.target.value.trim() || 'Untitled carousel';
+  scheduleDocumentSync();
+};
+document.getElementById('newCarouselBtn').onclick = () => createLocalCarousel();
+document.getElementById('duplicateCarouselBtn').onclick = async () => {
+  if (!activeCarouselId) return;
+  saveLocalState({ force: true });
+  await localPersistenceQueue;
+  const source = await localRepository.get(activeCarouselId);
+  if (!source) return;
+  const id = makeCarouselId();
+  const name = `${source.name} copy`;
+  const duplicate = window.CarouselPersistence.duplicateCarouselRecord(source, id, name);
+  await localRepository.save(duplicate.document, { name, source: 'duplicate' });
+  await openLocalCarousel(id, { skipCurrentSave: true });
+};
+document.getElementById('deleteCarouselBtn').onclick = async () => {
+  if (!activeCarouselId || !confirm('Delete this local carousel? This cannot be undone.')) return;
+  const deletingId = activeCarouselId;
+  documentPersistenceReady = false;
+  await localRepository.remove(deletingId);
+  const remaining = await localRepository.list();
+  if (remaining.length) {
+    await openLocalCarousel(remaining[0].id, { skipCurrentSave: true });
+  } else {
+    await createLocalCarousel();
+  }
+};
 document.getElementById('undoBtn').onclick = () => applyHistoryAction('undo');
 document.getElementById('redoBtn').onclick = () => applyHistoryAction('redo');
 document.addEventListener('keydown', (event) => {
