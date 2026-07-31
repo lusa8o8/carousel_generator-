@@ -109,6 +109,7 @@ const ENABLE_SHARED_DOCUMENT_API = process.env.CAROUSEL_ENABLE_SHARED_DOCUMENT_A
 const API_KEY = process.env.ANTHROPIC_API_KEY;
 const indexPath = fileURLToPath(new URL('./index.html', import.meta.url));
 const rendererPath = fileURLToPath(new URL('./renderer.js', import.meta.url));
+const carouselRepositoryPath = fileURLToPath(new URL('./carousel-repository.js', import.meta.url));
 const dataDirectory = fileURLToPath(new URL('../.carousel/', import.meta.url));
 const documentPath = fileURLToPath(new URL('../.carousel/current.json', import.meta.url));
 const brandCachePath = fileURLToPath(new URL('../.carousel/brand-cache.json', import.meta.url));
@@ -632,6 +633,15 @@ export async function requestHandler(req, res) {
         'Cache-Control': 'no-cache, no-store, must-revalidate'
       });
       res.end(renderer);
+      return;
+    }
+    if (req.method === 'GET' && req.url.startsWith('/carousel-repository.js')) {
+      const repository = await readFile(carouselRepositoryPath, 'utf8');
+      res.writeHead(200, {
+        'Content-Type': 'text/javascript; charset=utf-8',
+        'Cache-Control': 'no-cache, no-store, must-revalidate'
+      });
+      res.end(repository);
       return;
     }
     if (!ENABLE_SHARED_DOCUMENT_API && isSharedDocumentRoute(req.url)) {
