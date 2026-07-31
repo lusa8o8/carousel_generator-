@@ -12,23 +12,20 @@
   import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-auth.js";
   import { getFirestore, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-firestore.js";
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyCd-wJ2Adx2OX2tV2tLwWB5O93KrWv2_Y8",
-    authDomain: "carousel-generator-d9f49.firebaseapp.com",
-    projectId: "carousel-generator-d9f49",
-    storageBucket: "carousel-generator-d9f49.firebasestorage.app",
-    messagingSenderId: "104399265251",
-    appId: "1:104399265251:web:4de54991e4d474485a54d6"
-  };
+  const firebaseConfig = window.FIREBASE_CONFIG;
 
   let app, auth, db, provider;
-  try {
-    app = initializeApp(firebaseConfig);
-    auth = getAuth(app);
-    db = getFirestore(app);
-    provider = new GoogleAuthProvider();
-  } catch(e) {
-    console.warn("Firebase not configured. Replace placeholders in firebaseConfig.");
+  if (firebaseConfig?.apiKey && firebaseConfig?.authDomain && firebaseConfig?.projectId && firebaseConfig?.appId) {
+    try {
+      app = initializeApp(firebaseConfig);
+      auth = getAuth(app);
+      db = getFirestore(app);
+      provider = new GoogleAuthProvider();
+    } catch(e) {
+      console.warn("Firebase initialization failed.", e);
+    }
+  } else {
+    console.warn("Firebase web configuration is unavailable. AI sign-in and cloud sync are disabled.");
   }
 
   window.firebaseAuth = { auth, provider, signInWithPopup, onAuthStateChanged, db, doc, setDoc, onSnapshot };

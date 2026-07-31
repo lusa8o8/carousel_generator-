@@ -25,6 +25,16 @@ Then open `http://localhost:3000`. The app will call the local `/api/generate-ca
 
 The server uses Claude structured outputs so the app receives only `title`, `seriesTag`, brand settings, and slide data. It never renders model-generated HTML.
 
+## Firebase setup
+
+Google sign-in and Firestore sync require two separate Firebase configurations. Copy `.env.example` to `.env` for local development, or add the same variables to the Vercel project settings.
+
+- `FIREBASE_PROJECT_ID`, `FIREBASE_CLIENT_EMAIL`, and `FIREBASE_PRIVATE_KEY` are privileged Firebase Admin credentials. They remain server-only and must never be committed or exposed to the browser.
+- Variables beginning with `FIREBASE_WEB_` describe the Firebase web app. The server injects them into the delivered HTML at runtime, so concrete values do not live in tracked source.
+- A Firebase web API key is visible to browsers by design. Restrict it in Google Cloud to the required Firebase APIs and the exact production and local website origins.
+
+After changing Firebase dependency or configuration values, redeploy without the Vercel build cache. The project pins Firebase Admin and commits a lockfile so production installs use the tested dependency graph.
+
 ## Brand extraction
 
 Branding is separate from copy generation. Choose **Describe**, **Image**, or **Website**, extract a candidate, preview it without saving, and select **Apply** only when it is correct. Applying a brand changes only paper, ink, accent, and the supported headline/body presets; slide copy is preserved.

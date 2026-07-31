@@ -19,8 +19,6 @@ import { extractPngPalette } from '../core/png-palette.mjs';
 import { CarouselStore } from '../core/store.mjs';
 import { BRAND_EXTRACTION_SCHEMA, BRAND_EXTRACTION_SYSTEM_PROMPT, buildBrandExtractionBrief } from './brand-contract.mjs';
 import { buildGenerationBrief, GENERATION_SYSTEM_PROMPT, OUTLINE_SCHEMA } from './prompt-contract.mjs';
-import { initializeApp, cert } from 'firebase-admin/app';
-import { getAuth } from 'firebase-admin/auth';
 
 function loadLocalEnv() {
   const envPath = fileURLToPath(new URL('../.env', import.meta.url));
@@ -50,18 +48,37 @@ function loadLocalEnv() {
 
 loadLocalEnv();
 
-if (process.env.FIREBASE_PROJECT_ID) {
-  try {
-    initializeApp({
-      credential: cert({
-        projectId: process.env.FIREBASE_PROJECT_ID,
-        clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
-        privateKey: (process.env.FIREBASE_PRIVATE_KEY || '').replace(/\\n/g, '\n'),
-      })
-    });
-  } catch (error) {
-    console.error('Failed to initialize Firebase Admin:', error.message);
+let firebaseAuthPromise;
+
+function firebaseAdminCredentials() {
+  const projectId = process.env.FIREBASE_PROJECT_ID;
+  const clientEmail = process.env.FIREBASE_CLIENT_EMAIL;
+  const privateKey = (process.env.FIREBASE_PRIVATE_KEY || '').replace(/\\n/g, '\n');
+  if (!projectId || !clientEmail || !privateKey) {
+    const error = new Error('Firebase Admin credentials are not configured.');
+    error.code = 'SERVICE_UNAVAILABLE';
+    throw error;
   }
+  return { projectId, clientEmail, privateKey };
+}
+
+async function firebaseAuth() {
+  if (!firebaseAuthPromise) {
+    firebaseAuthPromise = (async () => {
+      const credentials = firebaseAdminCredentials();
+      const [{ cert, getApps, initializeApp }, { getAuth }] = await Promise.all([
+        import('firebase-admin/app'),
+        import('firebase-admin/auth')
+      ]);
+      const app = getApps()[0] || initializeApp({ credential: cert(credentials) });
+      return getAuth(app);
+    })().catch((error) => {
+      firebaseAuthPromise = undefined;
+      if (!error.code) error.code = 'SERVICE_UNAVAILABLE';
+      throw error;
+    });
+  }
+  return firebaseAuthPromise;
 }
 
 async function requireAuth(req) {
@@ -72,12 +89,12 @@ async function requireAuth(req) {
     throw error;
   }
   const idToken = authHeader.split('Bearer ')[1];
+  const auth = await firebaseAuth();
   try {
-    const decodedToken = await getAuth().verifyIdToken(idToken);
+    const decodedToken = await auth.verifyIdToken(idToken);
     return decodedToken;
   } catch (err) {
     console.error('requireAuth failed:', err);
-    import('fs').then(fs => fs.appendFileSync('.auth_error.log', err.stack + '\n'));
     const error = new Error('Invalid or expired token. Please sign in again.');
     error.code = 'UNAUTHORIZED';
     throw error;
@@ -129,6 +146,31 @@ const carouselStore = new CarouselStore(await loadSavedCarousel(), {
 });
 const brandCache = await loadBrandCache();
 
+function publicFirebaseConfig() {
+  const config = {
+    apiKey: process.env.FIREBASE_WEB_API_KEY,
+    authDomain: process.env.FIREBASE_WEB_AUTH_DOMAIN,
+    projectId: process.env.FIREBASE_WEB_PROJECT_ID,
+    storageBucket: process.env.FIREBASE_WEB_STORAGE_BUCKET,
+    messagingSenderId: process.env.FIREBASE_WEB_MESSAGING_SENDER_ID,
+    appId: process.env.FIREBASE_WEB_APP_ID
+  };
+  const required = ['apiKey', 'authDomain', 'projectId', 'appId'];
+  return required.every((key) => config[key]) ? config : null;
+}
+
+function runtimeConfigurationScript() {
+  const config = JSON.stringify(publicFirebaseConfig()).replaceAll('<', '\\u003c');
+  return [
+    '<script>',
+    'window.CAROUSEL_API_URL="/api/generate-carousel";',
+    'window.CAROUSEL_DOCUMENT_API_URL="/api/carousel";',
+    'window.CAROUSEL_BRAND_API_URL="/api/brand";',
+    `window.FIREBASE_CONFIG=${config};`,
+    '</script>'
+  ].join('');
+}
+
 function carouselSnapshot() {
   const snapshot = carouselStore.snapshot();
   return {
@@ -176,6 +218,7 @@ function errorStatus(error) {
   if (error.code === 'INVALID_OPERATION' || error.code === 'INVALID_CAROUSEL' || error.code === 'INVALID_BRAND_PROFILE' || error.code === 'INVALID_BRAND_SOURCE') return 400;
   if (error.code === 'UNAUTHORIZED') return 401;
   if (error.code === 'BRAND_SOURCE_UNAVAILABLE') return 502;
+  if (error.code === 'SERVICE_UNAVAILABLE') return 503;
   return 500;
 }
 
@@ -555,11 +598,16 @@ async function callClaude(payload, research) {
 
 export async function requestHandler(req, res) {
   try {
+    if (req.method === 'GET' && (req.url === '/favicon.ico' || req.url === '/favicon.png')) {
+      res.writeHead(204, { 'Cache-Control': 'public, max-age=86400' });
+      res.end();
+      return;
+    }
     if (req.method === 'GET' && (req.url === '/' || req.url === '/index.html')) {
       const html = await readFile(indexPath, 'utf8');
       const configured = html.replace(
         '</head>',
-        '<script>window.CAROUSEL_API_URL = "/api/generate-carousel";window.CAROUSEL_DOCUMENT_API_URL = "/api/carousel";window.CAROUSEL_BRAND_API_URL = "/api/brand";</script></head>'
+        `${runtimeConfigurationScript()}</head>`
       );
       res.writeHead(200, { 
         'Content-Type': 'text/html; charset=utf-8',
