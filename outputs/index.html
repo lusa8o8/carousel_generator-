@@ -41,6 +41,7 @@
           signOutBtn.style.display = 'none';
         }
       }
+      window.dispatchEvent(new CustomEvent('carousel-auth-changed', { detail: { user } }));
     });
   }
 </script>
@@ -105,6 +106,7 @@
   .library-actions{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:7px;}
   .library-actions .btn{padding:7px 5px;font-size:10px;}
   .save-status{min-height:15px;margin-top:6px;color:var(--chrome-dim);font:10px ui-monospace,monospace;}
+  .account-status{margin-top:3px;color:var(--chrome-accent);font:10px ui-monospace,monospace;line-height:1.4;}
   input[type=text], textarea{
     width:100%;
     background:#171815;
@@ -523,6 +525,7 @@
         <button type="button" class="btn" id="deleteCarouselBtn">Delete</button>
       </div>
       <div class="save-status" id="saveStatus">Opening local library...</div>
+      <div class="account-status" id="accountStatus">Local only - Sign in through an AI feature to enable cloud sync.</div>
     </div>
     <h1>Index</h1>
     <div class="field">
@@ -1766,6 +1769,22 @@ async function requireAuthToken() {
   return await result.user.getIdToken();
 }
 
+function makeAiRequestId(prefix) {
+  const suffix = crypto.randomUUID
+    ? crypto.randomUUID()
+    : `${Date.now()}-${Math.random().toString(16).slice(2)}`;
+  return `${prefix}-${suffix}`;
+}
+
+function applyBillingStatus(billing) {
+  if (!billing || !cloudSession?.account) return;
+  cloudSession.account.usage.aiCreditsRemaining = billing.creditsRemaining;
+  const { entitlements, usage } = cloudSession.account;
+  setAccountStatus(
+    `${entitlements.name} - ${usage.aiCreditsRemaining}/${entitlements.aiCreditsMonthly} AI credits - ${entitlements.cloudCarousels} cloud carousels`
+  );
+}
+
 async function extractBrand(){
   if (!BRAND_ENDPOINT) {
     document.getElementById('brandStatus').textContent = 'Run the local server to extract a brand.';
@@ -1799,13 +1818,18 @@ async function extractBrand(){
 
     const response = await fetch(`${BRAND_ENDPOINT}/extract`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+        'X-Idempotency-Key': makeAiRequestId('brand')
+      },
       body: JSON.stringify(payload)
     });
     const result = await response.json();
     if (!response.ok) throw new Error(result.error || 'Brand extraction failed.');
     showBrandCandidate(result.profile, result.method, result.cached);
-    status.textContent = `Candidate ready from ${brandSource}. Preview or apply it.`;
+    applyBillingStatus(result.billing);
+    status.textContent = `Candidate ready from ${brandSource}. ${result.billing?.creditsRemaining ?? ''} AI credits remaining. Preview or apply it.`;
   } catch (error) {
     status.textContent = error.message;
   } finally {
@@ -1880,17 +1904,22 @@ async function generateOutline(){
       status.textContent = 'Asking the connected AI service for a structured outline...';
       const response = await fetch(AI_ENDPOINT, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+          'X-Idempotency-Key': makeAiRequestId('outline')
+        },
         body: JSON.stringify({
           prompt, flow, styles: Object.keys(STYLES), formats: FORMATS, images: [], research: false,
           allowBrandUpdate: false, brandOnly: false, brand: state.brand, category: state.category
         })
       });
-      if (!response.ok) throw new Error('The AI service could not generate this outline.');
       const result = await response.json();
+      if (!response.ok) throw new Error(result.error || 'The AI service could not generate this outline.');
       applyOutline(result);
       renderSources(result.sources);
-      status.textContent = 'AI outline ready. Every slide below is still fully editable.';
+      applyBillingStatus(result.billing);
+      status.textContent = `AI outline ready. ${result.billing?.creditsRemaining ?? ''} AI credits remaining. Every slide is editable.`;
     } else {
       const outline = createLocalOutline(prompt, flow);
       applyOutline(outline);
@@ -2092,6 +2121,16 @@ let activeCarouselId = null;
 let documentPersistenceReady = false;
 let localPersistenceQueue = Promise.resolve();
 let localRepositoryDurable = true;
+let cloudSession = null;
+let cloudSyncQueue = Promise.resolve();
+let pendingAuthUser = null;
+let authSessionVersion = 0;
+
+function visibleCarouselScopes() {
+  return cloudSession
+    ? ['local', `workspace:${cloudSession.workspaceId}`]
+    : ['local'];
+}
 
 function makeCarouselId(){
   return `carousel-${crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random().toString(16).slice(2)}`}`;
@@ -2178,7 +2217,7 @@ function resetLocalHistory(carouselDocument) {
 
 async function renderCarouselLibrary() {
   if (!localRepository) return;
-  const records = await localRepository.list();
+  const records = await localRepository.list({ scopes: visibleCarouselScopes() });
   const select = document.getElementById('carouselLibrary');
   select.innerHTML = '';
   records.forEach((record) => {
@@ -2203,12 +2242,146 @@ function queueLocalDocumentSave(carouselDocument) {
       activeCarouselId = documentCopy.id;
       await renderCarouselLibrary();
       setSaveStatus(localRepositoryDurable ? 'Saved locally' : 'Saved in this tab');
+      if (cloudSession) queueCloudDocumentSave(documentCopy);
     })
     .catch((error) => {
       console.error('Local save failed:', error);
       setSaveStatus('Local save failed');
     });
 }
+
+function setAccountStatus(message) {
+  document.getElementById('accountStatus').textContent = message;
+}
+
+async function cloudFetch(path, options = {}, session = cloudSession) {
+  if (!session?.user) throw new Error('Sign in to use cloud storage.');
+  const token = await session.user.getIdToken();
+  const response = await fetch(path, {
+    ...options,
+    headers: {
+      ...(options.body ? { 'Content-Type': 'application/json' } : {}),
+      ...(options.headers || {}),
+      'Authorization': `Bearer ${token}`
+    }
+  });
+  if (response.status === 204) return null;
+  const body = await response.json().catch(() => ({}));
+  if (!response.ok) {
+    const error = new Error(body.error || 'Cloud request failed.');
+    error.status = response.status;
+    error.code = body.code;
+    throw error;
+  }
+  return body;
+}
+
+function queueCloudDocumentSave(carouselDocument) {
+  const queuedSession = cloudSession;
+  if (!queuedSession) return;
+  const documentCopy = JSON.parse(JSON.stringify(carouselDocument));
+  cloudSyncQueue = cloudSyncQueue
+    .then(async () => {
+      if (!cloudSession || cloudSession.workspaceId !== queuedSession.workspaceId) return;
+      setSaveStatus('Saved locally - syncing cloud...');
+      await cloudFetch(
+        `/api/cloud/carousels/${encodeURIComponent(documentCopy.id)}`,
+        {
+          method: 'PUT',
+          body: JSON.stringify({ name: documentCopy.title, document: documentCopy })
+        },
+        queuedSession
+      );
+      if (!cloudSession || cloudSession.workspaceId !== queuedSession.workspaceId) return;
+      await localRepository.save(documentCopy, {
+        name: documentCopy.title,
+        source: 'cloud',
+        scope: `workspace:${queuedSession.workspaceId}`
+      });
+      await renderCarouselLibrary();
+      setSaveStatus('Saved locally and to cloud');
+    })
+    .catch((error) => {
+      if (!cloudSession || cloudSession.workspaceId !== queuedSession.workspaceId) return;
+      console.error('Cloud save failed:', error);
+      setSaveStatus(
+        error.status === 429
+          ? 'Saved locally - cloud plan limit reached'
+          : 'Saved locally - cloud sync failed'
+      );
+    });
+}
+
+async function configureCloudSession(user) {
+  const sessionVersion = ++authSessionVersion;
+  pendingAuthUser = user || null;
+  if (!localRepository) return;
+  if (!user) {
+    cloudSession = null;
+    setAccountStatus('Local only - Sign in through an AI feature to enable cloud sync.');
+    const activeRecord = await localRepository.get(activeCarouselId);
+    if (activeRecord && (activeRecord.scope || 'local') !== 'local') {
+      const localRecords = await localRepository.list({ scopes: ['local'] });
+      if (localRecords.length) {
+        await openLocalCarousel(localRecords[0].id, { skipCurrentSave: true });
+      } else {
+        await createLocalCarousel();
+      }
+    } else {
+      await renderCarouselLibrary();
+    }
+    return;
+  }
+
+  setAccountStatus('Connecting cloud workspace...');
+  try {
+    await localPersistenceQueue;
+    const provisionalSession = { user };
+    const account = await cloudFetch('/api/account', {}, provisionalSession);
+    if (sessionVersion !== authSessionVersion) return;
+    const session = {
+      user,
+      workspaceId: account.workspace.id,
+      account
+    };
+    cloudSession = session;
+    const cloud = await cloudFetch('/api/cloud/carousels', {}, session);
+    if (sessionVersion !== authSessionVersion) return;
+    for (const record of cloud.carousels || []) {
+      if (sessionVersion !== authSessionVersion) return;
+      const existing = await localRepository.get(record.id);
+      const workspaceScope = `workspace:${session.workspaceId}`;
+      const shouldImport = !existing
+        || ((existing.scope || 'local') === workspaceScope
+          && String(record.updatedAt) > String(existing.updatedAt));
+      if (shouldImport) {
+        await localRepository.save(record.document, {
+          name: record.name,
+          source: 'cloud',
+          scope: workspaceScope,
+          createdAt: record.createdAt,
+          updatedAt: record.updatedAt
+        });
+      }
+    }
+    if (sessionVersion !== authSessionVersion) return;
+    await renderCarouselLibrary();
+    const { entitlements, usage } = account;
+    setAccountStatus(
+      `${entitlements.name} - ${usage.aiCreditsRemaining}/${entitlements.aiCreditsMonthly} AI credits - ${entitlements.cloudCarousels} cloud carousels`
+    );
+  } catch (error) {
+    if (sessionVersion !== authSessionVersion) return;
+    console.error('Cloud workspace initialization failed:', error);
+    cloudSession = null;
+    setAccountStatus('Signed in - cloud initialization failed');
+    await renderCarouselLibrary();
+  }
+}
+
+window.addEventListener('carousel-auth-changed', (event) => {
+  configureCloudSession(event.detail?.user || null);
+});
 
 function saveLocalState(options = {}) {
   if (!documentPersistenceReady || applyingRemoteDocument) return;
@@ -2346,13 +2519,15 @@ async function initializeDocumentSync(){
 
   const migratedId = await migrateLegacyCarousel();
   const preferredId = migratedId || await localRepository.getMeta('activeCarouselId');
-  const records = await localRepository.list();
+  const records = await localRepository.list({ scopes: ['local'] });
   const initialId = records.some((record) => record.id === preferredId) ? preferredId : records[0]?.id;
   if (initialId) {
     await openLocalCarousel(initialId, { skipCurrentSave: true });
   } else {
     await createLocalCarousel();
   }
+  const currentUser = window.firebaseAuth?.auth?.currentUser;
+  if (currentUser || pendingAuthUser) await configureCloudSession(currentUser || pendingAuthUser);
 }
 
 document.getElementById('carouselLibrary').onchange = (event) => openLocalCarousel(event.target.value);
@@ -2370,15 +2545,30 @@ document.getElementById('duplicateCarouselBtn').onclick = async () => {
   const id = makeCarouselId();
   const name = `${source.name} copy`;
   const duplicate = window.CarouselPersistence.duplicateCarouselRecord(source, id, name);
-  await localRepository.save(duplicate.document, { name, source: 'duplicate' });
+  await localRepository.save(duplicate.document, {
+    name,
+    source: 'duplicate',
+    scope: source.scope || 'local'
+  });
   await openLocalCarousel(id, { skipCurrentSave: true });
 };
 document.getElementById('deleteCarouselBtn').onclick = async () => {
   if (!activeCarouselId || !confirm('Delete this local carousel? This cannot be undone.')) return;
   const deletingId = activeCarouselId;
+  if (cloudSession) {
+    try {
+      await cloudFetch(`/api/cloud/carousels/${encodeURIComponent(deletingId)}`, {
+        method: 'DELETE'
+      });
+    } catch (error) {
+      console.error('Cloud delete failed:', error);
+      setSaveStatus('Delete stopped - cloud sync failed');
+      return;
+    }
+  }
   documentPersistenceReady = false;
   await localRepository.remove(deletingId);
-  const remaining = await localRepository.list();
+  const remaining = await localRepository.list({ scopes: visibleCarouselScopes() });
   if (remaining.length) {
     await openLocalCarousel(remaining[0].id, { skipCurrentSave: true });
   } else {

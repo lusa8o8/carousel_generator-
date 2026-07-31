@@ -9,6 +9,7 @@ test('Firestore rules scope carousel data to workspace membership', () => {
   assert.match(firestoreRules, /match \/workspaces\/\{workspaceId\}/);
   assert.match(firestoreRules, /match \/carousels\/\{carouselId\}/);
   assert.match(firestoreRules, /isWorkspaceMember\(workspaceId\)/);
+  assert.match(firestoreRules, /match \/carousels\/\{carouselId\}[\s\S]*?allow write: if false;/);
 });
 
 test('Firestore rules reserve billing and usage writes for the server', () => {

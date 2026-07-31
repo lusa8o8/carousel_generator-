@@ -255,6 +255,21 @@ function validateCloudCarousel(carouselDocument, carouselId) {
   return carouselDocument;
 }
 
+function decodeCloudCarouselId(encodedId) {
+  let carouselId;
+  try {
+    carouselId = decodeURIComponent(encodedId);
+  } catch {
+    carouselId = '';
+  }
+  if (!/^[a-z0-9_-]{1,128}$/i.test(carouselId)) {
+    const error = new Error('Invalid carousel id.');
+    error.code = 'INVALID_CAROUSEL';
+    throw error;
+  }
+  return carouselId;
+}
+
 async function listCloudCarousels(context) {
   const snapshot = await context.firestore
     .collection(`workspaces/${context.workspaceId}/carousels`)
@@ -611,7 +626,7 @@ function cacheBrandProfile(fingerprint, profile, method, usage) {
 async function extractBrand(payload) {
   const sourceType = payload.sourceType;
   if (!['prompt', 'image', 'url'].includes(sourceType)) throw brandSourceError('sourceType must be prompt, image, or url.');
-  const currentBrand = payload.currentBrand || carouselStore.snapshot().document.theme.brand;
+  const currentBrand = payload.currentBrand || createCarouselDocument().theme.brand;
 
   if (sourceType === 'prompt') {
     if (typeof payload.prompt !== 'string' || !payload.prompt.trim()) throw brandSourceError('A brand description is required.');
@@ -961,7 +976,7 @@ export async function requestHandler(req, res) {
     const cloudCarouselMatch = req.url.match(/^\/api\/cloud\/carousels\/([^/?]+)$/);
     if (cloudCarouselMatch && req.method === 'GET') {
       const context = await requireWorkspace(req);
-      const carouselId = decodeURIComponent(cloudCarouselMatch[1]);
+      const carouselId = decodeCloudCarouselId(cloudCarouselMatch[1]);
       const snapshot = await context.firestore
         .doc(`workspaces/${context.workspaceId}/carousels/${carouselId}`)
         .get();
@@ -970,13 +985,13 @@ export async function requestHandler(req, res) {
     }
     if (cloudCarouselMatch && req.method === 'PUT') {
       const context = await requireWorkspace(req);
-      const carouselId = decodeURIComponent(cloudCarouselMatch[1]);
+      const carouselId = decodeCloudCarouselId(cloudCarouselMatch[1]);
       const payload = await readJson(req);
       return sendJson(res, 200, await saveCloudCarousel(context, carouselId, payload));
     }
     if (cloudCarouselMatch && req.method === 'DELETE') {
       const context = await requireWorkspace(req);
-      const carouselId = decodeURIComponent(cloudCarouselMatch[1]);
+      const carouselId = decodeCloudCarouselId(cloudCarouselMatch[1]);
       await context.firestore
         .doc(`workspaces/${context.workspaceId}/carousels/${carouselId}`)
         .delete();

@@ -56,13 +56,9 @@ service cloud.firestore {
       }
 
       match /carousels/{carouselId} {
-        allow read, delete: if isWorkspaceMember(workspaceId);
-        allow create: if isWorkspaceMember(workspaceId)
-          && request.resource.data.workspaceId == workspaceId
-          && request.resource.data.createdBy == request.auth.uid;
-        allow update: if isWorkspaceMember(workspaceId)
-          && request.resource.data.workspaceId == resource.data.workspaceId
-          && request.resource.data.createdBy == resource.data.createdBy;
+        allow read: if isWorkspaceMember(workspaceId);
+        // Writes go through the authenticated API so plan limits are authoritative.
+        allow write: if false;
       }
 
       match /entitlements/{entitlementId} {
