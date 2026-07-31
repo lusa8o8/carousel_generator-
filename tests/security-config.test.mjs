@@ -12,7 +12,7 @@ test('Firestore rules scope carousel data to workspace membership', () => {
 });
 
 test('Firestore rules reserve billing and usage writes for the server', () => {
-  for (const collection of ['entitlements', 'usage', 'subscriptions']) {
+  for (const collection of ['entitlements', 'usage', 'aiUsage', 'subscriptions']) {
     assert.match(firestoreRules, new RegExp(`match \\/${collection}\\/`));
   }
   assert.match(firestoreRules, /match \/paymentEvents\/\{eventId\}[\s\S]*?allow read, write: if false;/);

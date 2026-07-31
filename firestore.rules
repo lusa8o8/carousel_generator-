@@ -75,6 +75,10 @@ service cloud.firestore {
         allow write: if false;
       }
 
+      match /aiUsage/{requestId} {
+        allow read, write: if false;
+      }
+
       match /subscriptions/{subscriptionId} {
         allow read: if isWorkspaceMember(workspaceId);
         allow write: if false;

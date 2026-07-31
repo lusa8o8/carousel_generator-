@@ -1,5 +1,6 @@
 import { createServer } from 'node:http';
 import { request as httpsRequest } from 'node:https';
+import { randomUUID } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { lookup } from 'node:dns/promises';
@@ -15,6 +16,13 @@ import {
   profileFromWebEvidence
 } from '../core/brand.mjs';
 import { createCarouselDocument } from '../core/document.mjs';
+import {
+  aiCreditCost,
+  currentUsagePeriod,
+  normalizeEntitlements,
+  planById,
+  remainingAiCredits
+} from '../core/entitlements.mjs';
 import { extractPngPalette } from '../core/png-palette.mjs';
 import { CarouselStore } from '../core/store.mjs';
 import { BRAND_EXTRACTION_SCHEMA, BRAND_EXTRACTION_SYSTEM_PROMPT, buildBrandExtractionBrief } from './brand-contract.mjs';
@@ -48,7 +56,7 @@ function loadLocalEnv() {
 
 loadLocalEnv();
 
-let firebaseAuthPromise;
+let firebaseServicesPromise;
 
 function firebaseAdminCredentials() {
   const projectId = process.env.FIREBASE_PROJECT_ID;
@@ -62,23 +70,27 @@ function firebaseAdminCredentials() {
   return { projectId, clientEmail, privateKey };
 }
 
-async function firebaseAuth() {
-  if (!firebaseAuthPromise) {
-    firebaseAuthPromise = (async () => {
+async function firebaseServices() {
+  if (!firebaseServicesPromise) {
+    firebaseServicesPromise = (async () => {
       const credentials = firebaseAdminCredentials();
-      const [{ cert, getApps, initializeApp }, { getAuth }] = await Promise.all([
+      const [{ cert, getApps, initializeApp }, { getAuth }, { getFirestore }] = await Promise.all([
         import('firebase-admin/app'),
-        import('firebase-admin/auth')
+        import('firebase-admin/auth'),
+        import('firebase-admin/firestore')
       ]);
       const app = getApps()[0] || initializeApp({ credential: cert(credentials) });
-      return getAuth(app);
+      return {
+        auth: getAuth(app),
+        firestore: getFirestore(app)
+      };
     })().catch((error) => {
-      firebaseAuthPromise = undefined;
+      firebaseServicesPromise = undefined;
       if (!error.code) error.code = 'SERVICE_UNAVAILABLE';
       throw error;
     });
   }
-  return firebaseAuthPromise;
+  return firebaseServicesPromise;
 }
 
 async function requireAuth(req) {
@@ -89,7 +101,7 @@ async function requireAuth(req) {
     throw error;
   }
   const idToken = authHeader.split('Bearer ')[1];
-  const auth = await firebaseAuth();
+  const { auth } = await firebaseServices();
   try {
     const decodedToken = await auth.verifyIdToken(idToken);
     return decodedToken;
@@ -99,6 +111,298 @@ async function requireAuth(req) {
     error.code = 'UNAUTHORIZED';
     throw error;
   }
+}
+
+function freeEntitlementRecord(timestamp = new Date().toISOString()) {
+  const plan = planById('free');
+  return {
+    planId: plan.id,
+    status: 'active',
+    source: 'system',
+    createdAt: timestamp,
+    updatedAt: timestamp,
+    limits: {
+      cloudCarousels: plan.cloudCarousels,
+      storageBytes: plan.storageBytes,
+      aiCreditsMonthly: plan.aiCreditsMonthly,
+      templateTier: plan.templateTier,
+      versionHistoryDays: plan.versionHistoryDays
+    }
+  };
+}
+
+async function ensurePersonalWorkspace(identity) {
+  const { firestore } = await firebaseServices();
+  const uid = identity.uid;
+  const workspaceId = uid;
+  const timestamp = new Date().toISOString();
+  const userRef = firestore.doc(`users/${uid}`);
+  const workspaceRef = firestore.doc(`workspaces/${workspaceId}`);
+  const memberRef = workspaceRef.collection('members').doc(uid);
+  const entitlementRef = workspaceRef.collection('entitlements').doc('current');
+
+  await firestore.runTransaction(async (transaction) => {
+    const [workspaceSnapshot, memberSnapshot, entitlementSnapshot] = await Promise.all([
+      transaction.get(workspaceRef),
+      transaction.get(memberRef),
+      transaction.get(entitlementRef)
+    ]);
+    transaction.set(userRef, {
+      uid,
+      email: identity.email || null,
+      displayName: identity.name || null,
+      personalWorkspaceId: workspaceId,
+      updatedAt: timestamp
+    }, { merge: true });
+    if (!workspaceSnapshot.exists) {
+      transaction.create(workspaceRef, {
+        id: workspaceId,
+        kind: 'personal',
+        name: identity.name ? `${identity.name}'s workspace` : 'Personal workspace',
+        ownerUid: uid,
+        createdAt: timestamp,
+        updatedAt: timestamp
+      });
+    }
+    if (!memberSnapshot.exists) {
+      transaction.create(memberRef, {
+        uid,
+        role: 'owner',
+        joinedAt: timestamp
+      });
+    }
+    if (!entitlementSnapshot.exists) {
+      transaction.create(entitlementRef, freeEntitlementRecord(timestamp));
+    }
+  });
+
+  await migrateLegacyCloudCarousel(firestore, uid, workspaceId);
+  return { firestore, uid, workspaceId, identity };
+}
+
+async function migrateLegacyCloudCarousel(firestore, uid, workspaceId) {
+  const legacyRef = firestore.doc(`carousels/${uid}`);
+  const legacySnapshot = await legacyRef.get();
+  if (!legacySnapshot.exists) return;
+  const carouselDocument = legacySnapshot.data();
+  if (!carouselDocument || !Array.isArray(carouselDocument.slides)) return;
+  const carouselId = typeof carouselDocument.id === 'string' && carouselDocument.id
+    ? carouselDocument.id
+    : `carousel-${randomUUID()}`;
+  carouselDocument.id = carouselId;
+  carouselDocument.title = carouselDocument.title || carouselDocument.slides[0]?.title || 'Imported carousel';
+  const targetRef = firestore.doc(`workspaces/${workspaceId}/carousels/${carouselId}`);
+  const timestamp = new Date().toISOString();
+  await firestore.runTransaction(async (transaction) => {
+    const targetSnapshot = await transaction.get(targetRef);
+    if (!targetSnapshot.exists) {
+      transaction.create(targetRef, {
+        id: carouselId,
+        name: carouselDocument.title,
+        workspaceId,
+        createdBy: uid,
+        createdAt: timestamp,
+        updatedAt: timestamp,
+        document: carouselDocument
+      });
+    }
+    transaction.delete(legacyRef);
+  });
+}
+
+async function requireWorkspace(req) {
+  const identity = await requireAuth(req);
+  return ensurePersonalWorkspace(identity);
+}
+
+async function accountSnapshot(context) {
+  const { firestore, workspaceId } = context;
+  const period = currentUsagePeriod();
+  const [workspaceSnapshot, entitlementSnapshot, usageSnapshot] = await Promise.all([
+    firestore.doc(`workspaces/${workspaceId}`).get(),
+    firestore.doc(`workspaces/${workspaceId}/entitlements/current`).get(),
+    firestore.doc(`workspaces/${workspaceId}/usage/${period}`).get()
+  ]);
+  const entitlements = normalizeEntitlements(entitlementSnapshot.data());
+  const aiCreditsUsed = Math.max(0, Number(usageSnapshot.data()?.aiCreditsUsed) || 0);
+  return {
+    workspace: workspaceSnapshot.data(),
+    entitlements,
+    usage: {
+      period,
+      aiCreditsUsed,
+      aiCreditsRemaining: remainingAiCredits(entitlements, aiCreditsUsed)
+    }
+  };
+}
+
+function validateCloudCarousel(carouselDocument, carouselId) {
+  if (!carouselDocument || typeof carouselDocument !== 'object') {
+    const error = new Error('A carousel document is required.');
+    error.code = 'INVALID_CAROUSEL';
+    throw error;
+  }
+  if (carouselDocument.id !== carouselId) {
+    const error = new Error('Carousel id does not match the request path.');
+    error.code = 'INVALID_CAROUSEL';
+    throw error;
+  }
+  if (!Array.isArray(carouselDocument.slides) || !carouselDocument.slides.length) {
+    const error = new Error('A carousel must include at least one slide.');
+    error.code = 'INVALID_CAROUSEL';
+    throw error;
+  }
+  return carouselDocument;
+}
+
+async function listCloudCarousels(context) {
+  const snapshot = await context.firestore
+    .collection(`workspaces/${context.workspaceId}/carousels`)
+    .get();
+  return snapshot.docs
+    .map((document) => document.data())
+    .sort((left, right) => String(right.updatedAt).localeCompare(String(left.updatedAt)));
+}
+
+async function saveCloudCarousel(context, carouselId, payload) {
+  const carouselDocument = validateCloudCarousel(payload.document, carouselId);
+  const { firestore, workspaceId, uid } = context;
+  const entitlementRef = firestore.doc(`workspaces/${workspaceId}/entitlements/current`);
+  const carouselRef = firestore.doc(`workspaces/${workspaceId}/carousels/${carouselId}`);
+  const collection = firestore.collection(`workspaces/${workspaceId}/carousels`);
+  const timestamp = new Date().toISOString();
+
+  return firestore.runTransaction(async (transaction) => {
+    const [entitlementSnapshot, existingSnapshot] = await Promise.all([
+      transaction.get(entitlementRef),
+      transaction.get(carouselRef)
+    ]);
+    const entitlements = normalizeEntitlements(entitlementSnapshot.data());
+    if (!existingSnapshot.exists) {
+      const existingCarousels = await transaction.get(collection.limit(entitlements.cloudCarousels + 1));
+      if (existingCarousels.size >= entitlements.cloudCarousels) {
+        const error = new Error(`Your ${entitlements.name} plan allows ${entitlements.cloudCarousels} cloud carousels.`);
+        error.code = 'QUOTA_EXCEEDED';
+        throw error;
+      }
+    }
+    const record = {
+      id: carouselId,
+      name: String(payload.name || carouselDocument.title || 'Untitled carousel'),
+      workspaceId,
+      createdBy: existingSnapshot.data()?.createdBy || uid,
+      createdAt: existingSnapshot.data()?.createdAt || timestamp,
+      updatedAt: timestamp,
+      document: carouselDocument
+    };
+    transaction.set(carouselRef, record);
+    return record;
+  });
+}
+
+function requestIdempotencyKey(req) {
+  const value = String(req.headers['x-idempotency-key'] || '').trim();
+  if (value && /^[a-z0-9_-]{8,100}$/i.test(value)) return value;
+  return randomUUID();
+}
+
+async function reserveAiCredits(context, feature, payload, idempotencyKey) {
+  const { firestore, workspaceId, uid } = context;
+  const period = currentUsagePeriod();
+  const entitlementRef = firestore.doc(`workspaces/${workspaceId}/entitlements/current`);
+  const usageRef = firestore.doc(`workspaces/${workspaceId}/usage/${period}`);
+  const ledgerRef = firestore.doc(`workspaces/${workspaceId}/aiUsage/${idempotencyKey}`);
+  const timestamp = new Date().toISOString();
+  const cost = aiCreditCost(feature, payload);
+
+  return firestore.runTransaction(async (transaction) => {
+    const [ledgerSnapshot, entitlementSnapshot, usageSnapshot] = await Promise.all([
+      transaction.get(ledgerRef),
+      transaction.get(entitlementRef),
+      transaction.get(usageRef)
+    ]);
+    if (ledgerSnapshot.exists) {
+      return { duplicate: true, record: ledgerSnapshot.data() };
+    }
+    const entitlements = normalizeEntitlements(entitlementSnapshot.data());
+    const used = Math.max(0, Number(usageSnapshot.data()?.aiCreditsUsed) || 0);
+    if (used + cost > entitlements.aiCreditsMonthly) {
+      const error = new Error(`You have ${remainingAiCredits(entitlements, used)} AI credits remaining this month; this action costs ${cost}.`);
+      error.code = 'QUOTA_EXCEEDED';
+      throw error;
+    }
+    const ledger = {
+      id: idempotencyKey,
+      workspaceId,
+      uid,
+      feature,
+      cost,
+      period,
+      status: 'reserved',
+      createdAt: timestamp,
+      updatedAt: timestamp
+    };
+    transaction.set(usageRef, {
+      period,
+      aiCreditsUsed: used + cost,
+      updatedAt: timestamp
+    }, { merge: true });
+    transaction.create(ledgerRef, ledger);
+    return {
+      duplicate: false,
+      record: ledger,
+      remaining: remainingAiCredits(entitlements, used + cost)
+    };
+  });
+}
+
+async function completeAiCredits(context, idempotencyKey, result, providerUsage) {
+  const ledgerRef = context.firestore.doc(
+    `workspaces/${context.workspaceId}/aiUsage/${idempotencyKey}`
+  );
+  await ledgerRef.update({
+    status: 'completed',
+    result: JSON.parse(JSON.stringify(result)),
+    providerUsage: providerUsage ? JSON.parse(JSON.stringify(providerUsage)) : null,
+    updatedAt: new Date().toISOString()
+  });
+}
+
+async function refundAiCredits(context, idempotencyKey, failure) {
+  const { firestore, workspaceId } = context;
+  const ledgerRef = firestore.doc(`workspaces/${workspaceId}/aiUsage/${idempotencyKey}`);
+  await firestore.runTransaction(async (transaction) => {
+    const ledgerSnapshot = await transaction.get(ledgerRef);
+    if (!ledgerSnapshot.exists || ledgerSnapshot.data().status !== 'reserved') return;
+    const ledger = ledgerSnapshot.data();
+    const usageRef = firestore.doc(`workspaces/${workspaceId}/usage/${ledger.period}`);
+    const usageSnapshot = await transaction.get(usageRef);
+    const used = Math.max(0, Number(usageSnapshot.data()?.aiCreditsUsed) || 0);
+    transaction.set(usageRef, {
+      period: ledger.period,
+      aiCreditsUsed: Math.max(0, used - ledger.cost),
+      updatedAt: new Date().toISOString()
+    }, { merge: true });
+    transaction.update(ledgerRef, {
+      status: 'refunded',
+      failure: String(failure?.message || 'AI request failed').slice(0, 500),
+      updatedAt: new Date().toISOString()
+    });
+  });
+}
+
+function duplicateAiResponse(reservation) {
+  if (!reservation.duplicate) return null;
+  if (reservation.record.status === 'completed' && reservation.record.result) {
+    return reservation.record.result;
+  }
+  const error = new Error(
+    reservation.record.status === 'reserved'
+      ? 'This AI request is already in progress.'
+      : 'This AI request key was already used.'
+  );
+  error.code = 'CONFLICT';
+  throw error;
 }
 
 const portArgument = process.argv.find((argument) => argument.startsWith('--port='));
@@ -223,9 +527,11 @@ function sendPng(res, preview) {
 
 function errorStatus(error) {
   if (error.code === 'REVISION_CONFLICT') return 409;
+  if (error.code === 'CONFLICT') return 409;
   if (error.code === 'VERSION_NOT_FOUND') return 404;
   if (error.code === 'INVALID_OPERATION' || error.code === 'INVALID_CAROUSEL' || error.code === 'INVALID_BRAND_PROFILE' || error.code === 'INVALID_BRAND_SOURCE') return 400;
   if (error.code === 'UNAUTHORIZED') return 401;
+  if (error.code === 'QUOTA_EXCEEDED') return 429;
   if (error.code === 'BRAND_SOURCE_UNAVAILABLE') return 502;
   if (error.code === 'SERVICE_UNAVAILABLE') return 503;
   return 500;
@@ -644,6 +950,40 @@ export async function requestHandler(req, res) {
       res.end(repository);
       return;
     }
+    if (req.method === 'GET' && req.url === '/api/account') {
+      const context = await requireWorkspace(req);
+      return sendJson(res, 200, await accountSnapshot(context));
+    }
+    if (req.method === 'GET' && req.url === '/api/cloud/carousels') {
+      const context = await requireWorkspace(req);
+      return sendJson(res, 200, { carousels: await listCloudCarousels(context) });
+    }
+    const cloudCarouselMatch = req.url.match(/^\/api\/cloud\/carousels\/([^/?]+)$/);
+    if (cloudCarouselMatch && req.method === 'GET') {
+      const context = await requireWorkspace(req);
+      const carouselId = decodeURIComponent(cloudCarouselMatch[1]);
+      const snapshot = await context.firestore
+        .doc(`workspaces/${context.workspaceId}/carousels/${carouselId}`)
+        .get();
+      if (!snapshot.exists) return sendJson(res, 404, { error: 'Cloud carousel not found.' });
+      return sendJson(res, 200, snapshot.data());
+    }
+    if (cloudCarouselMatch && req.method === 'PUT') {
+      const context = await requireWorkspace(req);
+      const carouselId = decodeURIComponent(cloudCarouselMatch[1]);
+      const payload = await readJson(req);
+      return sendJson(res, 200, await saveCloudCarousel(context, carouselId, payload));
+    }
+    if (cloudCarouselMatch && req.method === 'DELETE') {
+      const context = await requireWorkspace(req);
+      const carouselId = decodeURIComponent(cloudCarouselMatch[1]);
+      await context.firestore
+        .doc(`workspaces/${context.workspaceId}/carousels/${carouselId}`)
+        .delete();
+      res.writeHead(204);
+      res.end();
+      return;
+    }
     if (!ENABLE_SHARED_DOCUMENT_API && isSharedDocumentRoute(req.url)) {
       return sendJson(res, 404, { error: 'Not found.' });
     }
@@ -699,9 +1039,28 @@ export async function requestHandler(req, res) {
       return sendJson(res, 200, carouselStore.restore(payload.versionId));
     }
     if (req.method === 'POST' && req.url === '/api/brand/extract') {
-      await requireAuth(req);
+      const context = await requireWorkspace(req);
       const payload = await readJson(req);
-      return sendJson(res, 200, await extractBrand(payload));
+      const idempotencyKey = requestIdempotencyKey(req);
+      const reservation = await reserveAiCredits(context, 'brand-extract', payload, idempotencyKey);
+      const duplicate = duplicateAiResponse(reservation);
+      if (duplicate) return sendJson(res, 200, duplicate);
+      try {
+        const result = await extractBrand(payload);
+        const response = {
+          ...result,
+          billing: {
+            requestId: idempotencyKey,
+            creditsCharged: reservation.record.cost,
+            creditsRemaining: reservation.remaining
+          }
+        };
+        await completeAiCredits(context, idempotencyKey, response, result.usage);
+        return sendJson(res, 200, response);
+      } catch (error) {
+        await refundAiCredits(context, idempotencyKey, error);
+        throw error;
+      }
     }
     if (req.method === 'POST' && req.url === '/api/brand/apply') {
       const payload = await readJson(req);
@@ -746,13 +1105,32 @@ export async function requestHandler(req, res) {
       });
     }
     if (req.method === 'POST' && req.url === '/api/generate-carousel') {
-      await requireAuth(req);
+      const context = await requireWorkspace(req);
       if (!API_KEY) return sendJson(res, 503, { error: 'Set ANTHROPIC_API_KEY before using AI generation.' });
       const payload = await readJson(req);
       if (typeof payload.prompt !== 'string' || !payload.prompt.trim()) return sendJson(res, 400, { error: 'A prompt is required.' });
-      const research = await researchWithClaude(payload);
-      const result = await callClaude(payload, research);
-      return sendJson(res, 200, { ...result, sources: research.sources });
+      const idempotencyKey = requestIdempotencyKey(req);
+      const reservation = await reserveAiCredits(context, 'generate-carousel', payload, idempotencyKey);
+      const duplicate = duplicateAiResponse(reservation);
+      if (duplicate) return sendJson(res, 200, duplicate);
+      try {
+        const research = await researchWithClaude(payload);
+        const result = await callClaude(payload, research);
+        const response = {
+          ...result,
+          sources: research.sources,
+          billing: {
+            requestId: idempotencyKey,
+            creditsCharged: reservation.record.cost,
+            creditsRemaining: reservation.remaining
+          }
+        };
+        await completeAiCredits(context, idempotencyKey, response);
+        return sendJson(res, 200, response);
+      } catch (error) {
+        await refundAiCredits(context, idempotencyKey, error);
+        throw error;
+      }
     }
     sendJson(res, 404, { error: 'Not found.' });
   } catch (error) {

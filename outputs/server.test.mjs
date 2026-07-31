@@ -46,3 +46,16 @@ test('does not expose the process-global carousel API on Vercel', async () => {
     assert.equal(response.status, 404);
   }
 });
+
+test('requires authentication for account and tenant-scoped cloud routes', async () => {
+  for (const [path, method] of [
+    ['/api/account', 'GET'],
+    ['/api/cloud/carousels', 'GET'],
+    ['/api/cloud/carousels/carousel-1', 'GET'],
+    ['/api/cloud/carousels/carousel-1', 'PUT'],
+    ['/api/cloud/carousels/carousel-1', 'DELETE']
+  ]) {
+    const { response } = await request(path, method);
+    assert.equal(response.status, 401);
+  }
+});
