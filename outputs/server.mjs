@@ -58,12 +58,34 @@ loadLocalEnv();
 
 let firebaseServicesPromise;
 
-function firebaseAdminCredentials() {
-  const projectId = process.env.FIREBASE_PROJECT_ID;
-  const clientEmail = process.env.FIREBASE_CLIENT_EMAIL;
-  const privateKey = (process.env.FIREBASE_PRIVATE_KEY || '').replace(/\\n/g, '\n');
+function cleanEnvironmentValue(name) {
+  let value = String(process.env[name] || '').trim();
+  if ((value.startsWith('"') && value.endsWith('"')) || (value.startsWith("'") && value.endsWith("'"))) {
+    value = value.slice(1, -1);
+  }
+  return value.trim();
+}
+
+export function firebaseAdminCredentials() {
+  const projectId = cleanEnvironmentValue('FIREBASE_PROJECT_ID');
+  const clientEmail = cleanEnvironmentValue('FIREBASE_CLIENT_EMAIL');
+  const privateKey = cleanEnvironmentValue('FIREBASE_PRIVATE_KEY')
+    .replace(/\\n/g, '\n')
+    .replace(/\r\n/g, '\n')
+    .trim();
   if (!projectId || !clientEmail || !privateKey) {
     const error = new Error('Firebase Admin credentials are not configured.');
+    error.code = 'SERVICE_UNAVAILABLE';
+    throw error;
+  }
+  const webProjectId = cleanEnvironmentValue('FIREBASE_WEB_PROJECT_ID');
+  if (webProjectId && webProjectId !== projectId) {
+    const error = new Error('Firebase Admin and Firebase Web project IDs do not match.');
+    error.code = 'SERVICE_UNAVAILABLE';
+    throw error;
+  }
+  if (!clientEmail.includes('@') || !privateKey.includes('-----BEGIN PRIVATE KEY-----')) {
+    const error = new Error('Firebase Admin credentials are malformed.');
     error.code = 'SERVICE_UNAVAILABLE';
     throw error;
   }
@@ -549,10 +571,17 @@ function errorStatus(error) {
   if (error.code === 'QUOTA_EXCEEDED') return 429;
   if (error.code === 'BRAND_SOURCE_UNAVAILABLE') return 502;
   if (error.code === 'SERVICE_UNAVAILABLE') return 503;
+  if (error.code === 16 || error.code === '16') return 503;
   return 500;
 }
 
 function errorPayload(error) {
+  if (error.code === 16 || error.code === '16') {
+    return {
+      error: 'Firebase Admin could not authenticate with Firestore. Verify FIREBASE_PROJECT_ID, FIREBASE_CLIENT_EMAIL, and FIREBASE_PRIVATE_KEY come from the same service-account JSON.',
+      code: 'FIREBASE_ADMIN_AUTH_FAILED'
+    };
+  }
   return {
     error: error.message || 'Unexpected server error.',
     code: error.code,

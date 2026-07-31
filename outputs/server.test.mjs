@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 
 process.env.VERCEL = '1';
 
-const { requestHandler } = await import('./server.mjs');
+const { firebaseAdminCredentials, requestHandler } = await import('./server.mjs');
 
 function request(path, method = 'GET') {
   const headers = new Map();
@@ -57,5 +57,53 @@ test('requires authentication for account and tenant-scoped cloud routes', async
   ]) {
     const { response } = await request(path, method);
     assert.equal(response.status, 401);
+  }
+});
+
+test('normalizes quoted Firebase service-account environment values', () => {
+  const names = [
+    'FIREBASE_PROJECT_ID',
+    'FIREBASE_WEB_PROJECT_ID',
+    'FIREBASE_CLIENT_EMAIL',
+    'FIREBASE_PRIVATE_KEY'
+  ];
+  const original = Object.fromEntries(names.map((name) => [name, process.env[name]]));
+  try {
+    process.env.FIREBASE_PROJECT_ID = '"carousel-project"';
+    process.env.FIREBASE_WEB_PROJECT_ID = 'carousel-project';
+    process.env.FIREBASE_CLIENT_EMAIL = '"firebase-adminsdk@example.iam.gserviceaccount.com"';
+    process.env.FIREBASE_PRIVATE_KEY = '"-----BEGIN PRIVATE KEY-----\\nabc123\\n-----END PRIVATE KEY-----\\n"';
+    assert.deepEqual(firebaseAdminCredentials(), {
+      projectId: 'carousel-project',
+      clientEmail: 'firebase-adminsdk@example.iam.gserviceaccount.com',
+      privateKey: '-----BEGIN PRIVATE KEY-----\nabc123\n-----END PRIVATE KEY-----'
+    });
+  } finally {
+    names.forEach((name) => {
+      if (original[name] === undefined) delete process.env[name];
+      else process.env[name] = original[name];
+    });
+  }
+});
+
+test('rejects mismatched Firebase Admin and Web projects before making API calls', () => {
+  const names = [
+    'FIREBASE_PROJECT_ID',
+    'FIREBASE_WEB_PROJECT_ID',
+    'FIREBASE_CLIENT_EMAIL',
+    'FIREBASE_PRIVATE_KEY'
+  ];
+  const original = Object.fromEntries(names.map((name) => [name, process.env[name]]));
+  try {
+    process.env.FIREBASE_PROJECT_ID = 'admin-project';
+    process.env.FIREBASE_WEB_PROJECT_ID = 'web-project';
+    process.env.FIREBASE_CLIENT_EMAIL = 'firebase-adminsdk@example.iam.gserviceaccount.com';
+    process.env.FIREBASE_PRIVATE_KEY = '-----BEGIN PRIVATE KEY-----\\nabc123\\n-----END PRIVATE KEY-----';
+    assert.throws(() => firebaseAdminCredentials(), /project IDs do not match/);
+  } finally {
+    names.forEach((name) => {
+      if (original[name] === undefined) delete process.env[name];
+      else process.env[name] = original[name];
+    });
   }
 });
