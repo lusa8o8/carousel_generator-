@@ -20,12 +20,25 @@ test('expired paid access falls back to free without deleting entitlement metada
   const result = normalizeEntitlements({
     planId: 'creator',
     source: 'manual',
-    expiresAt: '2026-01-01T00:00:00.000Z'
+    expiresAt: '2026-01-01T00:00:00.000Z',
+    limits: { cloudCarousels: 1000, aiCreditsMonthly: 1000 }
   }, new Date('2026-07-31T00:00:00.000Z'));
   assert.equal(result.planId, 'free');
   assert.equal(result.status, 'expired');
   assert.equal(result.cloudCarousels, PLAN_CATALOG.free.cloudCarousels);
   assert.equal(result.source, 'manual');
+});
+
+test('suspended paid access ignores paid limit overrides', () => {
+  const result = normalizeEntitlements({
+    planId: 'creator',
+    status: 'suspended',
+    limits: { cloudCarousels: 1000, aiCreditsMonthly: 1000 }
+  });
+  assert.equal(result.planId, 'free');
+  assert.equal(result.status, 'suspended');
+  assert.equal(result.cloudCarousels, PLAN_CATALOG.free.cloudCarousels);
+  assert.equal(result.aiCreditsMonthly, PLAN_CATALOG.free.aiCreditsMonthly);
 });
 
 test('AI costs use one outline credit and higher weights for research and visual extraction', () => {

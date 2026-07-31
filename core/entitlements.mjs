@@ -39,12 +39,15 @@ export function normalizeEntitlements(record = {}, now = new Date()) {
   const requestedPlan = planById(record.planId);
   const expiresAt = record.expiresAt ? new Date(record.expiresAt) : null;
   const expired = expiresAt && Number.isFinite(expiresAt.getTime()) && expiresAt <= now;
-  const base = expired ? PLAN_CATALOG.free : requestedPlan;
-  const limits = record.limits || {};
+  const recordedStatus = record.status || 'active';
+  const inactive = !['active', 'trialing'].includes(recordedStatus);
+  const downgraded = expired || inactive;
+  const base = downgraded ? PLAN_CATALOG.free : requestedPlan;
+  const limits = downgraded ? {} : (record.limits || {});
   return {
     ...base,
     planId: base.id,
-    status: expired ? 'expired' : (record.status || 'active'),
+    status: expired ? 'expired' : recordedStatus,
     source: record.source || 'system',
     expiresAt: expiresAt?.toISOString() || null,
     cloudCarousels: nonNegativeInteger(limits.cloudCarousels, base.cloudCarousels),
