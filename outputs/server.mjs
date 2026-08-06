@@ -958,8 +958,15 @@ async function callClaude(payload, research) {
 export async function requestHandler(req, res) {
   try {
     if (req.method === 'GET' && (req.url === '/favicon.ico' || req.url === '/favicon.png')) {
-      res.writeHead(204, { 'Cache-Control': 'public, max-age=86400' });
-      res.end();
+      try {
+        const faviconPath = fileURLToPath(new URL('./favicon.png', import.meta.url));
+        const faviconData = await readFile(faviconPath);
+        res.writeHead(200, { 'Content-Type': 'image/png', 'Cache-Control': 'public, max-age=86400' });
+        res.end(faviconData);
+      } catch {
+        res.writeHead(204);
+        res.end();
+      }
       return;
     }
     if (req.method === 'GET' && (req.url === '/' || req.url === '/index.html')) {
