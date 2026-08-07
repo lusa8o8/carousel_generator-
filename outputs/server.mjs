@@ -611,26 +611,6 @@ function callAnthropic(requestBody) {
           resolve(parsed);
         } catch (error) { reject(error); }
       });
-function callAnthropic(requestBody) {
-  return new Promise((resolve, reject) => {
-    const req = httpsRequest('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'content-type': 'application/json',
-        'content-length': Buffer.byteLength(requestBody),
-        'x-api-key': API_KEY,
-        'anthropic-version': '2023-06-01'
-      }
-    }, (response) => {
-      let data = '';
-      response.on('data', (chunk) => { data += chunk; });
-      response.on('end', () => {
-        try {
-          const parsed = JSON.parse(data);
-          if (response.statusCode < 200 || response.statusCode >= 300) throw new Error(parsed.error?.message || 'Claude API request failed.');
-          resolve(parsed);
-        } catch (error) { reject(error); }
-      });
     });
     req.on('error', reject);
     req.write(requestBody);
@@ -642,11 +622,9 @@ function isAnthropicTransientError(err) {
   const msg = String(err?.message || '').toLowerCase();
   const status = Number(err?.status || err?.statusCode || 0);
   return status === 529
-    || status === 529
     || msg.includes('overloaded')
     || msg.includes('credit_balance_too_low')
-    || msg.includes('rate limit')
-    || msg.includes('529');
+    || msg.includes('rate limit');
 }
 
 function callGroq(messages, systemPrompt, maxTokens, schema) {
