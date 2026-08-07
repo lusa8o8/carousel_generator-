@@ -448,6 +448,7 @@ const ALLOW_PRIVATE_URLS = process.argv.includes('--allow-private-urls') || proc
 const ENABLE_SHARED_DOCUMENT_API = process.env.CAROUSEL_ENABLE_SHARED_DOCUMENT_API === '1'
   || (!process.env.VERCEL && process.env.NODE_ENV !== 'production');
 const API_KEY = process.env.ANTHROPIC_API_KEY;
+const GROQ_API_KEY = process.env.GROQ_API_KEY;
 const indexPath = fileURLToPath(new URL('./index.html', import.meta.url));
 const rendererPath = fileURLToPath(new URL('./renderer.js', import.meta.url));
 const carouselRepositoryPath = fileURLToPath(new URL('./carousel-repository.js', import.meta.url));
@@ -610,9 +611,79 @@ function callAnthropic(requestBody) {
           resolve(parsed);
         } catch (error) { reject(error); }
       });
+function callAnthropic(requestBody) {
+  return new Promise((resolve, reject) => {
+    const req = httpsRequest('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+        'content-length': Buffer.byteLength(requestBody),
+        'x-api-key': API_KEY,
+        'anthropic-version': '2023-06-01'
+      }
+    }, (response) => {
+      let data = '';
+      response.on('data', (chunk) => { data += chunk; });
+      response.on('end', () => {
+        try {
+          const parsed = JSON.parse(data);
+          if (response.statusCode < 200 || response.statusCode >= 300) throw new Error(parsed.error?.message || 'Claude API request failed.');
+          resolve(parsed);
+        } catch (error) { reject(error); }
+      });
     });
     req.on('error', reject);
     req.write(requestBody);
+    req.end();
+  });
+}
+
+function isAnthropicTransientError(err) {
+  const msg = String(err?.message || '').toLowerCase();
+  const status = Number(err?.status || err?.statusCode || 0);
+  return status === 529
+    || status === 529
+    || msg.includes('overloaded')
+    || msg.includes('credit_balance_too_low')
+    || msg.includes('rate limit')
+    || msg.includes('529');
+}
+
+function callGroq(messages, systemPrompt, maxTokens, schema) {
+  return new Promise((resolve, reject) => {
+    const body = JSON.stringify({
+      model: 'openai/gpt-oss-120b',
+      max_tokens: maxTokens,
+      messages: [
+        { role: 'system', content: systemPrompt },
+        ...messages
+      ],
+      response_format: schema
+        ? { type: 'json_schema', json_schema: { name: 'response', strict: true, schema } }
+        : { type: 'json_object' }
+    });
+    const req = httpsRequest('https://api.groq.com/openai/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+        'content-length': Buffer.byteLength(body),
+        'authorization': `Bearer ${GROQ_API_KEY}`
+      }
+    }, (response) => {
+      let data = '';
+      response.on('data', (chunk) => { data += chunk; });
+      response.on('end', () => {
+        try {
+          const parsed = JSON.parse(data);
+          if (response.statusCode < 200 || response.statusCode >= 300) {
+            throw new Error(parsed.error?.message || `Groq API error ${response.statusCode}`);
+          }
+          resolve(parsed.choices?.[0]?.message?.content || '{}');
+        } catch (error) { reject(error); }
+      });
+    });
+    req.on('error', reject);
+    req.write(body);
     req.end();
   });
 }
@@ -717,37 +788,61 @@ async function extractBrand(payload) {
 }
 
 async function extractBrandWithClaude(payload, fingerprint, mediaBlocks) {
-  if (!API_KEY) {
+  if (!API_KEY && !GROQ_API_KEY) {
     const error = new Error('Set ANTHROPIC_API_KEY before using model-based brand extraction.');
     error.code = 'BRAND_SOURCE_UNAVAILABLE';
     throw error;
   }
-  const requestBody = JSON.stringify({
-    model: 'claude-sonnet-4-6',
-    max_tokens: 900,
-    temperature: 0,
-    system: BRAND_EXTRACTION_SYSTEM_PROMPT,
-    messages: [{
-      role: 'user',
-      content: [
-        ...mediaBlocks,
-        { type: 'text', text: buildBrandExtractionBrief(payload) }
-      ]
-    }],
-    output_config: { format: { type: 'json_schema', schema: BRAND_EXTRACTION_SCHEMA } }
-  });
-  const response = await callAnthropic(requestBody);
-  const extracted = repairExtractedBrand(
-    JSON.parse(response.content?.find((block) => block.type === 'text')?.text || '{}'),
-    payload.imageEvidence
-  );
+
+  async function extractViaGroq() {
+    console.warn('Claude unavailable for brand extraction, falling back to Groq.');
+    const brief = buildBrandExtractionBrief(payload);
+    const raw = await callGroq(
+      [{ role: 'user', content: brief }],
+      BRAND_EXTRACTION_SYSTEM_PROMPT,
+      900,
+      BRAND_EXTRACTION_SCHEMA
+    );
+    return repairExtractedBrand(JSON.parse(raw), payload.imageEvidence);
+  }
+
+  let extracted;
+  if (!API_KEY) {
+    extracted = await extractViaGroq();
+  } else {
+    const requestBody = JSON.stringify({
+      model: 'claude-sonnet-4-6',
+      max_tokens: 900,
+      temperature: 0,
+      system: BRAND_EXTRACTION_SYSTEM_PROMPT,
+      messages: [{
+        role: 'user',
+        content: [
+          ...mediaBlocks,
+          { type: 'text', text: buildBrandExtractionBrief(payload) }
+        ]
+      }],
+      output_config: { format: { type: 'json_schema', schema: BRAND_EXTRACTION_SCHEMA } }
+    });
+    try {
+      const response = await callAnthropic(requestBody);
+      extracted = repairExtractedBrand(
+        JSON.parse(response.content?.find((block) => block.type === 'text')?.text || '{}'),
+        payload.imageEvidence
+      );
+    } catch (err) {
+      if (!GROQ_API_KEY || !isAnthropicTransientError(err)) throw err;
+      extracted = await extractViaGroq();
+    }
+  }
+
   const profile = createBrandProfile({
     ...extracted,
     sourceType: payload.sourceType,
     evidence: [...(payload.webEvidence || []), ...(extracted.evidence || [])],
     fingerprint
   });
-  return cacheBrandProfile(fingerprint, profile, `claude-${payload.sourceType}`, response.usage);
+  return cacheBrandProfile(fingerprint, profile, `claude-${payload.sourceType}`, null);
 }
 
 function repairExtractedBrand(extracted, imageEvidence = []) {
@@ -951,8 +1046,21 @@ async function callClaude(payload, research) {
     messages: [{ role: 'user', content }],
     output_config: { format: { type: 'json_schema', schema: OUTLINE_SCHEMA } }
   });
-  const response = await callAnthropic(requestBody);
-  return JSON.parse(response.content?.find((block) => block.type === 'text')?.text || '{}');
+  try {
+    const response = await callAnthropic(requestBody);
+    return JSON.parse(response.content?.find((block) => block.type === 'text')?.text || '{}');
+  } catch (err) {
+    if (!GROQ_API_KEY || !isAnthropicTransientError(err)) throw err;
+    console.warn('Claude unavailable, falling back to Groq:', err.message);
+    const textContent = buildGenerationBrief(payload, research.summary);
+    const result = await callGroq(
+      [{ role: 'user', content: textContent }],
+      GENERATION_SYSTEM_PROMPT,
+      1800,
+      OUTLINE_SCHEMA
+    );
+    return JSON.parse(result);
+  }
 }
 
 export async function requestHandler(req, res) {
